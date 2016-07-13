@@ -1,0 +1,28 @@
+{
+  "name": "Project Name",
+  "authors": [
+    "Loren Ipsum"
+  ],
+  "description": "Loren Ipsum System",
+  "main": "",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "PHP",
+    "OOP. You can add more!"
+  ],
+  "license": "MIT",
+  "homepage": "github.com/jccultima123/MyPHP",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower",
+    "test",
+    "tests"
+  ],
+  "private": true,
+  "dependencies": {
+    "startbootstrap-sb-admin-2": "^1.0.8"
+  }
+}

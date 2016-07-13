@@ -1,0 +1,18 @@
+{
+    "name": "jccultima123/MyPHP",
+    "type": "project",
+    "description": "Sample description",
+    "keywords": ["OOP", "PHP", "application"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Loren Ipsum",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "phpmailer/phpmailer": "~5.2.7",
+        "gregwar/captcha": "~1.0.11"
+    }
+}
