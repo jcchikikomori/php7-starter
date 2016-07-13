@@ -43,6 +43,8 @@ Do this one command (Currently Linux command but you can do this on Windows)
 
 `$ cp config.php.example config.php`
 
+Sample database available [here](https://gist.github.com/jccultima123/5e10a6d9e549778eff40adb5a3556e4a)
+
 ## Known Issues
 
 * Possible Injections? (idk for mysqli)
