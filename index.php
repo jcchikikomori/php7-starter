@@ -1,8 +1,9 @@
 <?php
 
 /**
- * MyPHP Lite by jccultima123
+ * MyPHP Plus by jccultima123
  *
+ * @link https://github.com/jccultima123/MyPHP
  * @license http://opensource.org/licenses/MIT MIT License
  */
 

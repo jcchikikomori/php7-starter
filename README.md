@@ -1,4 +1,4 @@
-# MyPHP Plus
+# MyPHP Plus ("Plus", 'coz not only PHP!)
 
 ## Introduction
 Hard building up foundation for your web development? Want to build up with Laravel soon but you don't know PHP?
@@ -58,6 +58,13 @@ Sample database available [here](https://gist.github.com/jccultima123/5e10a6d9e5
 ## Known Issues
 
 * Possible Injections? (idk for mysqli)
+
+## Rolling up new features
+
+* Email Service
+* Forgot Password System
+* API Samples including JSON actions
+* Leave Composer as an option
 
 ## Credits
 
