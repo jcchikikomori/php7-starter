@@ -114,6 +114,9 @@ class Registration extends Core
 
                 // escaping, additionally removing everything that could be (html/javascript-) code
                 $user_name = $this->db_connection->real_escape_string(strip_tags($_POST['user_name'], ENT_QUOTES));
+                $first_name = $this->db_connection->real_escape_string(strip_tags($_POST['first_name'], ENT_QUOTES));
+                $middle_name = $this->db_connection->real_escape_string(strip_tags($_POST['middle_name'], ENT_QUOTES));
+                $last_name = $this->db_connection->real_escape_string(strip_tags($_POST['last_name'], ENT_QUOTES));
                 $user_type = $this->db_connection->real_escape_string(strip_tags($_POST['user_type'], ENT_QUOTES));
                 $user_email = $this->db_connection->real_escape_string(strip_tags($_POST['user_email'], ENT_QUOTES));
 
@@ -132,8 +135,8 @@ class Registration extends Core
                     $this->errors[] = "Sorry, that username / email address is already taken.";
                 } else {
                     // write new user's data into database
-                    $sql = "INSERT INTO users (user_name, user_type, user_password_hash, user_email)
-                            VALUES('" . $user_name . "', '" . $user_type . "', '" . $user_password_hash . "', '" . $user_email . "');";
+                    $sql = "INSERT INTO users (user_name, first_name, middle_name, last_name, user_account_type, user_password, user_email)
+                            VALUES('" . $user_name . "', '" . $first_name . "', '" . $middle_name . "', '" . $last_name . "', '" . $user_type . "', '" . $user_password_hash . "', '" . $user_email . "');";
                     $query_new_user_insert = $this->db_connection->query($sql);
 
                     // if user has been added successfully

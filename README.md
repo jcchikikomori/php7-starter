@@ -33,15 +33,25 @@ Why don't you try this one! It could be better for you! MyPHP!!
 * PHP 5.3.7+ (PHP 7 Support still ongoing for development. Nah, checking deprecated syntaxes)
 * MySQL 5 database (please use a modern version of MySQL (5.5, 5.6, 5.7) as very old versions have a exotic bug that
 [makes injections possible](http://stackoverflow.com/q/134099/1114320).
-* activated mysqli (last letter is an "i") extension (activated by default on most server setups)
-* Composer (PHP Dependency Manager, required for installing 3rd party class)
-* NodeJS and Bower package manager (optional / if you don't want to use UI)
+* Activated mysqli (last letter is an "i") extension (activated by default on most server setups)
+* [Composer](https://getcomposer.org) (PHP Dependency Manager, required for installing 3rd party class)
+* [NodeJS 1.10.*](https://nodejs.org) or at least stable and [Bower](http://bower.io) package manager (optional / if you don't want to use UI)
 
-## Installation (quick setup)
+## Installation
 
-Do this one command (Currently Linux command but you can do this on Windows)
+Do these commands (Currently Linux command but you can do this on Windows)
 
 `$ cp config.php.example config.php`
+
+### Bower Installation (bower.json sample provided. Hence, bower dir would not be included for push/pull)
+
+`$ bower install`
+
+### Composer Installation (composer.json provided)
+
+`$ composer install`
+
+### Database Installation
 
 Sample database available [here](https://gist.github.com/jccultima123/5e10a6d9e549778eff40adb5a3556e4a)
 

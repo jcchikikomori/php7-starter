@@ -14,14 +14,13 @@ $core = new Core();
 require_once("classes/Auth.php");
 
 $auth = new Auth();
-$view = new View();
 
 include(HEADER);
 
-// if ($auth->isUserLoggedIn()) { // if user logged in
-// 	include("views/user/system.php");
-// } else {
+if ($auth->isUserLoggedIn()) { // if user logged in
+	include("views/logged_in.php");
+} else { // not logged in
 	include("views/index.php");
-// }
+}
 
 include(FOOTER);
