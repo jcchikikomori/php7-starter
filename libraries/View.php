@@ -23,15 +23,4 @@ class View
         } // else {echo 'feedback error';}
     }
     
-    public static function loginDetectUser() {
-        // using Session library. See in libraries/Session.php
-        if (Session::get('user_logged_in_as') == 'admin' && Session::get('user_logged_in_as') != NULL) {
-            require VIEWS_PATH . 'login/admin.php';
-        } else if (Session::get('user_logged_in_as') != 'user' && Session::get('user_logged_in_as') != NULL) {
-            require VIEWS_PATH . 'login/user.php';
-        } else {
-            require VIEWS_PATH . 'login/default.php';
-        }
-    }
-    
 }

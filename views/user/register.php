@@ -30,24 +30,13 @@
                 </div>
                 <div class="panel-body">
                     <?php
-                        // show potential errors / feedback (from login object)
-                        if (isset($registration)) {
-                            if ($registration->errors) {
-                                foreach ($registration->errors as $error) {
-                                    echo '<div class="alert alert-danger">' . $error . '</div>';
-                                }
-                            }
-                            if ($registration->messages) {
-                                foreach ($registration->messages as $message) {
-                                    echo '<div class="alert alert-success">' . $message . '</div>';
-                                }
-                            }
-                        } // else {echo 'feedback error';}
+                        // show potential errors / feedback
+                        View::getFeedback($registration);
                     ?>
                     <form method="post" action="register.php" name="registerform">
                         <fieldset>
                             <div class="form-group">
-                                <select class="form-control" name="user_type" title="User Type" required>
+                                <select class="form-control" name="user_type" title="User Type" autofocus required>
                                     <option selected disabled>Please Select User Type</option>
                                     <?php foreach($user_types as $type) {
                                         echo '<option value="' . $type['id'] . '">' . $type['type_desc'] . '</option>';
@@ -56,6 +45,15 @@
                             </div>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Username (only letters and numbers)" name="user_name" type="text" pattern="[a-zA-Z0-9]{2,64}" autofocus required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="First Name" name="first_name" type="text" pattern="{3,64}" autofocus required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Middle Name" name="middle_name" type="text" pattern="{3,64}" autofocus required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Last Name" name="last_name" type="text" pattern="{3,64}" autofocus required>
                             </div>
                             <div class="form-group">
                                 <input class="form-control" placeholder="E-mail" name="user_email" type="email" required>

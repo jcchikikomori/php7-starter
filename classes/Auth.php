@@ -39,7 +39,7 @@ class Auth extends Core
         elseif (isset($_POST["login"])) {
             $this->doLogin();
             if (Session::get('user_logged_in')) {
-                header('location: system.php');
+                // logged in!
             }
         }
     }

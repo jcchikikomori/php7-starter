@@ -9,7 +9,8 @@
     <meta name="description" content="">
     <title>MyPHP Plus</title>
 
-    <link href="bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
 
 </head>
 

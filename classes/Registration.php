@@ -26,7 +26,7 @@ class Registration extends Core
     public function __construct()
     {
         // parent was from the extended class
-        parent::__construct();
+        // parent::__construct();
 
         if (isset($_POST["register"])) {
             $this->registerNewUser();

@@ -20,7 +20,7 @@ include(HEADER);
 if ($auth->isUserLoggedIn()) { // if user logged in
 	include("views/logged_in.php");
 } else { // not logged in
-	include("views/index.php");
+	include("views/not_logged_in.php");
 }
 
 include(FOOTER);
