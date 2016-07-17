@@ -20,7 +20,7 @@ Why don't you try this one! It could be better for you! MyPHP!!
 * Can do Hello World, of course!
 * All basic functions already here!
 
-## Optional Features
+## Additonal Features (Plus!)
 
 * You can build a function for email using Composer or load your PHP-compatible Mail library in libraries/ dir
 * Uses Composer to load external dependencies by loading Composer dependencies in Core (PHPMailer, Captcha-Generator, etc.) for sure
@@ -43,7 +43,8 @@ Do these commands (Currently Linux command but you can do this on Windows)
 
 `$ cp config.php.example config.php`
 
-### Bower Installation (bower.json sample provided. Hence, bower dir would not be included for push/pull)
+### Bower Installation (bower.json sample provided.)
+Beware, bower dir would not be included for push/pull
 
 `$ bower install`
 
@@ -53,7 +54,8 @@ Do these commands (Currently Linux command but you can do this on Windows)
 
 ### Database Installation
 
-Sample database available [here](https://gist.github.com/jccultima123/5e10a6d9e549778eff40adb5a3556e4a)
+Just execute the SQL code with my sample!
+Sample code available [here](https://gist.github.com/jccultima123/5e10a6d9e549778eff40adb5a3556e4a)
 
 ## Known Issues
 
