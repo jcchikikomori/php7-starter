@@ -26,6 +26,7 @@ Why don't you try this one! It could be better for you! MyPHP!!
 * Uses Composer to load external dependencies by loading Composer dependencies in Core (PHPMailer, Captcha-Generator, etc.) for sure
 * NodeJS ready!! (Managing 3rd party web dependencies. Recommended: Bower)
 * You can use Bower for load public dependencies such as Bootstrap, JQuery or maybe Foundation too! (You can ignore this if you prefer CDNs)
+* Currently using [SB-Admin 2](http://startbootstrap.com/template-overviews/sb-admin-2/) front-end template. You can replace them easily with bower! (Check Headers & Footers too!)
 * .example files might help you handle 3rd-party assets (config.php is included in Installation)
 
 ## Requirements
