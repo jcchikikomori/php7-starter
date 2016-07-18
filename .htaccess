@@ -13,11 +13,16 @@ Options -Indexes
 RewriteCond %{REQUEST_FILENAME} !-d
 # and if the requested filename is not a regular file that exists,
 RewriteCond %{REQUEST_FILENAME} !-f
-# and if the requested filename is not a symbolic link,
-RewriteCond %{REQUEST_FILENAME} !-l
+
 # then rewrite the URL in the following way:
-# Take the whole request filename and provide it as the value of a
-# "url" query parameter to index.php. Append any query string from
-# the original URL as further query parameters (QSA), and stop
-# processing this .htaccess file (L).
-RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+# TODO: New rule for default page for error handling
+RewriteRule ^.*$ error.php [L]
+
+# Should work on virtual hosts
+ErrorDocument 400 /error.php
+ErrorDocument 401 /error.php
+ErrorDocument 403 /error.php
+ErrorDocument 404 /error.php
+ErrorDocument 500 /error.php
+ErrorDocument 502 /error.php
+ErrorDocument 504 /error.php
