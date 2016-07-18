@@ -8,6 +8,7 @@ class Init
     public function __construct()
     {
         // Reinitialize root directory
+        // TODO: Not good for 'views' on some file systems & OS
         define('ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
         // checking for minimum PHP version
@@ -22,7 +23,6 @@ class Init
             $lib = ROOT.'vendor/autoload.php';
             $config = ROOT.'config.php';
             if (file_exists($lib)) {
-                // require ROOT.'vendor/autoload.php';
                 require $lib;
                 if (!file_exists($config)) {
                     exit("File " . $config . " might be corrupted or missing.<br />Create a copy with config.php.example. ");
