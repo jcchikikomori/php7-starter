@@ -31,6 +31,7 @@ Why don't you try this one! It could be better for you! MyPHP!!
 
 ## Requirements
 
+* Apache-based web servers or any with .htaccess & RewriteEngine support
 * PHP 5.3.7+ (PHP 7 Support still ongoing for development. Nah, checking deprecated syntaxes)
 * MySQL 5 database (please use a modern version of MySQL (5.5, 5.6, 5.7) as very old versions have a exotic bug that
 [makes injections possible](http://stackoverflow.com/q/134099/1114320).
@@ -61,13 +62,18 @@ Sample code available [here](https://gist.github.com/jccultima123/5e10a6d9e54977
 ## Known Issues
 
 * Possible Injections? (idk for mysqli)
+* Error Handling (hugely affects for API building)
 
 ## Rolling up new features
 
 * Email Service
 * Forgot Password System
+* Error Handling with .htaccess
 * API Samples including JSON actions
 * Leave Composer as an option
+
+## Contribute Us
+Contribute here, fork and submit your pull requests to us!
 
 ## Credits
 
@@ -91,5 +97,3 @@ Sample code available [here](https://gist.github.com/jccultima123/5e10a6d9e54977
 
 Licensed under [MIT](http://www.opensource.org/licenses/mit-license.php). You can use this script for free for any
 private or commercial projects.
-
-Also check the original author's blog at **[DEV METAL](http://www.dev-metal.com)**, mostly about PHP and IT-related stuff. Have a look if you like.
