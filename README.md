@@ -13,7 +13,7 @@ Why don't you try this one! It could be better for you! MyPHP!!
 * Can do login / register essentials!
 * Can do CRUD Functions
 * Can do Paginations!
-* Can do AJAX or build this as API!
+* ~~Can do AJAX or build this as API!~~ (Issued on #2)
 * Can load external libraries (I'd prefer using Composer though unless it's critically important)
 * Documented and plenty of comments inside!
 * Bug-free? (depending on your projects, LOL)
@@ -66,11 +66,11 @@ Sample code available [here](https://gist.github.com/jccultima123/5e10a6d9e54977
 
 ## Rolling up new features
 
-* Email Service
-* Forgot Password System
-* Error Handling with .htaccess
-* API Samples including JSON actions
-* Leave Composer as an option
+- [] Email Service
+- [] Forgot Password System
+- [] Error Handling with .htaccess
+- [] API Samples including JSON actions
+- [] Leave Composer as an option
 
 ## Contribute Us
 Contribute here, fork and submit your pull requests to us!
