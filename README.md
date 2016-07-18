@@ -66,11 +66,11 @@ Sample code available [here](https://gist.github.com/jccultima123/5e10a6d9e54977
 
 ## Rolling up new features
 
-- [] Email Service
-- [] Forgot Password System
-- [] Error Handling with .htaccess
-- [] API Samples including JSON actions
-- [] Leave Composer as an option
+- [ ] Email Service
+- [ ] Forgot Password System
+- [ ] Error Handling with .htaccess
+- [ ] API Samples including JSON actions
+- [ ] Leave Composer as an option
 
 ## Contribute Us
 Contribute here, fork and submit your pull requests to us!
