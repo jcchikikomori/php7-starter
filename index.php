@@ -19,9 +19,9 @@ $auth = new Auth();
 include(HEADER);
 
 if ($auth->isUserLoggedIn()) { // if user logged in
-	include("views/logged_in.php");
+	$core->render("views/logged_in.php");
 } else { // not logged in
-	include("views/not_logged_in.php");
+	$core->render("views/not_logged_in.php", 'file');
 }
 
 include(FOOTER);

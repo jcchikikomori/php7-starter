@@ -19,6 +19,4 @@ $registration = new Registration();
 $user_types = $registration->getUserTypes();
 
 // show the register view (with the registration form, and messages/errors)
-include(HEADER);
-include("views/user/register.php");
-include(FOOTER);
+$core->render("views/user/register.php");

@@ -13,7 +13,8 @@ Why don't you try this one! It could be better for you! MyPHP!!
 * Can do login / register essentials!
 * Can do CRUD Functions
 * Can do Paginations!
-* ~~Can do AJAX or build this as API!~~ (Issued on #2)
+<!-- * ~~Can do AJAX or build this as API!~~ (Issued on #2) -->
+* Can do AJAX or build this as API!
 * Can load external libraries (I'd prefer using Composer though unless it's critically important)
 * Documented and plenty of comments inside!
 * Bug-free? (depending on your projects, LOL)

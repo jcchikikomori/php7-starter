@@ -7,8 +7,8 @@
                 </div>
                 <div class="panel-body">
                     <?php
-                        // show potential errors / feedback (from login object)
-                        View::getFeedback($auth);
+                        // show potential errors / feedback (from session)
+                        // View::getFeedback();
                     ?>
                     <!-- if you need user information, just put them into the $_SESSION variable and output them here -->
                     <p>Hey, <?php echo $_SESSION['user_name']; ?>. You are logged in.</p>

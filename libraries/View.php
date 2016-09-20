@@ -22,5 +22,5 @@ class View
             }
         } // else {echo 'feedback error';}
     }
-    
+
 }

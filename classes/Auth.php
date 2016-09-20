@@ -143,8 +143,8 @@ class Auth extends Core
      */
     public function isUserLoggedIn()
     {
-        if (Session::get('user_logged_in')) {
-            return $_SESSION['user_logged_in'];
+        if (Session::get('user_logged_in')) { // you can use session lib
+            return $_SESSION['user_logged_in']; // native use of sessions
         } else {
             return false;
         }
