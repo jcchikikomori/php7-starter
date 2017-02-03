@@ -57,7 +57,7 @@ Beware, bower dir will not be included for push/pull!
 You can add more by using `$ composer require author/dependency_name`
 
 ### Database Installation
-Create your own. You may use my sample code available [here](https://gist.githubusercontent.com/jccultima123/5e10a6d9e549778eff40adb5a3556e4a/raw/e64b82da3129a342b2465ff3e8ea92193cac88c2/db_with_users.sql)
+Create your own. You may use my sample code available [here](https://gist.github.com/jccultima123/5e10a6d9e549778eff40adb5a3556e4a)
 
 ## Known Issues
 * Prone to Injections (for mysqli)
