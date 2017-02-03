@@ -96,15 +96,15 @@ class Registration extends Core
             && ($_POST['user_password_new'] === $_POST['user_password_repeat'])
         ) {
             // create a database connection
-            $this->db_connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+            // $this->db_connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-            // change character set to utf8 and check it
-            if (!$this->db_connection->set_charset("utf8")) {
-                $this->errors[] = $this->db_connection->error;
-            }
+            // // change character set to utf8 and check it
+            // if (!$this->db_connection->set_charset("utf8")) {
+            //     $this->errors[] = $this->db_connection->error;
+            // }
 
-            // if no connection errors (= working database connection)
-            if (!$this->db_connection->connect_errno) {
+            // // if no connection errors (= working database connection)
+            // if (!$this->db_connection->connect_errno) {
 
                 // escaping, additionally removing everything that could be (html/javascript-) code
                 $user_name = $this->db_connection->real_escape_string(strip_tags($_POST['user_name'], ENT_QUOTES));
@@ -142,9 +142,10 @@ class Registration extends Core
                         // $this->errors[] = $sql;
                     }
                 }
-            } else {
-                $this->errors[] = "Sorry, no database connection.";
-            }
+            
+            // } else {
+            //     $this->errors[] = "Sorry, no database connection.";
+            // }
         } else {
             $this->errors[] = "An unknown error occurred.";
         }
