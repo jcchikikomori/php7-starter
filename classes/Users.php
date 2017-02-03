@@ -5,7 +5,7 @@ class Users extends Core
 	/**
      * @var object $db_connection The database connection
      */
-    private $db_connection = null;
+    public $db_connection = null;
     /**
      * @var array $errors Collection of error messages
      */
@@ -21,20 +21,11 @@ class Users extends Core
      */
     public function __construct()
     {
-        // parent was from the extended class
-        parent::__construct();
+        $this->db_connection = Core::connect_database();
     }
 
     public function getUserTypes()
     {
-        // create a database connection
-        $this->db_connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-        // change character set to utf8 and check it
-        if (!$this->db_connection->set_charset("utf8")) {
-            $this->errors[] = $this->db_connection->error;
-        }
-
         // if no connection errors (= working database connection)
         if (!$this->db_connection->connect_errno) {
 

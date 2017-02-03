@@ -34,8 +34,18 @@ class Session
     }
 
     /**
+     * sets a specific value to a specific key of the session
+     * @param mixed $key
+     * @param mixed $value
+     */
+    public static function set_user($key, $value)
+    {
+        $_SESSION['users'][$key] = $value;
+    }
+
+    /**
      * gets/returns the value of a specific key of the session
-     * @param mixed $key Usually a string, right ?
+     * @param mixed $key Usually a string
      * @return mixed
      */
     public static function get($key)
@@ -46,12 +56,31 @@ class Session
     }
 
     /**
-     * deletes the session (= logs the user out)
+     * gets/returns the value of a specific user currently log in
+     * @param mixed $key Usually a string
+     * @return mixed
+     */
+    public static function user($id)
+    {
+        if (isset($_SESSION['users'][$id])) {
+            return $_SESSION['users'][$id];
+        }
+    }
+
+    /**
+     * deletes the session (= logs all of the users out)
      */
     public static function destroy() {
         //session_unset();
         session_destroy();
         //session_write_close();
+    }
+
+    /**
+     * logging out single user
+     */
+    public static function destroy_user($key) {
+        unset($_SESSION['users'][$key]);
     }
 
 }

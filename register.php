@@ -16,7 +16,7 @@ require_once("classes/Registration.php");
 $registration = new Registration();
 
 // set data
-$user_types = $registration->getUserTypes();
+$data['user_types'] = $registration->getUserTypes();
 
 // show the register view (with the registration form, and messages/errors)
-$core->render("views/user/register.php");
+$core->render("views/user/register.php", $data);

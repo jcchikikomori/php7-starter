@@ -11,6 +11,11 @@ require_once('Init.php');
  */
 class Core extends Init
 {
+    /**
+     * @var object $db_connection The database connection
+     */
+    public $db_connection = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -27,6 +32,10 @@ class Core extends Init
 
         // load external libraries/classes by LOOP. have a look all the files in that directory for details.
         foreach (glob(LIBS_PATH . '*.php') as $files) { require $files; }
+
+        // create/read session, absolutely necessary
+        Session::init(); // or session_start();
+
         $this->setFeedback();
     }
 
@@ -36,7 +45,7 @@ class Core extends Init
      * @param string $type = Rendering types
      * @param array $data = Sets of data to be also rendered/returned
      */
-    public function render($part, $type = null, $data = array())
+    public function render($part, $data = array(), $type = null)
     {
       switch($type) {
         // For server-side rendering of partial views
@@ -57,16 +66,22 @@ class Core extends Init
      * Database Connection
      * @param string $driver Database Driver. mysqli is default
      */
-    public function connect_database($driver = null)
+    public static function connect_database($driver = null)
     {
         switch($driver) {
             case 'mysql':
             case 'mysqli':
             default:
                 $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-                if ($db->connect_error) { die();
+                if ($db->connect_error) {
+                  // die();
+                  return false;
                 } else {
+                  if (!$db->set_charset("utf8")) {
+                    return false;
+                  } else {
                     return $db;
+                  }
                 }
             break;
             // PDO coming soon

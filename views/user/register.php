@@ -38,7 +38,7 @@
                             <div class="form-group">
                                 <select class="form-control" name="user_type" title="User Type" autofocus required>
                                     <option selected disabled>Please Select User Type</option>
-                                    <?php foreach($user_types as $type) {
+                                    <?php foreach($data['user_types'] as $type) {
                                         echo '<option value="' . $type['user_type'] . '">' . $type['type_desc'] . '</option>';
                                     } ?>
                                 </select>

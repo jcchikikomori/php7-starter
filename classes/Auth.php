@@ -9,7 +9,7 @@ class Auth extends Core
     /**
      * @var object The database connection
      */
-    private $db_connection = null;
+    public $db_connection = null;
     /**
      * @var array Collection of error messages
      */
@@ -25,10 +25,7 @@ class Auth extends Core
      */
     public function __construct()
     {
-        // parent::__construct();
-
-        // create/read session, absolutely necessary
-        Session::init(); // or session_start();
+        $this->db_connection = Core::connect_database(); // if this class needed a database connection, use this line
 
         // check the possible login actions:
         // if user tried to log out (happen when user clicks logout button)
@@ -101,14 +98,15 @@ class Auth extends Core
                         // write user data into PHP SESSION (a file on your server)
                         // $_SESSION['user_name'] = $result_row->user_name; // example
 
-                        Session::set('user_id', $result_row->user_id);
-                        Session::set('user_name', $result_row->user_name);
-                        Session::set('user_email', $result_row->user_email);
-                        Session::set('first_name', $result_row->first_name);
-                        Session::set('last_name', $result_row->last_name);
-                        Session::set('user_logged_in', true);
-                        Session::set('user_logged_in_as', $result_row->user_account_type);
-                        Session::set('user_provider', $result_row->user_provider_type);
+                        Session::set_user('user_id', $result_row->user_id);
+                        Session::set_user('user_name', $result_row->user_name);
+                        Session::set_user('user_email', $result_row->user_email);
+                        Session::set_user('first_name', $result_row->first_name);
+                        Session::set_user('last_name', $result_row->last_name);
+                        Session::set_user('user_logged_in', true);
+                        Session::set_user('user_logged_in_as', $result_row->user_account_type);
+                        Session::set_user('type_description', $result_row->user_type_description);
+                        Session::set_user('user_provider', $result_row->user_provider_type);
 
                         // var_dump($_SESSION['user_logged_in_as']); die();
 
@@ -143,8 +141,8 @@ class Auth extends Core
      */
     public function isUserLoggedIn()
     {
-        if (Session::get('user_logged_in')) { // you can use session lib
-            return $_SESSION['user_logged_in']; // native use of sessions
+        if (Session::user('user_logged_in')) { // you can use session lib
+            return $_SESSION['users']['user_logged_in']; // native use of sessions
         } else {
             return false;
         }

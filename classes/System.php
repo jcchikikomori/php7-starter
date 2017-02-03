@@ -5,7 +5,7 @@ class System extends Core
 	/**
      * @var object $db_connection The database connection
      */
-    private $db_connection = null;
+    public $db_connection = null;
     /**
      * @var array $errors Collection of error messages
      */
