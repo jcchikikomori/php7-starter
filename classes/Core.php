@@ -1,6 +1,6 @@
 <?php
 
-require_once('Init.php');
+require_once('Init.php'); // require Init class!
 
 /**
  * Core components
@@ -15,7 +15,6 @@ class Core extends Init
      * @var object $db_connection The database connection
      */
     public $db_connection = null;
-
     public function __construct()
     {
         parent::__construct();
@@ -29,16 +28,12 @@ class Core extends Init
         // } else {
         // 	echo 'Compatible';
         // }
-
+        
         // load external libraries/classes by LOOP. have a look all the files in that directory for details.
         foreach (glob(LIBS_PATH . '*.php') as $files) { require $files; }
-
         // create/read session, absolutely necessary
         Session::init(); // or session_start();
-
-        $this->setFeedback();
     }
-
     /**
      * Rendering views
      * @param string $part = Partial view
@@ -52,16 +47,15 @@ class Core extends Init
         case 'ajax':
         case 'file':
         case 'partial':
-          include($part);
+          include(VIEWS_PATH . $part);
         break;
         default:
           include(HEADER);
-          include($part);
+          include(VIEWS_PATH . $part);
           include(FOOTER);
         break;
       }
     }
-
     /**
      * Database Connection
      * @param string $driver Database Driver. mysqli is default
@@ -80,7 +74,7 @@ class Core extends Init
                   if (!$db->set_charset("utf8")) {
                     return false;
                   } else {
-                    return $db;
+                    return $db; // will return DB connection as object
                   }
                 }
             break;
@@ -91,11 +85,17 @@ class Core extends Init
             break;
         }
     }
-
-    private function setFeedback()
+    /**
+     * Collect Response based from class you've defined.
+     * @param array $classes Set of classes with set of feedbacks after execution
+     */
+    public function collectResponse($classes = array())
     {
-        Session::set('feedback_positive', null);
-        Session::set('feedback_negative', null);
-        Session::set('feedback_note', null);
+        $response = array();
+        foreach($classes as $class) {
+          $response['errors'] = $class->errors;
+          $response['messages'] = $class->messages;
+        }
+        Session::set('response', $response); // re-set
     }
 }

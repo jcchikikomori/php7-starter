@@ -6,7 +6,8 @@
  * handles the session stuff. creates session when no one exists, sets and
  * gets values, and closes the session properly (=logout). Those methods
  * are STATIC, which means you can call them with Session::get(XXX);
- * 
+ *
+ * by jccultima123
  * (c) panique from PHP-LOGIN
  * @license http://opensource.org/licenses/MIT MIT License
  */
@@ -18,9 +19,7 @@ class Session
     public static function init()
     {
         // if no session exist, start the session
-        if (session_id() == '') {
-            session_start();
-        }
+        if (session_id() == '') { session_start(); }
     }
 
     /**
@@ -68,16 +67,14 @@ class Session
     }
 
     /**
-     * deletes the session (= logs all of the users out)
+     * deletes all sessions
      */
     public static function destroy() {
-        //session_unset();
         session_destroy();
-        //session_write_close();
     }
 
     /**
-     * logging out single user
+     * logging out all users
      */
     public static function destroy_user($key) {
         unset($_SESSION['users'][$key]);

@@ -56,12 +56,11 @@ class Init
             exit("The application environment is not set correctly.");
         }
 
-        /**
-         * FIXED FILES & DIRECTORIES
-         */
+        // Fixed Paths
         define('LIBS_PATH', ROOT . 'libraries' . DIRECTORY_SEPARATOR);
         define('VIEWS_PATH', 'views' . DIRECTORY_SEPARATOR); // fix dir issues on different OSes
         define('ASSETS', 'assets' . DIRECTORY_SEPARATOR);
+        // Templates
         define('HEADER', VIEWS_PATH . 'header.php');
         define('FOOTER', VIEWS_PATH . 'footer.php');
         define('POST_HEADER_LOGGED', VIEWS_PATH . 'header_logged_in.php'); // maybe redundant

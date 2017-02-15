@@ -23,9 +23,9 @@ include(HEADER);
 
 // Now, the instantiated class variables are going to be used
 if ($auth->isUserLoggedIn()) { // if user logged in (using Auth class)
-	$core->render("views/logged_in.php"); // use Core class to render
+	$core->render("logged_in.php"); // use Core class to render
 } else { // not logged in
-	$core->render("views/not_logged_in.php", 'file'); // do the fallback function
+	$core->render("not_logged_in.php", 'file'); // do the fallback function
 }
 
 // Don't forget the FOOTER
