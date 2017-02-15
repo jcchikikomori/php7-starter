@@ -15,5 +15,10 @@
         "phpmailer/phpmailer": "~5.2.7",
         "gregwar/captcha": "~1.0.11",
         "league/oauth2-client": "^2.2"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "php -r \"file_exists('config.php') || copy('config.php.example', 'config.php');\""
+        ]
     }
 }

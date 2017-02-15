@@ -8,18 +8,18 @@ Why don't you try this one! It could be better for you! MyPHP!!
 ## Features
 * The difference is, this is structured (unlike building your own from scratch) to lessen maintenance, and errors
 * Quite but less modular but still easier for newbies, baby!
-* OOP Structured Codebase
 * Using the modern and official PHP password hashing functions!
-* Can do login / register essentials
+* OOP Structured Codebase
+* Can do login & register
 * Can do CRUD Functions
 * Can do Paginations
 <!-- * ~~Can do AJAX or build this as API!~~ (Issued on #2) -->
-* Can do AJAX or build this as API!
-* Can load external libraries (I'd prefer using Composer though unless it's critically important)
+<!-- * Can do AJAX or build this as a API! -->
+* Can load external libraries like Composer & Bower
 * Documented and plenty of comments inside!
-* Bug-free? (depending on your projects, LOL)
-* Can do Hello World, of course!
+* Bug-free? (Unless your project is sophisticated)
 * Almost all basic functions already here!
+* Can do Hello World, of course!
 
 ## Additonal Features (Plus!)
 * You can build a function for email using Composer or load your PHP-compatible Mail library in libraries/ dir
@@ -33,7 +33,7 @@ Why don't you try this one! It could be better for you! MyPHP!!
 
 ## Requirements
 * Apache-based web servers or any with .htaccess & RewriteEngine support
-* PHP 5.3.7+ (PHP 7 Support still ongoing for development. Currently checking deprecated syntaxes)
+* PHP 5.3.7+ (Now has PHP 7 Support)
 * MySQL 5 database (please use a modern version of MySQL (5.5, 5.6, 5.7) as very old versions have a exotic bug that
 [makes injections possible](http://stackoverflow.com/q/134099/1114320).
 * Activated mysqli (last letter is an "i") extension (activated by default on most server setups)
@@ -41,23 +41,16 @@ Why don't you try this one! It could be better for you! MyPHP!!
 * [NodeJS 1.10.*](https://nodejs.org) or at least stable and [Bower](http://bower.io) package manager (optional / if you don't want to use UI)
 
 ## Installation
-### One-way installation script coming soon!
-
-Do these commands (Currently Linux command but you can do this on Windows)
-
-`$ cp config.php.example config.php`
-
-### Bower Installation (bower.json sample provided.)
-Beware, bower dir will not be included for push/pull!
-
-`$ bower install`
-
-### Composer Installation (composer.json provided)
+<!-- ### One-way installation script coming soon! -->
+<!-- Do these commands (Currently Linux command but you can do this on Windows) -->
+<!-- `$ cp config.php.example config.php` -->
+### One-way using Composer [REQUIRED]
 `$ composer install`
-You can add more by using `$ composer require author/dependency_name`
-
+NOTE: You can add more dependency by using `$ composer require author/dependency_name`
 ### Database Installation
 Create your own. You may use my sample code available [here](https://gist.github.com/jccultima123/5e10a6d9e549778eff40adb5a3556e4a)
+### Bower Installation [OPTIONAL] (bower.json sample provided.)
+`$ bower install`
 
 ## Known Issues
 * Prone to Injections (for mysqli)
@@ -69,8 +62,8 @@ Create your own. You may use my sample code available [here](https://gist.github
 - [ ] Error Handling with .htaccess
 - [ ] API Samples including JSON actions
 <!-- - [ ] Leave Composer as an option -->
-- [ ] Provision script for application deployment like Heroku, etc.
-- [ ] One-way installation script
+- [x] Provision script for application deployment like Heroku, etc.
+- [x] One-way installation script
 
 ## Contribute Us
 Contribute here, fork and submit your pull requests to us!
