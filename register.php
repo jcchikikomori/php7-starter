@@ -15,6 +15,9 @@ require_once("classes/Registration.php");
 // so this single line handles the entire registration process.
 $registration = new Registration();
 
+// collect feedbacks first
+$core->collectResponse(array($registration)); // should be a array object (never include Core class)
+
 // set data
 $data['user_types'] = $registration->getUserTypes();
 

@@ -31,7 +31,7 @@
                 <div class="panel-body">
                     <?php
                         // show potential errors / feedback
-                        // View::getFeedback($registration);
+                        View::getFeedback();
                     ?>
                     <form method="post" action="register.php" name="registerform">
                         <fieldset>

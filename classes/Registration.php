@@ -142,7 +142,7 @@ class Registration extends Core
                         // $this->errors[] = $sql;
                     }
                 }
-            
+
             // } else {
             //     $this->errors[] = "Sorry, no database connection.";
             // }
