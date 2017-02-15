@@ -15,8 +15,8 @@ $core = new Core();
 require_once("classes/Auth.php");
 $auth = new Auth();
 
-// Now include the HEADER constant (based on your config.php)
-include(HEADER);
+// collect feedbacks first
+$core->collectResponse(array($auth)); // should be a array object (never include Core class)
 
 // Now put your own logic to render the page
 // (this is a sample then you can do another on your own)
@@ -27,6 +27,3 @@ if ($auth->isUserLoggedIn()) { // if user logged in (using Auth class)
 } else { // not logged in
 	$core->render("not_logged_in.php", 'file'); // do the fallback function
 }
-
-// Don't forget the FOOTER
-include(FOOTER);

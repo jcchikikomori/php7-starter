@@ -25,6 +25,8 @@ class Auth extends Core
     public function __construct()
     {
         $this->db_connection = Core::connect_database(); // if this class needed a database connection, use this line
+        // $this->messages[] = "Auth class is saying that your database server is working. You can remove me inside..";
+        $this->messages[] = "[AUTH] Welcome to MyPHP";
         // check the possible login actions:
         // if user tried to log out (happen when user clicks logout button)
         if (isset($_GET["logout"])) {
@@ -99,7 +101,7 @@ class Auth extends Core
      */
     public function doLogout()
     {
-        Session::destroy_user(); // or session_destroy();
+        Session::destroy(); // or session_destroy();
         $this->messages[] = "You have been logged out.";
     }
     /**

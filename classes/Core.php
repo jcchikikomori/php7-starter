@@ -15,6 +15,10 @@ class Core extends Init
      * @var object $db_connection The database connection
      */
     public $db_connection = null;
+    /**
+     * the function "__construct()" automatically starts whenever an object of this class is created,
+     * you know, when you do "$login = new Login();"
+     */
     public function __construct()
     {
         parent::__construct();
@@ -28,7 +32,7 @@ class Core extends Init
         // } else {
         // 	echo 'Compatible';
         // }
-        
+
         // load external libraries/classes by LOOP. have a look all the files in that directory for details.
         foreach (glob(LIBS_PATH . '*.php') as $files) { require $files; }
         // create/read session, absolutely necessary
@@ -91,11 +95,11 @@ class Core extends Init
      */
     public function collectResponse($classes = array())
     {
-        $response = array();
+        $response = array(); // set empty
         foreach($classes as $class) {
           $response['errors'] = $class->errors;
           $response['messages'] = $class->messages;
         }
-        Session::set('response', $response); // re-set
+        Session::set('response', $response); // fill me up
     }
 }

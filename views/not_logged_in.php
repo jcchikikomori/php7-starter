@@ -8,7 +8,7 @@
                 <div class="panel-body">
                     <?php
                         // show potential errors / feedback (from session)
-                        // View::getFeedback();
+                        View::getFeedback();
                     ?>
                     <form method="post" action="index.php" name="loginform">
                         <fieldset>
