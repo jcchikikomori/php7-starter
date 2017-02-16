@@ -51,12 +51,6 @@ class Auth extends Core
         } elseif (empty($_POST['user_password'])) {
             $this->errors[] = "Password field was empty.";
         } elseif (!empty($_POST['user_name']) && !empty($_POST['user_password'])) {
-            // create a database connection, using the constants from config/db.php (which we loaded in index.php)
-            $this->db_connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-            // change character set to utf8 and check it
-            if (!$this->db_connection->set_charset("utf8")) {
-                $this->errors[] = $this->db_connection->error;
-            }
             // if no connection errors (= working database connection)
             if (!$this->db_connection->connect_errno) {
                 // escape the POST stuff
@@ -110,7 +104,7 @@ class Auth extends Core
      */
     public function isUserLoggedIn()
     {
-        if (Session::user('user_logged_in')) { // you can use session lib
+        if (Session::user('user_logged_in') && !isset($_GET["logout"])) { // you can use session lib
             return $_SESSION['users']['user_logged_in']; // native use of sessions
         } else {
             return false;
