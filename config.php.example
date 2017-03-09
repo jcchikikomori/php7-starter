@@ -32,8 +32,11 @@ if (!defined('ENVIRONMENT')) {
  * DB_NAME: name of the database. please note: database and database table are not the same thing
  * DB_USER: user for your database. the user needs to have rights for SELECT, UPDATE, DELETE and INSERT.
  * DB_PASS: the password of the above user
+ * DB_PORT: database port
  */
 define("DB_HOST", "127.0.0.1");
 define("DB_NAME", "myphp_db");
 define("DB_USER", "root");
 define("DB_PASS", "");
+define("DB_PORT", 3306);
+

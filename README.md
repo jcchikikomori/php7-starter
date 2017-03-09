@@ -1,4 +1,5 @@
 # MyPHP Plus ("Plus", 'coz not only PHP!)
+## Version 0.3
 
 ## Introduction
 The easiest and better way to learn PHP!
@@ -13,8 +14,6 @@ Why don't you try this one! It could be better for you! MyPHP!!
 * Can do login & register
 * Can do CRUD Functions
 * Can do Paginations
-<!-- * ~~Can do AJAX or build this as API!~~ (Issued on #2) -->
-<!-- * Can do AJAX or build this as a API! -->
 * Can load external libraries like Composer & Bower
 * Documented and plenty of comments inside!
 * Bug-free? (Unless your project is sophisticated)
@@ -56,14 +55,12 @@ Create your own. You may use my sample code available [here](https://gist.github
 * Prone to Injections (for mysqli)
 * Error Handling (hugely affects for API building)
 
-## Rolling up new features
-- [ ] Email Service
-- [ ] Forgot Password System
-- [ ] Error Handling with .htaccess
-- [ ] API Samples including JSON actions
-<!-- - [ ] Leave Composer as an option -->
-- [x] Provision script for application deployment like Heroku, etc.
-- [x] One-way installation script
+## NEW IN VERSION 0.5! (Coming Soon)
+* Email Service
+* Forgot Password System
+* Error Handling with .htaccess
+* Using JSON formats for new API class (for JWT, Android, etc.)
+* One-way installation script (compatible with Heroku)
 
 ## Contribute Us
 Contribute here, fork and submit your pull requests to us!
