@@ -2,6 +2,8 @@
 
 require_once('Init.php'); // require Init class!
 
+use Medoo\Medoo; // Using Medoo namespace (NEW DB FRAMEWORK)
+
 /**
  * Core components
  *
@@ -64,8 +66,35 @@ class Core extends Init
      * Database Connection
      * @param string $driver Database Driver. mysqli is default
      */
-    public static function connect_database($driver = null)
+    public static function connect_database($driver='mysql')
     {
+      $database = new Medoo([
+        // required
+        'database_type' => $driver,
+        'database_name' => DB_NAME,
+        'server' => DB_HOST,
+        'username' => DB_USER,
+        'password' => 'your_password',
+        'charset' => 'utf8',
+        'port' => 3306,
+
+        // [optional] Table prefix
+        'prefix' => 'PREFIX_',
+
+        // [optional] MySQL socket (shouldn't be used with server and port)
+        'socket' => '/tmp/mysql.sock',
+
+        // [optional] driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php
+        'option' => [
+          PDO::ATTR_CASE => PDO::CASE_NATURAL
+        ],
+
+        // [optional] Medoo will execute those commands after connected to the database for initialization
+        'command' => [
+          'SET SQL_MODE=ANSI_QUOTES'
+        ]
+      ]);
+      /**
         switch($driver) {
             case 'mysql':
             case 'mysqli':
@@ -87,7 +116,11 @@ class Core extends Init
             case 'pdo':
                 return false;
             break;
+            case 'V2':
+            case 'meedoo':
+            break;
         }
+        */
     }
     /**
      * Collect Response based from class you've defined.
