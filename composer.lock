@@ -4,11 +4,66 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "610d9f114a38d039a8c3aca3cba8cb99",
+    "content-hash": "399ec301142ac7e92cdf14b7c94f45a4",
     "packages": [
         {
+            "name": "catfan/medoo",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/catfan/Medoo.git",
+                "reference": "b5a788c90c44db0f978512c890cb6962af4685e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/catfan/Medoo/zipball/b5a788c90c44db0f978512c890cb6962af4685e8",
+                "reference": "b5a788c90c44db0f978512c890cb6962af4685e8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "php": ">=5.4"
+            },
+            "suggest": {
+                "ext-pdo_dblib": "For MSSQL or Sybase databases on Linux/UNIX platform",
+                "ext-pdo_mysql": "For MySQL or MariaDB databases",
+                "ext-pdo_oci": "For Oracle databases",
+                "ext-pdo_pqsql": "For PostgreSQL databases",
+                "ext-pdo_sqlite": "For SQLite databases",
+                "ext-pdo_sqlsrv": "For MSSQL databases on Windows platform"
+            },
+            "type": "framework",
+            "autoload": {
+                "psr-4": {
+                    "Medoo\\": "/src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Angel Lai",
+                    "email": "angel@catfan.me"
+                }
+            ],
+            "description": "The Lightest PHP database framework to accelerate development",
+            "homepage": "http://medoo.in",
+            "keywords": [
+                "database",
+                "lightweight",
+                "mssql",
+                "mysql",
+                "php framework",
+                "sql",
+                "sqlite"
+            ],
+            "time": "2017-02-17T16:05:35+00:00"
+        },
+        {
             "name": "gregwar/captcha",
-            "version": "v1.0.13",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Gregwar/Captcha.git",
@@ -56,21 +111,21 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.2.2",
+            "version": "6.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "ebf29dee597f02f09f4d5bbecc68230ea9b08f60"
+                "reference": "8d6c6cc55186db87b7dc5009827429ba4e9dc006"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ebf29dee597f02f09f4d5bbecc68230ea9b08f60",
-                "reference": "ebf29dee597f02f09f4d5bbecc68230ea9b08f60",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/8d6c6cc55186db87b7dc5009827429ba4e9dc006",
+                "reference": "8d6c6cc55186db87b7dc5009827429ba4e9dc006",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/promises": "^1.0",
-                "guzzlehttp/psr7": "^1.3.1",
+                "guzzlehttp/psr7": "^1.4",
                 "php": ">=5.5"
             },
             "require-dev": {
@@ -114,7 +169,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2016-10-08T15:01:37+00:00"
+            "time": "2017-02-28T22:50:30+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -169,16 +224,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.3.1",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "5c6447c9df362e8f8093bda8f5d8873fe5c7f65b"
+                "reference": "0d6c7ca039329247e4f0f8f8f6506810e8248855"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/5c6447c9df362e8f8093bda8f5d8873fe5c7f65b",
-                "reference": "5c6447c9df362e8f8093bda8f5d8873fe5c7f65b",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/0d6c7ca039329247e4f0f8f8f6506810e8248855",
+                "reference": "0d6c7ca039329247e4f0f8f8f6506810e8248855",
                 "shasum": ""
             },
             "require": {
@@ -214,16 +269,23 @@
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
                     "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "homepage": "https://github.com/Tobion"
                 }
             ],
-            "description": "PSR-7 message implementation",
+            "description": "PSR-7 message implementation that also provides common utility methods",
             "keywords": [
                 "http",
                 "message",
+                "request",
+                "response",
                 "stream",
-                "uri"
+                "uri",
+                "url"
             ],
-            "time": "2016-06-24T23:00:38+00:00"
+            "time": "2017-02-27T10:51:17+00:00"
         },
         {
             "name": "league/oauth2-client",
@@ -294,16 +356,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.4",
+            "version": "v2.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "a9b97968bcde1c4de2a5ec6cbd06a0f6c919b46e"
+                "reference": "6968531206671f94377b01dc7888d5d1b858a01b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/a9b97968bcde1c4de2a5ec6cbd06a0f6c919b46e",
-                "reference": "a9b97968bcde1c4de2a5ec6cbd06a0f6c919b46e",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/6968531206671f94377b01dc7888d5d1b858a01b",
+                "reference": "6968531206671f94377b01dc7888d5d1b858a01b",
                 "shasum": ""
             },
             "require": {
@@ -338,20 +400,20 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-11-07T23:38:38+00:00"
+            "time": "2017-03-03T20:43:42+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v5.2.16",
+            "version": "v5.2.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a"
+                "reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
-                "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/b18cb98131bd83103ccb26a888fdfe3177b8a663",
+                "reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663",
                 "shasum": ""
             },
             "require": {
@@ -398,7 +460,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2016-06-06T09:09:37+00:00"
+            "time": "2017-01-09T09:33:47+00:00"
         },
         {
             "name": "psr/http-message",
