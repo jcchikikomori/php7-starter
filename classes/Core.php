@@ -77,19 +77,17 @@ class Core extends Init
         'password' => 'your_password',
         'charset' => 'utf8',
         'port' => 3306,
-
-        // [optional] Table prefix
-        'prefix' => 'PREFIX_',
-
-        // [optional] MySQL socket (shouldn't be used with server and port)
+        // [optional] Table prefix, COMMENT THIS IF YOU DON'T WANT THIS
+        'prefix' => 'db_',
+        // [optional] MySQL socket (shouldn't be used with server and port), COMMENT THIS IF YOU DON'T WANT THIS
         'socket' => '/tmp/mysql.sock',
-
         // [optional] driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php
+        // ERASE/EMPTY THIS IF YOU DON'T WANT THIS
         'option' => [
           PDO::ATTR_CASE => PDO::CASE_NATURAL
         ],
-
         // [optional] Medoo will execute those commands after connected to the database for initialization
+        // ERASE/EMPTY THIS IF YOU DON'T WANT THIS
         'command' => [
           'SET SQL_MODE=ANSI_QUOTES'
         ]
