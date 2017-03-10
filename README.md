@@ -19,8 +19,10 @@ Why don't you try this one! It could be better for you! MyPHP!!
 * Bug-free? (Unless your project is sophisticated)
 * Almost all basic functions already here!
 * Can do Hello World, of course!
+* Using Medoo for more easier database handling [NEW]
+* Using Whoops for more sassy error reporting [NEW]
 
-## Additonal Features (Plus!)
+## Additonal Features
 * You can build a function for email using Composer or load your PHP-compatible Mail library in libraries/ dir
 * Uses Composer to load external dependencies by loading Composer dependencies in Core (PHPMailer, Captcha-Generator, etc.) for sure
 * NodeJS ready!! (Managing 3rd party web dependencies. Recommended: Bower)
@@ -28,7 +30,7 @@ Why don't you try this one! It could be better for you! MyPHP!!
 * Currently using [SB-Admin 2](http://startbootstrap.com/template-overviews/sb-admin-2/) front-end template. You can replace them easily with bower! (Don't forget to check Headers & Footers!)
 * .example files might help you handle 3rd-party assets (config.php is included in Installation)
 
-### This is not recommended for very large projects, you may use this on your small projects like a portfolio website, etc.
+### This is not recommended for very very large projects, you may use this on your small projects like a portfolio website or test your skills, etc.
 
 ## Requirements
 * Apache-based web servers or any with .htaccess & RewriteEngine support
