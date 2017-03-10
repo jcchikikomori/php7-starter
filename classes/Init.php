@@ -12,7 +12,7 @@ class Init
          * To see all current timezones, @see http://php.net/manual/en/timezones.php
          */
         date_default_timezone_set("Asia/Manila");
-        
+
         /**
          * Environment
          * - define('ENVIRONMENT', 'development'); Enables Error Report and Debugging
@@ -73,5 +73,7 @@ class Init
         define('HEADER', VIEWS_PATH . 'header.php');
         define('FOOTER', VIEWS_PATH . 'footer.php');
         define('POST_HEADER_LOGGED', VIEWS_PATH . 'header_logged_in.php'); // maybe redundant
+        // Database Properties, if these are is not used
+        // SOON
     }
 }

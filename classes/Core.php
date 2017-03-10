@@ -81,9 +81,9 @@ class Core extends Init
      * @param string $driver Database Driver. mysqli is default
      * @param string $charset Database Charset. utf8 is default and most compatible
      */
-    public static function connect_database($driver='mysql',$charset='utf8')
+    public static function connect_database($driver=DB_TYPE,$charset='utf8')
     {
-      $database = new Medoo([
+      $database_properties = [
         'database_type' => $driver,
         'database_name' => DB_NAME,
         'server' => DB_HOST,
@@ -97,7 +97,10 @@ class Core extends Init
         'option' => [ PDO::ATTR_CASE => PDO::CASE_NATURAL ],
         // [optional] Medoo will execute those commands after connected to the database for initialization. ERASE/EMPTY THIS IF YOU DON'T WANT THIS
         //'command' => [ 'SET SQL_MODE=ANSI_QUOTES' ]
-      ]);
+      ];
+      // SQLite Support
+      if ($driver=='sqlite') { $database_properties['database_file'] = DB_FILE; }
+      $database = new Medoo($database_properties); // ENGINE START!
     }
 
     /**
