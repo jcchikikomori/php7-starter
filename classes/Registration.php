@@ -46,7 +46,7 @@ class Registration extends Core
     public function getUserTypes()
     {
         // if no connection errors (= working database connection)
-        if (!$this->db_connection->connect_errno) {
+        if (empty($this->db_connection->errors)) {
             // check if user or email address already exists
             $sql = "SELECT * FROM user_types;";
             $query = $this->db_connection->query($sql);

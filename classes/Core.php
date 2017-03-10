@@ -101,6 +101,9 @@ class Core extends Init
       // SQLite Support
       if ($driver=='sqlite') { $database_properties['database_file'] = DB_FILE; }
       $database = new Medoo($database_properties); // ENGINE START!
+      // DB Errors within connection
+      $database->errors = (null!==$database->error() || !empty($database->error())) ? $database->error() : array();
+      return $database;
     }
 
     /**
