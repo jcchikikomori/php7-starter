@@ -54,7 +54,6 @@ Create your own. You may use my sample code available [here](https://gist.github
 `$ bower install`
 
 ## Known Issues
-* Prone to Injections (for mysqli)
 * Error Handling (hugely affects for API building)
 
 ## NEW IN VERSION 0.5! (Coming Soon)
