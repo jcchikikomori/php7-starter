@@ -5,6 +5,7 @@
 ### MyPHP ###
 config.php
 bower/
+*.db
 
 ### Bower ###
 bower_components
@@ -124,7 +125,7 @@ fabric.properties
 
 # *.iml
 # modules.xml
-# .idea/misc.xml 
+# .idea/misc.xml
 # *.ipr
 
 # Created by .ignore support plugin (hsz.mobi)
