@@ -15,7 +15,8 @@
         "phpmailer/phpmailer": "~5.2.7",
         "gregwar/captcha": "1.*",
         "league/oauth2-client": "^2.2",
-        "catfan/Medoo": "^1.2"
+        "catfan/Medoo": "^1.2",
+        "filp/whoops": "^2.1"
     },
     "scripts": {
         "post-autoload-dump": [
