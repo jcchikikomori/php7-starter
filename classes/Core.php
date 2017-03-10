@@ -91,7 +91,7 @@ class Core extends Init
         'password' => DB_PASS,
         'charset' => $charset,
         'port' => (defined(DB_PORT) && !empty(DB_PORT) ? DB_PORT : 3306), // if defined then use, else default
-        'prefix' => 'db_', // [optional] Table prefix, COMMENT THIS IF YOU DON'T WANT THIS
+        //'prefix' => 'db_', // [optional] Table prefix
         'socket' => '/tmp/mysql.sock', // [optional] MySQL socket (shouldn't be used with server and port), COMMENT THIS IF YOU DON'T WANT THIS
         // [optional] driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php ERASE/EMPTY THIS IF YOU DON'T WANT THIS
         'option' => [ PDO::ATTR_CASE => PDO::CASE_NATURAL ],
