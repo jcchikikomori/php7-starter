@@ -50,7 +50,7 @@ Why don't you try this one! It could be better for you! MyPHP!!
 NOTE: You can add more dependency by using `$ composer require author/dependency_name`
 ### Database Installation
 Create your own. You may use my sample code available [here](https://gist.github.com/jccultima123/5e10a6d9e549778eff40adb5a3556e4a)
-### Bower Installation [OPTIONAL] (bower.json sample provided.)
+### Bower Installation [OPTIONAL. bower.json sample provided.]
 `$ bower install`
 
 ## Known Issues
