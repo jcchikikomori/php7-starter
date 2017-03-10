@@ -12,12 +12,12 @@ class Init
         define('ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
         // checking for minimum PHP version
-        if (version_compare(PHP_VERSION, '5.3.7', '<') AND version_compare(PHP_VERSION, '5.6.23', '>')) {
+        if (version_compare(PHP_VERSION, '5.3.7', '<') AND version_compare(PHP_VERSION, '7', '>')) {
             exit("Sorry, This system does not run on a PHP version smaller than 5.3.7 and still unstable in ".PHP_VERSION);
         } else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
             // if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
             // (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
-            require_once(ROOT . "libraries/password_compatibility_library.php");
+            require_once(ROOT . "libraries/php5/password_compatibility_library.php");
         } else {
             // The Composer auto-loader (official way to load Composer contents) to load external stuff automatically
             $lib = ROOT.'vendor/autoload.php';
@@ -25,7 +25,8 @@ class Init
             if (file_exists($lib)) {
                 require $lib;
                 if (!file_exists($config)) {
-                    exit("File " . $config . " might be corrupted or missing.<br />Create a copy with config.php.example. ");
+                    //TODO: Bypass config and use default values instead then give a error feedback
+                    exit("File " . $config . " might be corrupted or missing.<br />Please create config.php manually with config.php.example. ");
                 } else {
                     require ROOT.'config.php';
                 }
