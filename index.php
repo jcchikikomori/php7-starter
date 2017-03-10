@@ -16,6 +16,8 @@ require_once("classes/Auth.php");
 $auth = new Auth();
 
 // collect feedbacks first
+// YOU CAN DO THIS AGAIN BEFORE $this-render
+// TODO: Collecting responses using view
 $core->collectResponse(array($auth)); // should be a array object (never include Core class)
 
 // Now put your own logic to render the page

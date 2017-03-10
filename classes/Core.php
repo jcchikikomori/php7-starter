@@ -35,8 +35,22 @@ class Core extends Init
         // 	echo 'Compatible';
         // }
 
+        //Dev properties
+        //TODO: Custom error pages/callbacks for deployed app
+        if (ENVIRONMENT == 'development') {
+            // whoops error reporting
+            $whoops = new \Whoops\Run;
+            $whoopsHandler = new \Whoops\Handler\PrettyPageHandler;
+            $this->errorReporting($whoops, $whoopsHandler);
+        }
+
         // load external libraries/classes by LOOP. have a look all the files in that directory for details.
         foreach (glob(LIBS_PATH . '*.php') as $files) { require $files; }
+        // if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
+        // (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
+        if (version_compare(PHP_VERSION, '5.5.0', '<')) {
+            require_once(ROOT . "libraries/php5/password_compatibility_library.php");
+        }
         // create/read session, absolutely necessary
         Session::init(); // or session_start();
     }
@@ -65,71 +79,56 @@ class Core extends Init
     /**
      * Database Connection
      * @param string $driver Database Driver. mysqli is default
+     * @param string $charset Database Charset. utf8 is default and most compatible
      */
-    public static function connect_database($driver='mysql')
+    public static function connect_database($driver='mysql',$charset='utf8')
     {
       $database = new Medoo([
-        // required
         'database_type' => $driver,
         'database_name' => DB_NAME,
         'server' => DB_HOST,
         'username' => DB_USER,
-        'password' => 'your_password',
-        'charset' => 'utf8',
-        'port' => 3306,
-        // [optional] Table prefix, COMMENT THIS IF YOU DON'T WANT THIS
-        'prefix' => 'db_',
-        // [optional] MySQL socket (shouldn't be used with server and port), COMMENT THIS IF YOU DON'T WANT THIS
-        'socket' => '/tmp/mysql.sock',
-        // [optional] driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php
-        // ERASE/EMPTY THIS IF YOU DON'T WANT THIS
-        'option' => [
-          PDO::ATTR_CASE => PDO::CASE_NATURAL
-        ],
-        // [optional] Medoo will execute those commands after connected to the database for initialization
-        // ERASE/EMPTY THIS IF YOU DON'T WANT THIS
-        'command' => [
-          'SET SQL_MODE=ANSI_QUOTES'
-        ]
+        'password' => DB_PASS,
+        'charset' => $charset,
+        'port' => (defined(DB_PORT) && !empty(DB_PORT) ? DB_PORT : 3306), // if defined then use, else default
+        'prefix' => 'db_', // [optional] Table prefix, COMMENT THIS IF YOU DON'T WANT THIS
+        'socket' => '/tmp/mysql.sock', // [optional] MySQL socket (shouldn't be used with server and port), COMMENT THIS IF YOU DON'T WANT THIS
+        // [optional] driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php ERASE/EMPTY THIS IF YOU DON'T WANT THIS
+        'option' => [ PDO::ATTR_CASE => PDO::CASE_NATURAL ],
+        // [optional] Medoo will execute those commands after connected to the database for initialization. ERASE/EMPTY THIS IF YOU DON'T WANT THIS
+        'command' => [ 'SET SQL_MODE=ANSI_QUOTES' ]
       ]);
-      /**
-        switch($driver) {
-            case 'mysql':
-            case 'mysqli':
-            default:
-                $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-                if ($db->connect_error) {
-                  // die();
-                  return false;
-                } else {
-                  if (!$db->set_charset("utf8")) {
-                    return false;
-                  } else {
-                    return $db; // will return DB connection as object
-                  }
-                }
-            break;
-            // PDO coming soon
-            case 'PDO':
-            case 'pdo':
-                return false;
-            break;
-            case 'V2':
-            case 'meedoo':
-            break;
-        }
-        */
     }
+
+    /**
+     * Using Whoops error reporting
+     */
+    public function errorReporting($instance, $handler) {
+        if (\Whoops\Util\Misc::isAjaxRequest()) {
+            $jsonHandler = new JsonResponseHandler();
+            $jsonHandler->addTraceToOutput(true);
+            $jsonHandler->setJsonApi(true);
+            $instance->pushHandler($jsonHandler); // and push it to the stack
+        } else { // normal
+            $instance->pushHandler($handler);
+        }
+        $instance->register(); //push to current stack
+    }
+
     /**
      * Collect Response based from class you've defined.
-     * @param array $classes Set of classes with set of feedbacks after execution
+     * @param array $classes Set of classes with set of feedback after execution
      */
-    public function collectResponse($classes = array())
+    public function collectResponse(array $classes)
     {
-        $response = array(); // set empty
+        $response = array();
         foreach($classes as $class) {
-          $response['errors'] = $class->errors;
-          $response['messages'] = $class->messages;
+            foreach($class->errors as $error) {
+                $response['errors'][] = $error;
+            }
+            foreach($class->messages as $message) {
+                $response['messages'][] = $message;
+            }
         }
         Session::set('response', $response); // fill me up
     }

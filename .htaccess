@@ -8,15 +8,11 @@ RewriteEngine On
 # Prevent people from looking directly into folders
 Options -Indexes
 
-# If the following conditions are true, then rewrite the URL:
-# If the requested filename is not a directory,
 RewriteCond %{REQUEST_FILENAME} !-d
-# and if the requested filename is not a regular file that exists,
 RewriteCond %{REQUEST_FILENAME} !-f
-
-# then rewrite the URL in the following way:
-# TODO: New rule for default page for error handling
-RewriteRule ^.*$ error.php [L]
+RewriteCond %{REQUEST_FILENAME} !-l
+# RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+# RewriteRule ^.*$ error.php [L]
 
 # Should work on virtual hosts
 ErrorDocument 400 /error.php

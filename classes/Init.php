@@ -7,17 +7,27 @@ class Init
 {
     public function __construct()
     {
+        /**
+         * Time Zones
+         * To see all current timezones, @see http://php.net/manual/en/timezones.php
+         */
+        date_default_timezone_set("Asia/Manila");
+        
+        /**
+         * Environment
+         * - define('ENVIRONMENT', 'development'); Enables Error Report and Debugging
+         * - define('ENVIRONMENT', 'release'); Disables Error Reporting for Performance
+         * - define('ENVIRONMENT', 'web'); For Webhosting (don't use if you are about to go development/offline)
+         */
+        if (!defined('ENVIRONMENT') && empty('ENVIRONMENT')) { define('ENVIRONMENT', 'release'); }
+
         // Reinitialize root directory
         // TODO: Not good for 'views' on some file systems & OS
         define('ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
         // checking for minimum PHP version
-        if (version_compare(PHP_VERSION, '5.3.7', '<') AND version_compare(PHP_VERSION, '7', '>')) {
+        if (version_compare(PHP_VERSION, '5.4.0', '<') AND version_compare(PHP_VERSION, '7', '>')) {
             exit("Sorry, This system does not run on a PHP version smaller than 5.3.7 and still unstable in ".PHP_VERSION);
-        } else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
-            // if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
-            // (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
-            require_once(ROOT . "libraries/php5/password_compatibility_library.php");
         } else {
             // The Composer auto-loader (official way to load Composer contents) to load external stuff automatically
             $lib = ROOT.'vendor/autoload.php';
@@ -39,21 +49,19 @@ class Init
          * Error reporting and User Configs
          * ER: Useful to show every little problem during development, but only show hard errors in production
          */
-        if (defined('ENVIRONMENT')) {
-            switch (ENVIRONMENT) {
-                case 'development':
-                    ini_set('display_errors', 1);
-                    error_reporting(E_ALL);
-                    break;
-                case 'web':
-                case 'release':
-                case 'maintenance':
-                // default:
-                    error_reporting(0);
-                    ini_set('display_errors', 0);
-                    break;
-            }
-        } else {
+        switch (ENVIRONMENT) {
+          case 'development':
+              ini_set('display_errors', 1);
+              error_reporting(E_ALL);
+              break;
+          case 'web':
+          case 'release':
+          case 'maintenance':
+          // default:
+            error_reporting(0);
+            ini_set('display_errors', 0);
+            break;
+          default:
             exit("The application environment is not set correctly.");
         }
 
