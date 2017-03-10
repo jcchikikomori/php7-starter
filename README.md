@@ -35,9 +35,8 @@ Why don't you try this one! It could be better for you! MyPHP!!
 ## Requirements
 * Apache-based web servers or any with .htaccess & RewriteEngine support
 * PHP 5.4 and up (PHP 7 Supported!)
-* MySQL 5 database (please use a modern version of MySQL (5.5, 5.6, 5.7) as very old versions have a exotic bug that
 [makes injections possible](http://stackoverflow.com/q/134099/1114320).
-* Activated mysqli (last letter is an "i") extension (activated by default on most server setups)
+* Supports MYSQL & SQLITE as well, if you are going to MySQL, it must be installed (version 5.6 and up) by the way.
 * [Composer](https://getcomposer.org) (PHP Dependency Manager, required for installing 3rd party class)
 * [NodeJS 1.10.*](https://nodejs.org) or at least stable and [Bower](http://bower.io) package manager (optional / if you don't want to use UI)
 
