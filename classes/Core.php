@@ -1,8 +1,12 @@
 <?php
 
-require_once('Init.php'); // require Init class!
+require_once('Core\Init.php'); // INIT
 
-use Medoo\Medoo; // Using Medoo namespace (NEW DB FRAMEWORK)
+// Required to do
+use Whoops\Handler\JsonResponseHandler as JSONErrorHandler;
+use Whoops\Handler\PrettyPageHandler as PrettyErrorHandler;
+use Whoops\Run as ErrorHandler;
+use Medoo\Medoo as DB; // Using Medoo namespace as DB
 
 /**
  * Core components
@@ -35,21 +39,12 @@ class Core extends Init
         // 	echo 'Compatible';
         // }
 
-        //Dev properties
-        //TODO: Custom error pages/callbacks for deployed app
+        // ERROR HANDLING USING WHOOPS
+        // TODO: Custom error pages/callbacks for deployed app
         if (ENVIRONMENT == 'development') {
-            // whoops error reporting
-            $whoops = new \Whoops\Run;
-            $whoopsHandler = new \Whoops\Handler\PrettyPageHandler;
-            $this->errorReporting($whoops, $whoopsHandler);
-        }
-
-        // load external libraries/classes by LOOP. have a look all the files in that directory for details.
-        foreach (glob(LIBS_PATH . '*.php') as $files) { require $files; }
-        // if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
-        // (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
-        if (version_compare(PHP_VERSION, '5.5.0', '<')) {
-            require_once(ROOT . "libraries/php5/password_compatibility_library.php");
+            $errorReporting = new ErrorHandler();
+            $errorHandler = new PrettyErrorHandler();
+            $this->errorReporting($errorReporting, $errorHandler);
         }
         // create/read session, absolutely necessary
         Session::init(); // or session_start();
@@ -100,7 +95,7 @@ class Core extends Init
       ];
       // SQLite Support
       if ($driver=='sqlite') { $database_properties['database_file'] = DB_FILE; }
-      $database = new Medoo($database_properties); // ENGINE START!
+      $database = new DB($database_properties); // DB START!
       // DB Errors within connection
       $database->errors = (null!==$database->error() || !empty($database->error())) ? $database->error() : array();
       return $database;

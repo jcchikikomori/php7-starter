@@ -20,7 +20,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "php -r \"file_exists('config.php') || copy('config.php.example', 'config.php');\""
+            "php -r \"file_exists('configs/system.php') || copy('configs/system.php.example', 'configs/system.php');\""
         ]
     }
 }
