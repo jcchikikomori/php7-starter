@@ -29,16 +29,6 @@ class Core extends Init
     {
         parent::__construct();
 
-        // Composer plugin test
-        // You can use this if you want.
-        // $browser = new Browser(); // Browser() from composer
-        // echo $browser;
-        // if (($browser->getBrowser() == Browser::BROWSER_CHROME && $browser->getVersion() <= 30)) {
-        //     echo 'Not Compatible!';
-        // } else {
-        // 	echo 'Compatible';
-        // }
-
         // ERROR HANDLING USING WHOOPS
         // TODO: Custom error pages/callbacks for deployed app
         if (ENVIRONMENT == 'development') {
