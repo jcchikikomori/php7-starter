@@ -29,6 +29,7 @@ class Registration extends Core
         // parent::__construct();
 
         $this->db_connection = Core::connect_database();
+        // print_r($this->db_connection->debug()->select("user_types", '*')); die(); // DB debug
 
         if (isset($_POST["register"])) {
             $this->registerNewUser();

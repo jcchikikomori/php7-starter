@@ -4,6 +4,7 @@
 
 ### MyPHP ###
 config.php
+configs/*.php
 bower/
 *.db
 
