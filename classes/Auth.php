@@ -45,50 +45,54 @@ class Auth extends Core
      */
     private function doLogin()
     {
-        // check login form contents
-        if (empty($_POST['user_name'])) {
-            $this->errors[] = "Username field was empty.";
-        } elseif (empty($_POST['user_password'])) {
-            $this->errors[] = "Password field was empty.";
-        } elseif (!empty($_POST['user_name']) && !empty($_POST['user_password'])) {
-            // if no connection errors (= working database connection)
-            if (!$this->db_connection->connect_errno) {
-                // escape the POST stuff
-                $user_name = $this->db_connection->real_escape_string($_POST['user_name']);
-                $user_password = $this->db_connection->real_escape_string($_POST['user_password']);
-                // database query, getting all the info of the selected user
-                $sql = "SELECT * FROM users
-                        WHERE user_name = '" . $user_name . "';";
-                $result_of_login_check = $this->db_connection->query($sql);
-                // if this user exists
-                if ($result_of_login_check->num_rows == 1) {
-                    // get result row (as an object)
-                    $result_row = $result_of_login_check->fetch_object();
-                    // using PHP 5.5's password_verify() function to check if the provided password fits
-                    // the hash of that user's password
-                    if (password_verify($user_password, $result_row->user_password)) {
-                        // write user data into PHP SESSION (a file on your server)
-                        // $_SESSION['user_name'] = $result_row->user_name; // example
-                        Session::set_user('user_id', $result_row->user_id);
-                        Session::set_user('user_name', $result_row->user_name);
-                        Session::set_user('user_email', $result_row->user_email);
-                        Session::set_user('first_name', $result_row->first_name);
-                        Session::set_user('last_name', $result_row->last_name);
-                        Session::set_user('user_logged_in', true);
-                        Session::set_user('user_logged_in_as', $result_row->user_account_type);
-                        // Session::set_user('type_description', $result_row->user_type_description);
-                        Session::set_user('type_description', $result_row->user_account_type);
-                        // Session::set_user('user_provider', $result_row->user_provider_type);
-                    } else {
-                        $this->errors[] = "Wrong password. Try again.";
-                    }
-                } else {
-                    $this->errors[] = "This user does not exist.";
-                }
+      // check login form contents
+      if (empty($_POST['user_name'])) {
+        $this->errors[] = "Username field was empty.";
+      } elseif (empty($_POST['user_password'])) {
+        $this->errors[] = "Password field was empty.";
+      } elseif (!empty($_POST['user_name']) && !empty($_POST['user_password'])) {
+        // escape the POST stuff
+        $user_name = strip_tags($_POST['user_name']);
+        $user_password = strip_tags($_POST['user_password']);
+        // database query, getting all the info of the selected user
+        // $sql = "SELECT * FROM users
+        //         WHERE user_name = '" . $user_name . "';";
+        // $result_of_login_check = $this->db_connection->query($sql);
+        $result_of_login_check = $this->db_connection->count("users", [
+          // TODO: using OR condition for username/email
+          "user_name" => $user_name
+        ]);
+        // if this user exists
+        if ($result_of_login_check == 1) {
+            // get result row (as an object)
+            // NOTE: we are really gonna use arrays. In PHP 5.4+, array is like this [], others are old array()
+            $result_row = $this->db_connection->get("users", [
+              //COLUMNS
+              'user_id', 'user_name', 'user_email', 'user_password',
+              'first_name', 'last_name', 'user_account_type'
+            ], [
+              // CONDITIONS
+            	'user_name' => $user_name
+            ]);
+            // using PHP 5.5's password_verify() function to check if the provided password fits
+            // the hash of that user's password
+            if (password_verify($user_password, $result_row['user_password'])) {
+                // write user data into PHP SESSION (a file on your server)
+                // $_SESSION['user_name'] = $result_row->user_name; // example
+                Session::set_user('user_id', $result_row['user_id']);
+                Session::set_user('user_name', $result_row['user_name']);
+                Session::set_user('user_email', $result_row['user_email']);
+                Session::set_user('first_name', $result_row['first_name']);
+                Session::set_user('last_name', $result_row['last_name']);
+                Session::set_user('user_logged_in', true);
+                Session::set_user('user_logged_in_as', $result_row['user_account_type']);
             } else {
-                $this->errors[] = "Database connection problem.";
+                $this->errors[] = "Wrong password. Try again.";
             }
+        } else {
+            $this->errors[] = "This user does not exist.";
         }
+      }
     }
     /**
      * perform the logout

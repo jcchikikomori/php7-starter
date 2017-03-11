@@ -45,19 +45,7 @@ class Registration extends Core
 
     public function getUserTypes()
     {
-        // if no connection errors (= working database connection)
-        if (empty($this->db_connection->errors)) {
-            // check if user or email address already exists
-            $sql = "SELECT * FROM user_types;";
-            $query = $this->db_connection->query($sql);
-            if (!$query->num_rows) {
-                $this->errors[] = "None.";
-            } else {
-                return $query->fetch_all(MYSQLI_ASSOC);
-            }
-        } else {
-            $this->errors[] = "Sorry, no database connection.";
-        }
+      return $this->db_connection->select("user_types", '*');
     }
 
     /**
@@ -84,70 +72,55 @@ class Registration extends Core
             $this->errors[] = "Email cannot be longer than 64 characters";
         } elseif (!filter_var($_POST['user_email'], FILTER_VALIDATE_EMAIL)) {
             $this->errors[] = "Your email address is not in a valid email format";
-        } elseif (!empty($_POST['user_name'])
-            && strlen($_POST['user_name']) <= 64
-            && strlen($_POST['user_name']) >= 2
-            && preg_match('/^[a-z\d]{2,64}$/i', $_POST['user_name'])
-            && !empty($_POST['user_email'])
-            && strlen($_POST['user_email']) <= 64
-            && filter_var($_POST['user_email'], FILTER_VALIDATE_EMAIL)
-            && !empty($_POST['user_password_new'])
-            && !empty($_POST['user_password_repeat'])
-            && ($_POST['user_password_new'] === $_POST['user_password_repeat'])
-        ) {
-            // create a database connection
-            // $this->db_connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-            // // change character set to utf8 and check it
-            // if (!$this->db_connection->set_charset("utf8")) {
-            //     $this->errors[] = $this->db_connection->error;
-            // }
-
-            // // if no connection errors (= working database connection)
-            // if (!$this->db_connection->connect_errno) {
-
-                // escaping, additionally removing everything that could be (html/javascript-) code
-                $user_name = $this->db_connection->real_escape_string(strip_tags($_POST['user_name'], ENT_QUOTES));
-                $first_name = $this->db_connection->real_escape_string(strip_tags($_POST['first_name'], ENT_QUOTES));
-                $middle_name = $this->db_connection->real_escape_string(strip_tags($_POST['middle_name'], ENT_QUOTES));
-                $last_name = $this->db_connection->real_escape_string(strip_tags($_POST['last_name'], ENT_QUOTES));
-                $user_type = $this->db_connection->real_escape_string(strip_tags($_POST['user_type'], ENT_QUOTES));
-                $user_email = $this->db_connection->real_escape_string(strip_tags($_POST['user_email'], ENT_QUOTES));
-
-                $user_password = $_POST['user_password_new'];
-
-                // crypt the user's password with PHP 5.5's password_hash() function, results in a 60 character
-                // hash string. the PASSWORD_DEFAULT constant is defined by the PHP 5.5, or if you are using
-                // PHP 5.3/5.4, by the password hashing compatibility library
-                $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT);
-
-                // check if user or email address already exists
-                $sql = "SELECT * FROM users WHERE user_name = '" . $user_name . "' OR user_email = '" . $user_email . "';";
-                $query_check_user_name = $this->db_connection->query($sql);
-
-                if ($query_check_user_name->num_rows == 1) {
-                    $this->errors[] = "Sorry, that username / email address is already taken.";
-                } else {
-                    // write new user's data into database
-                    $sql = "INSERT INTO users (user_name, first_name, middle_name, last_name, user_account_type, user_password, user_email)
-                            VALUES('" . $user_name . "', '" . $first_name . "', '" . $middle_name . "', '" . $last_name . "', '" . $user_type . "', '" . $user_password_hash . "', '" . $user_email . "');";
-                    $query_new_user_insert = $this->db_connection->query($sql);
-
-                    // if user has been added successfully
-                    if ($query_new_user_insert) {
-                        $this->messages[] = "Your account has been created successfully. You can now log in.";
-                    } else {
-                        $this->errors[] = "Sorry, your registration failed. Please go back and try again.";
-                        // $this->errors[] = $this->db_connection->info;
-                        // $this->errors[] = $sql;
-                    }
-                }
-
-            // } else {
-            //     $this->errors[] = "Sorry, no database connection.";
-            // }
         } else {
-            $this->errors[] = "An unknown error occurred.";
+            // TODO: Medoo Injection tests
+            $user_name = strip_tags($_POST['user_name'], ENT_QUOTES);
+            $first_name = strip_tags($_POST['first_name'], ENT_QUOTES);
+            $middle_name = strip_tags($_POST['middle_name'], ENT_QUOTES);
+            $last_name = strip_tags($_POST['last_name'], ENT_QUOTES);
+            $user_type = strip_tags($_POST['user_type'], ENT_QUOTES);
+            $user_email = strip_tags($_POST['user_email'], ENT_QUOTES);
+            // we're not gonna escape this as long as browsers already recognized this kind of field like password
+            $user_password = $_POST['user_password_new'];
+            // crypt the user's password with PHP 5.5's password_hash() function, results in a 60 character
+            // hash string. the PASSWORD_DEFAULT constant is defined by the PHP 5.5, or if you are using
+            // PHP 5.3/5.4, by the password hashing compatibility library
+            $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT);
+            /**
+             * check if user or email address already exists
+             * GONNA USE MEDOO TO MAKE THIS EASY. USING COUNT TO CHECK IF WE HAVE USER LIKE THIS
+             * @link http://medoo.in/api/where, http://medoo.in/api/count
+             */
+            $user_check_count = $this->db_connection->count("users", [
+                "OR" => [
+              		"user_name" => $user_name,
+              		"user_email" => $user_email
+              	]
+            ]);
+            // COMPARED TO THIS
+            //$sql = "SELECT * FROM users WHERE user_name = '" . $user_name . "' OR user_email = '" . $user_email . "';";
+            //$query_check_user_name = $this->db_connection->query($sql);
+            if ($user_check_count > 0) {
+                $this->errors[] = "Sorry, that username / email address is already taken.";
+            } else {
+                // write new user's data into database
+                $this->db_connection->insert("users", [
+                  "user_name" => $user_name,
+                  "first_name" => $first_name,
+                  "middle_name" => $middle_name,
+                  "last_name" => $last_name,
+                  "user_account_type" => $user_type,
+                  "user_password" => $user_password_hash,
+                  "user_email" => $user_email
+                ]);
+                // The good thing in Medoo is, you can check last actions like check for errors, etc.
+                // after insertion, we're gonna verify if the new user is created in DB
+                if (!empty($this->db_connection->id())) {
+                  $this->messages[] = "Your account has been created successfully. You can now log in.";
+                } else {
+                  $this->errors[] = "Sorry, your registration failed. Please go back and try again.";
+                }
+            }
         }
     }
 }
