@@ -19,8 +19,8 @@ Why don't you try this one! It could be better for you! MyPHP!!
 * Bug-free? (Unless your project is sophisticated)
 * Almost all basic functions already here!
 * Can do Hello World, of course!
-* Using Medoo for more easier database handling [NEW]
-* Using Whoops for more sassy error reporting [NEW]
+* Using Medoo for more easier database handling (called DB in Core)
+* Using Whoops for more sassy error reporting (using ErrorHandler and PrettyErrorHandler in Core)
 
 ## Additonal Features
 * You can build a function for email using Composer or load your PHP-compatible Mail library in libraries/ dir
@@ -28,7 +28,7 @@ Why don't you try this one! It could be better for you! MyPHP!!
 * NodeJS ready!! (Managing 3rd party web dependencies. Recommended: Bower)
 * You can use Bower for load public dependencies such as Bootstrap, JQuery or maybe Foundation too! (You can ignore this if you prefer CDNs)
 * Currently using [SB-Admin 2](http://startbootstrap.com/template-overviews/sb-admin-2/) front-end template. You can replace them easily with bower! (Don't forget to check Headers & Footers!)
-* .example files might help you handle 3rd-party assets (config.php is included in Installation)
+* .example files might help you in your development!
 
 ### This is not recommended for very very large projects, you may use this on your small projects like a portfolio website or test your skills, etc.
 
@@ -59,17 +59,17 @@ Create your own. You may use my sample code available [here](https://gist.github
 * Email Service
 * Forgot Password System
 * Error Handling with .htaccess
-* Using JSON formats for new API class (for JWT, Android, etc.)
+* Using JSON formats for new API class (for OAuth, Android, etc.)
 * One-way installation script (compatible with Heroku)
 
 ## Contribute Us
 Contribute here, fork and submit your pull requests to us!
 
 ## Credits
-* Some codes are done from [panique](https://github.com/panique)-sensei! Thanks to him
+* Some codes are done and credited to [panique](https://github.com/panique)-kun! Arigato!!
 
 ## Notice
-* Don't confuse with CodeIgniter. It's still different though.
+* Don't confuse with CodeIgniter & CakePHP. It's still different though.
 * This script comes with a handy .htaccess in the views folder that denies direct access to the files within the folder (so that people cannot render the views directly). However, these .htaccess files only work if you have set
 `AllowOverride` to `All` in your apache vhost configs. There are lots of tutorials on the web on how to do this.
 
