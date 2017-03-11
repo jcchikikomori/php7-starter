@@ -48,12 +48,10 @@ class Init
             if (file_exists($composer)) {
                 require $composer;
                 if (!file_exists($config)) {
-                    //TODO: Bypass config and use default values instead then give a error feedback
                     exit("File " . $config . " might be corrupted or missing.<br />Please create configs/system.php manually with configs/system.php.example. ");
                 } else {
-                    require $config;
-                    //LOAD OTHER CONFIGS ON config directory
-                    foreach (glob(CONF_PATH . '*.php') as $files) { require $files; }
+                    //LOAD ALL CONFIGS ON configs directory
+                    foreach (glob(CONF_PATH . '*.php') as $configs) { require $configs; }
                 }
             } else {
                 exit("The COMPOSER file " . $composer . " might be corrupted or missing.");
