@@ -3,6 +3,7 @@
 require_once('Core\Init.php'); // INIT
 
 // Required to do
+use Jenssegers\Agent\Agent as UserAgent;
 use Whoops\Handler\JsonResponseHandler as JSONErrorHandler;
 use Whoops\Handler\PrettyPageHandler as PrettyErrorHandler;
 use Whoops\Run as ErrorHandler;
@@ -89,6 +90,11 @@ class Core extends Init
       // DB Errors within connection
       $database->errors = (null!==$database->error() || !empty($database->error())) ? $database->error() : array();
       return $database;
+    }
+
+    public static function REST()
+    {
+
     }
 
     /**
