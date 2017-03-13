@@ -1,23 +1,15 @@
-# MyPHP Plus ("Plus", 'coz not only PHP!)
-## Version 0.3
-
-## Introduction
-The easiest and better way to learn PHP!
-Hard building up foundation for your web development? Want to build up with Laravel soon but you don't know PHP?
-Why don't you try this one! It could be better for you! MyPHP!!
+# MyPHP
+The easiest and better way to learn PHP! Good for prototyping your app.
+Want to build your own app soon, but you don't know PHP?
+You also don't know about these frameworks like Laravel, Cake, Slim, etc.?
+Why don't you try this one? MyPHP!!
 
 ## Features
-* The difference is, this is structured (unlike building your own from scratch) to lessen maintenance, and errors
 * Quite but less modular but still easier for newbies, baby!
 * Using the modern and official PHP password hashing functions!
 * OOP Structured Codebase
-* Can do login & register
-* Can do CRUD Functions
-* Can do Paginations
-* Can load external libraries like Composer & Bower
-* Documented and plenty of comments inside!
-* Bug-free? (Unless your project is sophisticated)
-* Almost all basic functions already here!
+* Can do CRUD, Login/Register, Pagination, & REST
+* Quite Documented and plenty of comments inside!
 * Can do Hello World, of course!
 * Using Medoo for more easier database handling (called DB in Core)
 * Using Whoops for more sassy error reporting (using ErrorHandler and PrettyErrorHandler in Core)
@@ -30,32 +22,26 @@ Why don't you try this one! It could be better for you! MyPHP!!
 * Currently using [SB-Admin 2](http://startbootstrap.com/template-overviews/sb-admin-2/) front-end template. You can replace them easily with bower! (Don't forget to check Headers & Footers!)
 * .example files might help you in your development!
 
-### This is not recommended for very very large projects, you may use this on your small projects like a portfolio website or test your skills, etc.
+### This is not recommended for very large projects
+### You may use this on your small projects or test your skills, etc.
 
 ## Requirements
 * Apache-based web servers or any with .htaccess & RewriteEngine support
-* PHP 5.4 and up (PHP 7 Supported!)
-[makes injections possible](http://stackoverflow.com/q/134099/1114320).
+* PHP 5.4 and up until PHP 7!
 * Supports MYSQL & SQLITE as well, if you are going to MySQL, it must be installed (version 5.6 and up) by the way.
-* [Composer](https://getcomposer.org) (PHP Dependency Manager, required for installing 3rd party class)
-* [NodeJS 1.10.*](https://nodejs.org) or at least stable and [Bower](http://bower.io) package manager (optional / if you don't want to use UI)
+* [Composer](https://getcomposer.org) (PHP Dependency Manager, required and it's available even for Windows with XAMPP, or WAMPS!)
 
 ## Installation
-<!-- ### One-way installation script coming soon! -->
-<!-- Do these commands (Currently Linux command but you can do this on Windows) -->
-<!-- `$ cp config.php.example config.php` -->
 ### One-way using Composer [REQUIRED]
 `$ composer install`
 NOTE: You can add more dependency by using `$ composer require author/dependency_name`
 ### Database Installation
 Create your own. You may use my sample code available [here](https://gist.github.com/jccultima123/5e10a6d9e549778eff40adb5a3556e4a)
-### Bower Installation [OPTIONAL. bower.json sample provided.]
-`$ bower install`
 
 ## Known Issues
 * Error Handling (hugely affects for API building)
 
-## NEW IN VERSION 0.5! (Coming Soon)
+## Coming Soon!
 * Email Service
 * Forgot Password System
 * Error Handling with .htaccess
