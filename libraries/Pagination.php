@@ -20,12 +20,12 @@ class Pagination {
      * @param $limit    Row limit
      * @param $rows     Total rows
      */
-    function __construct($id = STARTING_PAGE, $limit = NULL, $rows = NULL)
+    function __construct($id, $limit = NULL, $rows = NULL)
     {
         //init vars
-        $this->id = (!isset($id)) ? STARTING_PAGE : $id;
-        $this->start = STARTING_PAGE;
-        $this->limit = (!empty($limit)) ? $limit : ITEM_PER_PAGE;
+        $this->id = (!isset($id)) ? $id : 1;
+        $this->start = 1;
+        $this->limit = (!empty($limit)) ? $limit : 10; // items per page
 
         $this->paginate($this->id, $this->start, $this->limit);
     }
