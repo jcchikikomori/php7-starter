@@ -2,8 +2,6 @@
 
 # REQUIRES ELEVATED ACCESS!! Execute this in sudo mode
 
-# fixing annoying git config permissions
-chown $USER.$GROUP -R /home/$USER/.config
 # updating
 apt-get update
 # setup for incorrect charsets
@@ -42,3 +40,5 @@ node -v
 bower -v
 echo ""
 echo "Installation done!"
+# FIX THIS AFTER SUDO MODE INSTALL
+chown $USER.$GROUP -R /home/$USER/.config
