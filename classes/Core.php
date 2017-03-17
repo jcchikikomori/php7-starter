@@ -68,6 +68,7 @@ class Core extends Init
         // print_r($agent->getHttpHeaders()); // use this for browser/device check & other headers
         if ($agent->getHttpHeader('HTTP_POSTMAN_TOKEN') && $agent->browser('Chrome')) {
             Session::set('POSTMAN_REST_API', true);
+            $this->setForJsonObject(true);
             // print_r($agent->getRules()); check all devices
         }
     }

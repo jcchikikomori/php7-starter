@@ -31,6 +31,8 @@ class Registration extends Core
         $this->db_connection = Core::connect_database();
         // print_r($this->db_connection->debug()->select("user_types", '*')); die(); // DB debug
 
+        // print_r($_POST); die();
+
         if (isset($_POST["register"])) {
             $this->registerNewUser();
         } else {
@@ -120,6 +122,14 @@ class Registration extends Core
                 } else {
                   $this->errors[] = "Sorry, your registration failed. Please go back and try again.";
                 }
+            }
+            if (Session::get('REST_API')) { // was true?
+                // sample format without any data (blank array)
+                $response = array(
+                    'messages'=>$this->messages,
+                    'errors'=>$this->errors
+                );
+                return JSON::encodeREST(array(), $response);
             }
         }
     }
