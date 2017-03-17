@@ -1,6 +1,6 @@
 <?php
 
-require_once('Core\Init.php'); // INIT
+require_once('Init.php'); // INIT
 
 // Required to do
 use Jenssegers\Agent\Agent as UserAgent;
