@@ -26,7 +26,7 @@ bower install --allow-root
 echo "Disabling PHP5 on server"
 a2dismod php5
 echo "Installing required softwares.."
-apt-get install -y php php7.0-gd php7.0-mbstring php7.0-sqlite php7.0-mysql libapache2-mod-php
+apt-get install -y php7.0-gd php7.0-mbstring php7.0-sqlite php7.0-mysql libapache2-mod-php7.0
 echo "Activating PHP7 on server"
 a2enmod php7.0
 # restarting server
