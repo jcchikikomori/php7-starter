@@ -80,4 +80,8 @@ class Session
         unset($_SESSION['users'][$key]);
     }
 
+    public static function REST_ACTIVE_TEST() {
+        return self::get('REST_API'); // or $_SESSION['REST_API']
+    }
+
 }

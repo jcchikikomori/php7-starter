@@ -23,6 +23,18 @@ class Core extends Init
      */
     public $db_connection = null;
     /**
+     * @var array Collection of error messages
+     */
+    public $errors = array();
+    /**
+     * @var array Collection of success / neutral messages
+     */
+    public $messages = array();
+    /**
+     * @var bool $for_json_object Identifier if we gonna load data to json only or not
+     */
+    public $for_json_object = false;
+    /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
      * you know, when you do "$login = new Login();"
      */
@@ -39,6 +51,25 @@ class Core extends Init
         }
         // create/read session, absolutely necessary
         Session::init(); // or session_start();
+
+        // initialize user agent
+        $agent = new UserAgent();
+
+        // =============== THE REST ARE TESTS ================
+
+        // detect if using mobile
+        if(!isset($_SESSION['isMobile'])){ $_SESSION['isMobile'] = $agent->isMobile(); }
+        if($_SESSION['isMobile']) { // you can use the better `Session::get('isMobile')`
+            $this->messages[] = "You are browsing using mobile!";
+        }
+
+        // REST API TEST. TODO: Must save this as a session
+        // Requires POSTMAN for Chrome
+        // print_r($agent->getHttpHeaders()); // use this for browser/device check & other headers
+        if ($agent->getHttpHeader('HTTP_POSTMAN_TOKEN') && $agent->browser('Chrome')) {
+            Session::set('POSTMAN_REST_API', true);
+            // print_r($agent->getRules()); check all devices
+        }
     }
     /**
      * Rendering views
@@ -96,6 +127,8 @@ class Core extends Init
 
     /**
      * Using Whoops error reporting
+     * @param $instance
+     * @param $handler
      */
     public function errorReporting($instance, $handler) {
         if (\Whoops\Util\Misc::isAjaxRequest()) {
@@ -112,10 +145,11 @@ class Core extends Init
     /**
      * Collect Response based from class you've defined.
      * @param array $classes Set of classes with set of feedback after execution
+     * @param bool $reset Reset response (BETA! set this as true if it's the last one)
      */
-    public function collectResponse(array $classes)
+    public function collectResponse(array $classes, $reset=true)
     {
-        $response = array();
+        $response = $reset ? array() : Session::get('response');
         foreach($classes as $class) {
             foreach($class->errors as $error) {
                 $response['errors'][] = $error;
@@ -125,5 +159,24 @@ class Core extends Init
             }
         }
         Session::set('response', $response); // fill me up
+    }
+
+    /**
+     * @return bool
+     */
+    public function isForJsonObject()
+    {
+        return $this->for_json_object;
+    }
+
+    /**
+     * @param bool $for_json_object
+     */
+    public function setForJsonObject($for_json_object)
+    {
+        $this->for_json_object = $for_json_object;
+        if ($for_json_object) {
+            header("Content-Type: application/json");
+        }
     }
 }

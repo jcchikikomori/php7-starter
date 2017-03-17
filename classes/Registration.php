@@ -74,7 +74,6 @@ class Registration extends Core
         } elseif (!filter_var($_POST['user_email'], FILTER_VALIDATE_EMAIL)) {
             $this->errors[] = "Your email address is not in a valid email format";
         } else {
-            // TODO: Medoo Injection tests
             $user_name = strip_tags($_POST['user_name'], ENT_QUOTES);
             $first_name = strip_tags($_POST['first_name'], ENT_QUOTES);
             $middle_name = strip_tags($_POST['middle_name'], ENT_QUOTES);
@@ -88,7 +87,7 @@ class Registration extends Core
             // PHP 5.3/5.4, by the password hashing compatibility library
             $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT);
             /**
-             * check if user or email address already exists
+             * Check if user or email address already exists
              * GONNA USE MEDOO TO MAKE THIS EASY. USING COUNT TO CHECK IF WE HAVE USER LIKE THIS
              * @link http://medoo.in/api/where, http://medoo.in/api/count
              */
