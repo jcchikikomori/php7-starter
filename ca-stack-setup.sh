@@ -2,6 +2,8 @@
 
 # REQUIRES ELEVATED ACCESS!! Execute this in sudo mode
 
+# fixing annoying git config permissions
+chown $USER.$GROUP -R /home/$USER/.config
 # updating
 apt-get update
 # setup for incorrect charsets
@@ -19,11 +21,12 @@ echo "Installing PHP 7 CLI"
 apt-get install -y php7.0
 echo "Installing MyPHP"
 composer self-update
-bower install
-echo "Installing required softwares.."
-apt-get install -y php php7.0-gd php7.0-mbstring php7.0-sqlite php7.0-mysql libapache2-mod-php
+echo "Please manually install vendors by command 'composer install' ..."
+bower install --allow-root
 echo "Disabling PHP5 on server"
 a2dismod php5
+echo "Installing required softwares.."
+apt-get install -y php php7.0-gd php7.0-mbstring php7.0-sqlite php7.0-mysql libapache2-mod-php
 echo "Activating PHP7 on server"
 a2enmod php7.0
 # restarting server
