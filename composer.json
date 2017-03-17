@@ -21,7 +21,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "php -r \"file_exists('configs/system.php') || copy('configs/system.php.example', 'configs/system.php');\""
+            "php -r \"file_exists('configs/system.php') || copy('configs/system.php.example', 'configs/system.php'); file_exists('configs/database.php') || copy('configs/database.php.example', 'configs/database.php');\""
         ]
     }
 }
