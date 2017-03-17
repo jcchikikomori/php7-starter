@@ -92,11 +92,6 @@ class Core extends Init
       return $database;
     }
 
-    public static function REST()
-    {
-
-    }
-
     /**
      * Using Whoops error reporting
      */
