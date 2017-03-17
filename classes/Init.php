@@ -51,7 +51,7 @@ class Init
                     exit("File " . $config . " might be corrupted or missing.<br />Please create configs/system.php manually with configs/system.php.example. ");
                 } else {
                     //LOAD ALL CONFIGS ON configs directory
-                    foreach (glob(CONF_PATH . '*.php') as $configs) { require $configs; }
+                    foreach (glob(CONF_PATH . '*.php') as $configs) { include_once($configs); }
                 }
             } else {
                 exit("The COMPOSER file " . $composer . " might be corrupted or missing.");

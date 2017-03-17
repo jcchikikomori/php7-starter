@@ -62,10 +62,12 @@ class Core extends Init
         break;
       }
     }
+
     /**
      * Database Connection
      * @param string $driver Database Driver. mysqli is default
      * @param string $charset Database Charset. utf8 is default and most compatible
+     * @return DB
      */
     public static function connect_database($driver=DB_TYPE,$charset='utf8')
     {
