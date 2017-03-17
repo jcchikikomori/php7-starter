@@ -1,7 +1,6 @@
 # MyPHP
 The easiest and better way to learn PHP! Good for prototyping your app.
-Want to build your own app soon, but you don't know PHP?
-You also don't know about these frameworks like Laravel, Cake, Slim, etc.?
+Want to build your own app soon, but you don't know PHP? And also getting to know frameworks which is frustrating & overwhelming to learn?
 Why don't you try this one? MyPHP!!
 
 ## Features
@@ -52,19 +51,12 @@ Create your own. You may use my sample code available [here](https://gist.github
 Contribute here, fork and submit your pull requests to us!
 
 ## Credits
-* Some codes are done and credited to [panique](https://github.com/panique)-kun! Arigato!!
+* Some codes are done and credited to [panique](https://github.com/panique)-kun! Follow him also and.. Arigatou!!
 
 ## Notice
-* Don't confuse with CodeIgniter & CakePHP. It's still different though.
+* Don't confuse with PHP frameworks like CodeIgniter & CakePHP. It's still different though.
 * This script comes with a handy .htaccess in the views folder that denies direct access to the files within the folder (so that people cannot render the views directly). However, these .htaccess files only work if you have set
 `AllowOverride` to `All` in your apache vhost configs. There are lots of tutorials on the web on how to do this.
-
-## Useful links (thanks to panique)
-* [A little guideline on how to use the PHP 5.5 password hashing functions and its "library plugin" based PHP 5.3 & 5.4 implementation](http://www.dev-metal.com/use-php-5-5-password-hashing-functions/)
-* [How to setup latest version of PHP 5.5 on Ubuntu 12.04 LTS](http://www.dev-metal.com/how-to-setup-latest-version-of-php-5-5-on-ubuntu-12-04-lts/). Same for Debian 7.0 / 7.1:
-* [How to setup latest version of PHP 5.5 on Debian Wheezy 7.0/7.1 (and how to fix the GPG key error)](http://www.dev-metal.com/setup-latest-version-php-5-5-debian-wheezy-7-07-1-fix-gpg-key-error/)
-* [Notes on password & hashing salting in upcoming PHP versions (PHP 5.5.x & 5.6 etc.)](https://github.com/panique/php-login/wiki/Notes-on-password-&-hashing-salting-in-upcoming-PHP-versions-%28PHP-5.5.x-&-5.6-etc.%29)
-* [Some basic "benchmarks" of all PHP hash/salt algorithms](https://github.com/panique/php-login/wiki/Which-hashing-&-salting-algorithm-should-be-used-%3F)
 
 ## License
 Licensed under [MIT](http://www.opensource.org/licenses/mit-license.php). You can use this script for free for any
