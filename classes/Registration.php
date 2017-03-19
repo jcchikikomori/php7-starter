@@ -135,7 +135,7 @@ class Registration extends Core
             $this->setLayouts(false);
             // EXAMPLE HERE
             echo JSON::encode([
-                'status'=>$this->status, // TODO: Is this a bug??
+                'status'=>$this->status,
                 'errors'=>$this->errors,
                 'messages'=>$this->messages
                 //other_stuffs,

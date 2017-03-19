@@ -30,13 +30,6 @@ $core->collectResponse(array($core, $auth)); // should be a array object (never 
 /**
  * The instantiated class variables are we going to use
  */
-// JSON TEST
-if ($core->isForJsonObject()) {
-    echo JSON::encode(array(), [
-        // your response!
-        'success', 'Welcome to MyPHP API'
-    ]);
-}
 // NORMAL VIEW
 if ($auth->isUserLoggedIn()) { // if user logged in (using Auth class)
 	$core->render("logged_in.php"); // use Core class to render

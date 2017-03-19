@@ -19,18 +19,27 @@ class Auth extends Core
      */
     public $messages = array();
     /**
+     * For JSON
+     * @var string $status
+     */
+    public $status;
+    /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
      * you know, when you do "$login = new Login();"
      */
     public function __construct()
     {
+        parent::__construct(); // Load Core constructor
+
         $this->db_connection = Core::connect_database(); // if this class needed a database connection, use this line
+
         // $this->messages[] = "Auth class is saying that your database server is working. You can remove me inside.."; // TRY THIS OUT
         // check the possible login actions:
         // if user tried to log out (happen when user clicks logout button)
         if (isset($_GET["logout"])) {
             $this->doLogout();
         }
+
         // login via post data (if user just submitted a login form)
         elseif (isset($_POST["login"])) {
             $this->doLogin();
@@ -85,11 +94,15 @@ class Auth extends Core
                 Session::set_user('last_name', $result_row['last_name']);
                 Session::set_user('user_logged_in', true);
                 Session::set_user('user_logged_in_as', $result_row['user_account_type']);
+                $this->messages[] = "Logged In!";
+                $this->status = 'success';
             } else {
                 $this->errors[] = "Wrong password. Try again.";
+                $this->status = 'wrong_password';
             }
         } else {
             $this->errors[] = "This user does not exist.";
+            $this->status = 'not_exist';
         }
       }
     }
@@ -100,6 +113,7 @@ class Auth extends Core
     {
         Session::destroy(); // or session_destroy();
         $this->messages[] = "You have been logged out.";
+        $this->status = 'success';
     }
     /**
      * simply return the current state of the user's login
@@ -111,6 +125,26 @@ class Auth extends Core
             return $_SESSION['users']['user_logged_in']; // native use of sessions
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Add some process after the end of processes inside this class
+     * You can put your json response here
+     */
+    public function __destruct()
+    {
+        // JSON TEST
+        if ($this->isForJsonObject()) {
+            $this->setLayouts(false);
+            // EXAMPLE HERE
+            echo JSON::encode([
+                'status'=>$this->status,
+                'errors'=>$this->errors,
+                'messages'=>$this->messages
+                //other_stuffs,
+                //even_callbacks,
+            ]);
         }
     }
 }
