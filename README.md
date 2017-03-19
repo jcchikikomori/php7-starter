@@ -1,6 +1,6 @@
 # MyPHP
 The easiest way to learn PHP! Good for prototyping your app.
-Want to build your own app soon, but you don't know PHP? And also getting to know frameworks which is frustrating & overwhelming to learn?
+Want to build your own app soon in PHP quickly?
 Why don't you try this one? MyPHP!!
 
 This is also my prototype template to easily test my projects before moving onto the real setup
@@ -12,7 +12,6 @@ This is also my prototype template to easily test my projects before moving onto
 * Can do CRUD, Login/Register, Pagination, & REST
 * Quite Documented and plenty of comments inside!
 * Can do Hello World, of course!
-* Learn API calls all of them in Core class
 * Using Medoo for more easier database handling (called DB in Core)
 * Using Whoops for more sassy error reporting (using ErrorHandler and PrettyErrorHandler in Core)
 
@@ -28,6 +27,8 @@ This is also my prototype template to easily test my projects before moving onto
 ### You may use this on your small projects or test your skills, etc.
 
 ## Requirements
+* Basic knowledge in PHP
+* Familiar in Object-Oriented Programming
 * Apache-based web servers or any with .htaccess & RewriteEngine support
 * PHP 5.4 and up until PHP 7!
 * Supports MYSQL & SQLITE as well, if you are going to MySQL, it must be installed (version 5.6 and up) by the way.
@@ -43,12 +44,12 @@ Create your own. You may use my sample code available [here](https://gist.github
 ## Known Issues
 * Error Handling (hugely affects for API building)
 
-## Coming Soon!
-* Email Service
-* Forgot Password System
-* Error Handling with .htaccess
-* Using JSON formats for new API class (for OAuth, Android, etc.)
-* One-way installation script (compatible with Heroku)
+## Coming Soon! On new release..
+[] Email Service
+[] Forgot Password System
+[x] Error Handling with .htaccess
+[] Using JSON formats for new API class (for OAuth, Android, etc.)
+[] One-way installation script (compatible with Heroku)
 
 ## Contribute Us
 Contribute here, fork and submit your pull requests to us!
