@@ -33,13 +33,21 @@ class Core
      */
     public $messages = array();
     /**
-     * @var bool $for_json_object Identifier if we gonna load data to json only or not
+     * FOR CORE ONLY STARTING THIS LINE
      */
-    public $for_json_object = false;
+    public $for_json_object = false; // if we gonna load data to json only or not
+    public $layouts = true; // Render with layouts
+    public $response = array(); // collecting response
+
     /**
-     * @var bool $layouts Render with layouts
+     * FIXED PATHS
      */
-    public $layouts = true;
+    protected $views_path; // default views path
+    protected $assets_path; // For files under root/public
+    // public $templates_path; // templates like default header
+    protected $header_path; // layout header path
+    protected $footer_path; // layout footer path
+
     /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
      * you know, when you do "$login = new Login();"
@@ -66,44 +74,38 @@ class Core
          * Reinitialize root directory
          * NOTE: Use DIRECTORY_SEPARATOR instead of slashes to avoid server confusions in paths
          * and PHP will find a right slashes for you
-         * TODO: Not good for 'views' on some file systems & OS
          */
-        define('ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR);
+        if (!defined('ROOT')) { define('ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR); }
 
         /**
          * Fixed Paths
          * You can change them if you wish
          * Just don't break the right structure there
          */
-        define('LIBS_PATH', ROOT . 'libraries' . DIRECTORY_SEPARATOR);
-        define('CONF_PATH', ROOT . 'configs' . DIRECTORY_SEPARATOR);
-        define('VIEWS_PATH', 'views' . DIRECTORY_SEPARATOR); // fix dir issues on different OSes
-        define('ASSETS', 'assets' . DIRECTORY_SEPARATOR);
-        // Templates
-        define('HEADER', VIEWS_PATH . '_templates' . DIRECTORY_SEPARATOR . 'header.php');
-        define('FOOTER', VIEWS_PATH . '_templates' . DIRECTORY_SEPARATOR . 'footer.php');
-        // Custom template (TODO: Must be on configs)
-        define('POST_HEADER_LOGGED', VIEWS_PATH . 'header_logged_in.php'); // maybe redundant
+        $this->views_path = ROOT . 'views' . DIRECTORY_SEPARATOR;
+        $this->assets_path = ROOT . 'assets' . DIRECTORY_SEPARATOR;
+        $this->header_path = $this->views_path . '_templates' . DIRECTORY_SEPARATOR . 'header.php';
+        $this->footer_path = $this->views_path . '_templates' . DIRECTORY_SEPARATOR . 'footer.php';
 
         // PHP version check
         if (version_compare(PHP_VERSION, '5.4.0', '<') AND version_compare(PHP_VERSION, '7', '>')) {
             exit("Sorry, This system does not run on a PHP version smaller than 5.3.7 and still unstable in ".PHP_VERSION);
         } else {
-            // The Composer auto-loader (official way to load Composer contents) to load external stuff automatically
             $composer = ROOT.'vendor/autoload.php';
-            $config = CONF_PATH.'system.php';
-            if (file_exists($composer)) {
-                require_once($composer); // `require` cause simply the app requires this
-                if (!file_exists($config)) {
-                    exit("File " . $config . " might be corrupted or missing.<br />Please create configs/system.php manually with configs/system.php.example. ");
-                } else {
-                    /**
-                     * LOAD ALL CONFIGS ON configs directory
-                     */
-                    foreach (glob(CONF_PATH . '*.php') as $configs) { include_once($configs); }
-                }
+            $configs = ROOT . 'configs' . DIRECTORY_SEPARATOR;
+            $config = $configs.'system.php'; // check default config
+            /**
+             * The Composer auto-loader (official way to load Composer contents)
+             * to load external stuff automatically
+             */
+            (@require_once $composer) OR die("The COMPOSER file " . $composer . " might be corrupted or missing.");
+            /**
+             * LOAD ALL CONFIGS ON configs directory
+             */
+            if (!file_exists($config)) {
+                exit("File " . $config . " might be corrupted or missing.<br />Please type <code>composer dump-autoload</code> in terminal inside this project.");
             } else {
-                exit("The COMPOSER file " . $composer . " might be corrupted or missing.");
+                foreach (glob($configs.'*.php') as $configs) { include_once($configs); }
             }
         }
 
@@ -111,7 +113,7 @@ class Core
          * Load external libraries/classes by LOOP.
          * Have a look all the files in that directory for details.
          */
-        foreach (glob(LIBS_PATH . '*.php') as $libraries) { require $libraries; }
+        foreach (glob(ROOT . 'libraries' . DIRECTORY_SEPARATOR . '*.php') as $libraries) { include_once($libraries); }
         /**
          * if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
          * (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
@@ -163,18 +165,27 @@ class Core
             $this->messages[] = "You are browsing using mobile!";
         }
 
-        // REST API TEST. TODO: Must save this as a session
+        // REST API TEST.
         // Requires POSTMAN for Chrome
         // print_r($agent->getHttpHeaders()); // use this for browser/device check & other headers
         if ($agent->getHttpHeader('HTTP_POSTMAN_TOKEN') && $agent->browser('Chrome')) {
             Session::set('POSTMAN_REST_API', true);
-            Session::set('JSON_REQUESTED', true);
+            // Session::set('JSON_REQUESTED', true);
             $this->setForJsonObject(true);
             // print_r($agent->getRules()); check all devices
         }
 
         // ======================= END OF CONSTRUCTOR =======================
     }
+
+    /**
+     * Add some process after the end of processes inside this class
+     */
+    public function __destruct()
+    {
+        // none for a while
+    }
+
     /**
      * Rendering views
      * @param string $part = Partial view
@@ -186,12 +197,12 @@ class Core
          * UPDATE: Check if its not for JSON response
          */
         if (!$this->isForJsonObject()) {
-            if ($this->layouts) {
-                include(HEADER);
-                include(VIEWS_PATH . $part);
-                include(FOOTER);
+            if ($this->isLayouts()) {
+                include($this->header_path);
+                include($this->views_path . $part);
+                include($this->footer_path);
             } else {
-                include(VIEWS_PATH . $part);
+                include($this->views_path . $part);
             }
         }
     }
@@ -293,5 +304,21 @@ class Core
             $this->layouts=false;
             header("Content-Type: application/json");
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLayouts()
+    {
+        return $this->layouts;
+    }
+
+    /**
+     * @param bool $layouts
+     */
+    public function setLayouts($layouts)
+    {
+        $this->layouts = $layouts;
     }
 }

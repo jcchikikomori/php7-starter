@@ -5,8 +5,7 @@
  */
 
 // checking requirements first using this class
-require_once("classes/Core.php");
-$core = new Core();
+require_once("classes/Core.php"); $core = new Core();
 
 // load the registration class
 require_once("classes/Registration.php");
@@ -15,22 +14,10 @@ require_once("classes/Registration.php");
 // so this single line handles the entire registration process.
 $registration = new Registration();
 
-if ($core->for_json_object) { // JSON TEST
-    if ($registration) {
-        echo JSON::encode([
-            'success', 'Registration Success'
-        ]);
-    } else {
-        echo JSON::encode([
-            'error', 'Unable to register'
-        ]);
-    }
-} else {
-    // DEFAULT VIEW (WEB)
-    // collect feedbacks first
-    $core->collectResponse(array($registration)); // should be a array object (never include Core class)
-    // set data
-    $data['user_types'] = $registration->getUserTypes();
-    // show the register view (with the registration form, and messages/errors)
-    $core->render("user/register.php", $data);
-}
+// DEFAULT VIEW (WEB)
+// collect feedbacks first
+$core->collectResponse(array($registration)); // should be a array object (never include Core class)
+// set data
+$data['user_types'] = $registration->getUserTypes();
+// show the register view (with the registration form, and messages/errors)
+$core->render("user/register.php", $data);

@@ -11,20 +11,21 @@ class Registration extends Core
      */
     public $db_connection = null;
     /**
-     * @var array $errors Collection of error messages
+     * @var array Collection of error messages
      */
     public $errors = array();
     /**
-     * @var array $messages Collection of success / neutral messages
+     * @var array Collection of success / neutral messages
      */
     public $messages = array();
-
     /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
      * you know, when you do "$registration = new Registration();"
      */
     public function __construct()
     {
+        parent::__construct(); // Load Core constructor
+
         $this->db_connection = Core::connect_database();
 
         // This is a example how to debug your query
@@ -32,17 +33,6 @@ class Registration extends Core
 
         if (isset($_POST["register"])) {
             $this->registerNewUser();
-        }
-    }
-
-    /**
-     * Add some process after the end of processes inside this class
-     */
-    public function __destruct()
-    {
-        // say goodbye
-        if ($this->isForJsonObject()) {
-            print_r($this);
         }
     }
 
@@ -119,9 +109,33 @@ class Registration extends Core
                 // after insertion, we're gonna verify if the new user is created in DB
                 if (!empty($this->db_connection->id())) {
                   $this->messages[] = "Your account has been created successfully. You can now log in.";
+                  return true;
                 } else {
                   $this->errors[] = "Sorry, your registration failed. Please go back and try again.";
+                  return false;
                 }
+            }
+        }
+    }
+
+    /**
+     * Add some process after the end of processes inside this class
+     * You can put your json response here
+     */
+    public function __destruct()
+    {
+        // JSON TEST
+        if ($this->isForJsonObject()) {
+            $this->setLayouts(false);
+            // EXAMPLE HERE
+            if ($this->registerNewUser()) {
+                echo JSON::encode([
+                    'status'=>'success'
+                ]);
+            } else {
+                echo JSON::encode([
+                    'status'=>'failed'
+                ]);
             }
         }
     }
