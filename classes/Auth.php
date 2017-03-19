@@ -25,8 +25,7 @@ class Auth extends Core
     public function __construct()
     {
         $this->db_connection = Core::connect_database(); // if this class needed a database connection, use this line
-        // $this->messages[] = "Auth class is saying that your database server is working. You can remove me inside..";
-        $this->messages[] = "[AUTH] Welcome to MyPHP";
+        // $this->messages[] = "Auth class is saying that your database server is working. You can remove me inside.."; // TRY THIS OUT
         // check the possible login actions:
         // if user tried to log out (happen when user clicks logout button)
         if (isset($_GET["logout"])) {
@@ -72,7 +71,7 @@ class Auth extends Core
               'first_name', 'last_name', 'user_account_type'
             ], [
               // CONDITIONS
-            	'user_name' => $user_name
+               'user_name' => $user_name
             ]);
             // using PHP 5.5's password_verify() function to check if the provided password fits
             // the hash of that user's password

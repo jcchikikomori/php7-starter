@@ -35,6 +35,10 @@ class Core extends Init
      */
     public $for_json_object = false;
     /**
+     * @var bool $layouts Render with layouts
+     */
+    public $layouts = true;
+    /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
      * you know, when you do "$login = new Login();"
      */
@@ -75,24 +79,22 @@ class Core extends Init
     /**
      * Rendering views
      * @param string $part = Partial view
-     * @param string $type = Rendering types
      * @param array $data = Sets of data to be also rendered/returned
      */
-    public function render($part, $data = array(), $type = null)
+    public function render($part, $data = array())
     {
-      switch($type) {
-        // For server-side rendering of partial views
-        case 'ajax':
-        case 'file':
-        case 'partial':
-          include(VIEWS_PATH . $part);
-        break;
-        default:
-          include(HEADER);
-          include(VIEWS_PATH . $part);
-          include(FOOTER);
-        break;
-      }
+        /**
+         * UPDATE: Check if its not for JSON response
+         */
+        if (!$this->isForJsonObject()) {
+            if ($this->layouts) {
+                include(HEADER);
+                include(VIEWS_PATH . $part);
+                include(FOOTER);
+            } else {
+                include(VIEWS_PATH . $part);
+            }
+        }
     }
 
     /**
@@ -119,7 +121,10 @@ class Core extends Init
         //'command' => [ 'SET SQL_MODE=ANSI_QUOTES' ]
       ];
       // SQLite Support
-      if ($driver=='sqlite') { $database_properties['database_file'] = DB_FILE; }
+      if ($driver=='sqlite') {
+          $database_properties['database_file'] = DB_FILE;
+          unset($database_properties['database_name']);
+      }
       $database = new DB($database_properties); // DB START!
       // DB Errors within connection
       $database->errors = (null!==$database->error() || !empty($database->error())) ? $database->error() : array();
@@ -145,6 +150,7 @@ class Core extends Init
 
     /**
      * Collect Response based from class you've defined.
+     * UPDATE: Combined into one
      * @param array $classes Set of classes with set of feedback after execution
      * @param bool $reset Reset response (BETA! set this as true if it's the last one)
      */
@@ -153,16 +159,17 @@ class Core extends Init
         $response = $reset ? array() : Session::get('response');
         foreach($classes as $class) {
             foreach($class->errors as $error) {
-                $response['errors'][] = $error;
+                $response['messages'][] = '[ERR] '.$error;
             }
             foreach($class->messages as $message) {
-                $response['messages'][] = $message;
+                $response['messages'][] = '[MSG] '.$message;
             }
         }
         Session::set('response', $response); // fill me up
     }
 
     /**
+     * For JSON
      * @return bool
      */
     public function isForJsonObject()
@@ -171,12 +178,14 @@ class Core extends Init
     }
 
     /**
+     * UPDATE: Disable layouts
      * @param bool $for_json_object
      */
     public function setForJsonObject($for_json_object)
     {
         $this->for_json_object = $for_json_object;
         if ($for_json_object) {
+            $this->layouts=false;
             header("Content-Type: application/json");
         }
     }

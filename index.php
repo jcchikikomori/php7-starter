@@ -27,5 +27,6 @@ $core->collectResponse(array($core, $auth)); // should be a array object (never 
 if ($auth->isUserLoggedIn()) { // if user logged in (using Auth class)
 	$core->render("logged_in.php"); // use Core class to render
 } else { // not logged in
-	$core->render("not_logged_in.php", 'file'); // do the fallback function
+    // $core->layouts = false; // disable rendering with layouts
+	$core->render("not_logged_in.php"); // do the fallback function
 }

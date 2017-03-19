@@ -23,22 +23,30 @@ class Init
          */
         if (!defined('ENVIRONMENT') && empty('ENVIRONMENT')) { define('ENVIRONMENT', 'release'); }
 
-        // Reinitialize root directory
-        // TODO: Not good for 'views' on some file systems & OS
+        /**
+         * Reinitialize root directory
+         * NOTE: Use DIRECTORY_SEPARATOR instead of slashes to avoid server confusions in paths
+         * and PHP will find a right slashes for you
+         * TODO: Not good for 'views' on some file systems & OS
+         */
         define('ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
-        // Fixed Paths
+        /**
+         * Fixed Paths
+         * You can change them if you wish
+         * Just don't break the right structure there
+         */
         define('LIBS_PATH', ROOT . 'libraries' . DIRECTORY_SEPARATOR);
         define('CONF_PATH', ROOT . 'configs' . DIRECTORY_SEPARATOR);
         define('VIEWS_PATH', 'views' . DIRECTORY_SEPARATOR); // fix dir issues on different OSes
         define('ASSETS', 'assets' . DIRECTORY_SEPARATOR);
         // Templates
-        define('HEADER', VIEWS_PATH . 'header.php');
-        define('FOOTER', VIEWS_PATH . 'footer.php');
+        define('HEADER', VIEWS_PATH . '_templates' . DIRECTORY_SEPARATOR . 'header.php');
+        define('FOOTER', VIEWS_PATH . '_templates' . DIRECTORY_SEPARATOR . 'footer.php');
+        // Custom template (TODO: Must be on configs)
         define('POST_HEADER_LOGGED', VIEWS_PATH . 'header_logged_in.php'); // maybe redundant
-        // Database Properties, if these are is not used (SOON)
 
-        // checking for minimum PHP version
+        // PHP version check
         if (version_compare(PHP_VERSION, '5.4.0', '<') AND version_compare(PHP_VERSION, '7', '>')) {
             exit("Sorry, This system does not run on a PHP version smaller than 5.3.7 and still unstable in ".PHP_VERSION);
         } else {
@@ -46,11 +54,13 @@ class Init
             $composer = ROOT.'vendor/autoload.php';
             $config = CONF_PATH.'system.php';
             if (file_exists($composer)) {
-                require $composer;
+                require_once($composer); // `require` cause simply the app requires this
                 if (!file_exists($config)) {
                     exit("File " . $config . " might be corrupted or missing.<br />Please create configs/system.php manually with configs/system.php.example. ");
                 } else {
-                    //LOAD ALL CONFIGS ON configs directory
+                    /**
+                     * LOAD ALL CONFIGS ON configs directory
+                     */
                     foreach (glob(CONF_PATH . '*.php') as $configs) { include_once($configs); }
                 }
             } else {
@@ -58,10 +68,15 @@ class Init
             }
         }
 
-        // load external libraries/classes by LOOP. have a look all the files in that directory for details.
+        /**
+         * Load external libraries/classes by LOOP.
+         * Have a look all the files in that directory for details.
+         */
         foreach (glob(LIBS_PATH . '*.php') as $libraries) { require $libraries; }
-        // if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
-        // (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
+        /**
+         * if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
+         * (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
+         */
         if (version_compare(PHP_VERSION, '5.5.0', '<')) {
             require_once(ROOT . "libraries/php5/password_compatibility_library.php");
         }

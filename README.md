@@ -1,15 +1,18 @@
 # MyPHP
-The easiest and better way to learn PHP! Good for prototyping your app.
+The easiest way to learn PHP! Good for prototyping your app.
 Want to build your own app soon, but you don't know PHP? And also getting to know frameworks which is frustrating & overwhelming to learn?
 Why don't you try this one? MyPHP!!
 
+This is also my prototype template to easily test my projects before moving onto the real setup
+
 ## Features
-* Quite but less modular but still easier for newbies, baby!
+* Quite & less modular but still easier for newbies, baby!
 * Using the modern and official PHP password hashing functions!
 * OOP Structured Codebase
 * Can do CRUD, Login/Register, Pagination, & REST
 * Quite Documented and plenty of comments inside!
 * Can do Hello World, of course!
+* Learn API calls all of them in Core class
 * Using Medoo for more easier database handling (called DB in Core)
 * Using Whoops for more sassy error reporting (using ErrorHandler and PrettyErrorHandler in Core)
 
