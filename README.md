@@ -1,4 +1,5 @@
 # MyPHP
+### Micro Framework
 The easiest way to learn PHP! Good for prototyping your app.
 Want to build your own app soon in PHP quickly?
 Why don't you try this one? MyPHP!!
@@ -9,7 +10,7 @@ This is also my prototype template to easily test my projects before moving onto
 * Quite & less modular but still easier for newbies, baby!
 * Using the modern and official PHP password hashing functions!
 * OOP Structured Codebase
-* Can do CRUD, Login/Register, Pagination, & REST
+* Can do CRUD, Login/Register, Pagination, & REST (like JSON)
 * Quite Documented and plenty of comments inside!
 * Can do Hello World, of course!
 * Using Medoo for more easier database handling (called DB in Core)

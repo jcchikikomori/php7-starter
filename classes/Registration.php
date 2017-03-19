@@ -19,6 +19,11 @@ class Registration extends Core
      */
     public $messages = array();
     /**
+     * For JSON
+     * @var string $status
+     */
+    public $status;
+    /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
      * you know, when you do "$registration = new Registration();"
      */
@@ -109,10 +114,10 @@ class Registration extends Core
                 // after insertion, we're gonna verify if the new user is created in DB
                 if (!empty($this->db_connection->id())) {
                   $this->messages[] = "Your account has been created successfully. You can now log in.";
-                  return true;
+                  $this->status = "success";
                 } else {
                   $this->errors[] = "Sorry, your registration failed. Please go back and try again.";
-                  return false;
+                  $this->status = "failed";
                 }
             }
         }
@@ -128,15 +133,13 @@ class Registration extends Core
         if ($this->isForJsonObject()) {
             $this->setLayouts(false);
             // EXAMPLE HERE
-            if ($this->registerNewUser()) {
-                echo JSON::encode([
-                    'status'=>'success'
-                ]);
-            } else {
-                echo JSON::encode([
-                    'status'=>'failed'
-                ]);
-            }
+            echo JSON::encode([
+                'status'=>$this->status, // TODO: Is this a bug??
+                'errors'=>$this->errors,
+                'messages'=>$this->messages
+                //other_stuffs,
+                //even_callbacks,
+            ]);
         }
     }
 }
