@@ -16,9 +16,15 @@ require_once("classes/Registration.php");
 $registration = new Registration();
 
 if ($core->for_json_object) { // JSON TEST
-    echo JSON::encodeREST($registration, [
-        '1st response', '2nd response'
-    ]);
+    if ($registration) {
+        echo JSON::encode([
+            'success', 'Registration Success'
+        ]);
+    } else {
+        echo JSON::encode([
+            'error', 'Unable to register'
+        ]);
+    }
 } else {
     // DEFAULT VIEW (WEB)
     // collect feedbacks first

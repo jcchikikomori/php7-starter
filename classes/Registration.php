@@ -25,24 +25,24 @@ class Registration extends Core
      */
     public function __construct()
     {
-        // parent was from the extended class
-        // parent::__construct();
-
         $this->db_connection = Core::connect_database();
-        // print_r($this->db_connection->debug()->select("user_types", '*')); die(); // DB debug
 
-        // print_r($_POST); die();
+        // This is a example how to debug your query
+        // print_r($this->db_connection->debug()->select("user_types", '*')); die();
 
         if (isset($_POST["register"])) {
             $this->registerNewUser();
-        } else {
-            // $this->messages[] = 'Registration still in beta';
         }
+    }
 
-        // get user types
-        if (isset($_GET["get_user_t"])) {
-            // $this->messages[] = "HELLO";
-            // $user_types = $this->getUserTypes();
+    /**
+     * Add some process after the end of processes inside this class
+     */
+    public function __destruct()
+    {
+        // say goodbye
+        if ($this->isForJsonObject()) {
+            print_r($this);
         }
     }
 
@@ -100,8 +100,8 @@ class Registration extends Core
               	]
             ]);
             // COMPARED TO THIS
-            //$sql = "SELECT * FROM users WHERE user_name = '" . $user_name . "' OR user_email = '" . $user_email . "';";
-            //$query_check_user_name = $this->db_connection->query($sql);
+            // $sql = "SELECT * FROM users WHERE user_name = '" . $user_name . "' OR user_email = '" . $user_email . "';";
+            // $query_check_user_name = $this->db_connection->query($sql);
             if ($user_check_count > 0) {
                 $this->errors[] = "Sorry, that username / email address is already taken.";
             } else {
@@ -123,10 +123,6 @@ class Registration extends Core
                   $this->errors[] = "Sorry, your registration failed. Please go back and try again.";
                 }
             }
-            //if (Session::get('REST_API')) { // was true?
-                // sample format without any data (blank array)
-                // return JSON::encodeREST(array(), $this);
-            //}
         }
     }
 }
