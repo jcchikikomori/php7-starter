@@ -99,6 +99,7 @@ class Registration extends Core
             // $query_check_user_name = $this->db_connection->query($sql);
             if ($user_check_count > 0) {
                 $this->errors[] = "Sorry, that username / email address is already taken.";
+                $this->status = "failed";
             } else {
                 // write new user's data into database
                 $this->db_connection->insert("users", [
