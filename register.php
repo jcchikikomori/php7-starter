@@ -15,11 +15,10 @@ require_once("classes/Registration.php");
 // so this single line handles the entire registration process.
 $registration = new Registration();
 
-if ($core->for_json_object) {
-    // JSON TEST
-    // TODO: Proper response for REST
-    print_r($registration->errors); //expected return value
-    print_r($registration->messages); //expected return value
+if ($core->for_json_object) { // JSON TEST
+    echo JSON::encodeREST($registration, [
+        '1st response', '2nd response'
+    ]);
 } else {
     // DEFAULT VIEW (WEB)
     // collect feedbacks first

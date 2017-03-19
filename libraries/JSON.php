@@ -7,15 +7,23 @@ class JSON
 {
     /**
      * Recommended REST values. You can change this if you wish
-     * @param array $arrays
-     * @param $response
+     * @param array $class Import from current class
+     * @param array $callbacks Callbacks like return/response data
      * @return string
      */
-    public static function encodeREST(array $arrays, $response) {
-        $array = array();
-        $array['response'] = $response;
-        $array['data'] = $arrays; // datas like fetched from database
-        return json_encode($array);
+    public static function encodeREST($class, $callbacks=[]) {
+        foreach($class->errors as $error) {
+            $array['messages'][] = '[ERR] '.$error;
+        }
+        foreach($class->messages as $message) {
+            $array['messages'][] = '[MSG] '.$message;
+        }
+        if (!empty($callbacks)) {
+            foreach($callbacks as $callback) {
+                $array['callbacks'][] = $callback;
+            }
+        }
+        return json_encode($array); // return as response
     }
 
     /**

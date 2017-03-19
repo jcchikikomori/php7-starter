@@ -123,14 +123,10 @@ class Registration extends Core
                   $this->errors[] = "Sorry, your registration failed. Please go back and try again.";
                 }
             }
-            if (Session::get('REST_API')) { // was true?
+            //if (Session::get('REST_API')) { // was true?
                 // sample format without any data (blank array)
-                $response = array(
-                    'messages'=>$this->messages,
-                    'errors'=>$this->errors
-                );
-                return JSON::encodeREST(array(), $response);
-            }
+                // return JSON::encodeREST(array(), $this);
+            //}
         }
     }
 }
