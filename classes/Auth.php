@@ -67,8 +67,10 @@ class Auth extends Core
         //         WHERE user_name = '" . $user_name . "';";
         // $result_of_login_check = $this->db_connection->query($sql);
         $result_of_login_check = $this->db_connection->count("users", [
-          // TODO: using OR condition for username/email
-          "user_name" => $user_name
+            "OR" => [
+                "user_name" => $user_name,
+                "user_email" => $user_name // username or email
+            ]
         ]);
         // if this user exists
         if ($result_of_login_check == 1) {
@@ -77,25 +79,46 @@ class Auth extends Core
             $result_row = $this->db_connection->get("users", [
               //COLUMNS
               'user_id', 'user_name', 'user_email', 'user_password',
-              'first_name', 'last_name', 'user_account_type'
+              'first_name', 'last_name', 'user_account_type',
+              'created', 'modified'
             ], [
               // CONDITIONS
-               'user_name' => $user_name
+              "OR" => [
+                  "user_name" => $user_name,
+                  "user_email" => $user_name // username or email
+              ]
             ]);
             // using PHP 5.5's password_verify() function to check if the provided password fits
             // the hash of that user's password
             if (password_verify($user_password, $result_row['user_password'])) {
-                // write user data into PHP SESSION (a file on your server)
-                // $_SESSION['user_name'] = $result_row->user_name; // example
-                Session::set_user('user_id', $result_row['user_id']);
-                Session::set_user('user_name', $result_row['user_name']);
-                Session::set_user('user_email', $result_row['user_email']);
-                Session::set_user('first_name', $result_row['first_name']);
-                Session::set_user('last_name', $result_row['last_name']);
-                Session::set_user('user_logged_in', true);
-                Session::set_user('user_logged_in_as', $result_row['user_account_type']);
+                // Check FOR WEB! To avoid performance drops
+                if ($this->isForJsonObject()==false) {
+                    // write user data into PHP SESSION (a file on your server)
+                    // $_SESSION['user_name'] = $result_row->user_name; // example
+                    Session::set_user('user_id', $result_row['user_id']);
+                    Session::set_user('user_name', $result_row['user_name']);
+                    Session::set_user('user_email', $result_row['user_email']);
+                    Session::set_user('first_name', $result_row['first_name']);
+                    Session::set_user('last_name', $result_row['last_name']);
+                    Session::set_user('user_logged_in', true);
+                    Session::set_user('user_logged_in_as', $result_row['user_account_type']);
+                }
+                // response
                 $this->messages[] = "Logged In!";
                 $this->status = 'success';
+                // check again if the user requested json object
+                if ($this->isForJsonObject()) {
+                    // FETCH AS JSON FOR REST
+                    $user = array(
+                        'user_id'=>$result_row['user_id'],
+                        'user_name'=>$result_row['user_name'],
+                        'name'=>$result_row['first_name'].' '.$result_row['last_name'],
+                        'user_email'=>$result_row['user_email'],
+                        'created'=>$result_row['created'],
+                        'modified'=>$result_row['modified']
+                    );
+                    $this->getUserJSON($user);
+                }
             } else {
                 $this->errors[] = "Wrong password. Try again.";
                 $this->status = 'wrong_password';
@@ -129,6 +152,20 @@ class Auth extends Core
     }
 
     /**
+     * Get users data in JSON format
+     * @param array $user
+     */
+    private function getUserJSON(array $user) {
+        // gonna use the json library
+        echo JSON::encode([
+            'status'=>$this->status,
+            'errors'=>$this->errors,
+            'messages'=>$this->messages,
+            'user'=>$user
+        ]);
+    }
+
+    /**
      * Add some process after the end of processes inside this class
      * You can put your json response here
      */
@@ -137,7 +174,7 @@ class Auth extends Core
         // JSON TEST
         if ($this->isForJsonObject()) {
             $this->setLayouts(false);
-            // EXAMPLE HERE
+            /** EXAMPLE HERE
             echo JSON::encode([
                 'status'=>$this->status,
                 'errors'=>$this->errors,
@@ -145,6 +182,7 @@ class Auth extends Core
                 //other_stuffs,
                 //even_callbacks,
             ]);
+             */
         }
     }
 }

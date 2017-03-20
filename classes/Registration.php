@@ -101,6 +101,8 @@ class Registration extends Core
                 $this->errors[] = "Sorry, that username / email address is already taken.";
                 $this->status = "failed";
             } else {
+                // format current date
+                $current_date = date('Y-m-d H:i:s');
                 // write new user's data into database
                 $this->db_connection->insert("users", [
                   "user_name" => $user_name,
@@ -109,7 +111,9 @@ class Registration extends Core
                   "last_name" => $last_name,
                   "user_account_type" => $user_type,
                   "user_password" => $user_password_hash,
-                  "user_email" => $user_email
+                  "user_email" => $user_email,
+                  "created" => $current_date,
+                  "modified" => $current_date
                 ]);
                 // The good thing in Medoo is, you can check last actions like check for errors, etc.
                 // after insertion, we're gonna verify if the new user is created in DB
