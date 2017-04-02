@@ -46,11 +46,11 @@ Create your own. You may use my sample code available [here](https://gist.github
 * Error Handling (hugely affects for API building)
 
 ## Coming Soon! On new release..
-[] Email Service
-[] Forgot Password System
-[x] Error Handling with .htaccess
-[] Using JSON formats for new API class (for OAuth, Android, etc.)
-[] One-way installation script (compatible with Heroku)
+- [] Email Service
+- [] Forgot Password System
+- [x] Error Handling with .htaccess
+- [] Using JSON formats for new API class (for OAuth, Android, etc.)
+- [] One-way installation script (compatible with Heroku)
 
 ## Contribute Us
 Contribute here, fork and submit your pull requests to us!
