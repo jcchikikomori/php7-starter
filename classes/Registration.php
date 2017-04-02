@@ -94,9 +94,10 @@ class Registration extends Core
               		"user_email" => $user_email
               	]
             ]);
-            // COMPARED TO THIS
-            // $sql = "SELECT * FROM users WHERE user_name = '" . $user_name . "' OR user_email = '" . $user_email . "';";
-            // $query_check_user_name = $this->db_connection->query($sql);
+            /**
+             * COMPARED TO THIS
+             * "SELECT * FROM users WHERE user_name = '" . $user_name . "' OR user_email = '" . $user_email . "';";
+             */
             if ($user_check_count > 0) {
                 $this->errors[] = "Sorry, that username / email address is already taken.";
                 $this->status = "failed";
@@ -138,7 +139,7 @@ class Registration extends Core
         if ($this->isForJsonObject()) {
             $this->setLayouts(false);
             // EXAMPLE HERE
-            echo JSON::encode([
+            echo Helper::json_encode([
                 'status'=>$this->status,
                 'errors'=>$this->errors,
                 'messages'=>$this->messages

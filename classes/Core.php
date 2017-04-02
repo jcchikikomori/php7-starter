@@ -1,10 +1,8 @@
 <?php
 
-// require_once('Init.php'); // INIT
-
 // Required to do
 use Jenssegers\Agent\Agent as UserAgent;
-use Whoops\Handler\JsonResponseHandler as JSONErrorHandler;
+use Whoops\Handler\JsonResponseHandler as JSONErrorHandler; // TODO: Error response to JSON
 use Whoops\Handler\PrettyPageHandler as PrettyErrorHandler;
 use Whoops\Run as ErrorHandler;
 use Medoo\Medoo as DB; // Using Medoo namespace as DB
@@ -193,9 +191,7 @@ class Core
      */
     public function render($part, $data = array())
     {
-        /**
-         * UPDATE: Check if its not for JSON response
-         */
+        // Check if its not for JSON response
         if (!$this->isForJsonObject()) {
             if ($this->isLayouts()) {
                 include($this->header_path);

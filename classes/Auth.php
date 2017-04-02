@@ -137,6 +137,13 @@ class Auth extends Core
         Session::destroy(); // or session_destroy();
         $this->messages[] = "You have been logged out.";
         $this->status = 'success';
+        // JSON
+        if ($this->isForJsonObject()) {
+            echo Helper::json_encode([
+                'status'=>$this->status,
+                'messages'=>$this->messages
+            ]);
+        }
     }
     /**
      * simply return the current state of the user's login
@@ -157,7 +164,7 @@ class Auth extends Core
      */
     private function getUserJSON(array $user) {
         // gonna use the json library
-        echo JSON::encode([
+        echo Helper::json_encode([
             'status'=>$this->status,
             'errors'=>$this->errors,
             'messages'=>$this->messages,
@@ -174,15 +181,6 @@ class Auth extends Core
         // JSON TEST
         if ($this->isForJsonObject()) {
             $this->setLayouts(false);
-            /** EXAMPLE HERE
-            echo JSON::encode([
-                'status'=>$this->status,
-                'errors'=>$this->errors,
-                'messages'=>$this->messages
-                //other_stuffs,
-                //even_callbacks,
-            ]);
-             */
         }
     }
 }

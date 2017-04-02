@@ -9,14 +9,14 @@
 
 // Core components first such as main classes then load dependencies
 require_once("classes/Core.php");
-// then Innstatiate the class to use it
+// then Instantiate the class to use it
 $core = new Core();
 // load the login class then instantiate again
 require_once("classes/Auth.php");
 $auth = new Auth();
 
 /**
- * Collect feedbacks first
+ * Collect responses first
  * YOU CAN DO THIS AGAIN BEFORE $this->render
  * TODO: Collecting responses using view
  */
