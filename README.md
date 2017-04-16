@@ -1,34 +1,31 @@
 # MyPHP
-### Micro Framework
-The easiest way to learn PHP! Good for prototyping your app.
-Want to build your own app soon in PHP quickly?
-Why don't you try this one? MyPHP!!
+### Ready-to-use App & Micro Framework
+Currently using pure and naked PHP7 code
+
+Good for prototyping your app and can do "Hello World", of course
 
 This is also my prototype template to easily test my projects before moving onto the real setup
 
 ## Features
-* Quite & less modular but still easier for newbies, baby!
-* Using the modern and official PHP password hashing functions!
-* OOP Structured Codebase
-* Can do CRUD, Login/Register, Pagination, & REST (like JSON)
-* Quite Documented and plenty of comments inside!
-* Can do Hello World, of course!
+* Quite & less modular but still easy to learn for newbies, baby!
+* OOP Structured & can do CRUD, Login/Register, Pagination, & REST
+* Quite Documented and plenty of comments inside
+* Render whether a JSON object or a web page
 * Using Medoo for more easier database handling (called DB in Core)
 * Using Whoops for more sassy error reporting (using ErrorHandler and PrettyErrorHandler in Core)
 
 ## Additonal Features
+* Multi-user setup like the Google Auth System (Experimental)
 * You can build a function for email using Composer or load your PHP-compatible Mail library in libraries/ dir
 * Uses Composer to load external dependencies by loading Composer dependencies in Core (PHPMailer, Captcha-Generator, etc.) for sure
-* NodeJS ready!! (Managing 3rd party web dependencies. Recommended: Bower)
-* You can use Bower for load public dependencies such as Bootstrap, JQuery or maybe Foundation too! (You can ignore this if you prefer CDNs)
+* NodeJS ready. You can use Bower for load public dependencies such as Bootstrap, JQuery or maybe Foundation too! (You can ignore this if you prefer CDNs)
 * Currently using [SB-Admin 2](http://startbootstrap.com/template-overviews/sb-admin-2/) front-end template. You can replace them easily with bower! (Don't forget to check Headers & Footers!)
 * .example files might help you in your development!
 
-### This is not recommended for very large projects
-### You may use this on your small projects or test your skills, etc.
+### Reminder. This is not recommended for very large & complex projects
 
 ## Requirements
-* Basic knowledge in PHP
+* Basic knowledge in PHP (5 and up)
 * Familiar in Object-Oriented Programming
 * Apache-based web servers or any with .htaccess & RewriteEngine support
 * PHP 5.4 and up until PHP 7!
@@ -38,25 +35,35 @@ This is also my prototype template to easily test my projects before moving onto
 ## Installation
 ### One-way using Composer [REQUIRED]
 `$ composer install`
-NOTE: You can add more dependency by using `$ composer require author/dependency_name`
+
+NOTE: You can add more dependency by using this command
+
+`$ composer require author/dependency_name`
+
 ### Database Installation
 Create your own. You may use my sample code available [here](https://gist.github.com/jccultima123/5e10a6d9e549778eff40adb5a3556e4a)
 
 ## Known Issues
-* Error Handling (hugely affects for API building)
+* Error Handling for JSON rendering
 
-## Coming Soon! On new release..
+## Updates (for 2017)
+- [x] SQLite Support
 - [ ] Email Service
 - [ ] Forgot Password System
 - [x] Error Handling with .htaccess
-- [ ] Using JSON formats for new API class (for OAuth, Android, etc.)
-- [ ] One-way installation script (compatible with Heroku)
+- [x] Using REST/JSON formats for new API class (for OAuth, Android, etc.)
+- [ ] App Deployment like Heroku
+- [x] Multi-user (Currently Experimental)
+- [ ] Plain UI version
+- [ ] Pagination (Not available yet for REST but it will come shortly)
+- [ ] Multiple URL/URI parameters
+- [ ] Routing (Optional)
 
 ## Contribute Us
 Contribute here, fork and submit your pull requests to us!
 
 ## Credits
-* Some codes are done and credited to [panique](https://github.com/panique)-kun! Follow him also and.. Arigatou!!
+* Some codes are done and credited to [panique](https://github.com/panique)-sensei! Arigatou!!
 
 ## Notice
 * Don't confuse with PHP frameworks like CodeIgniter & CakePHP. It's still different though.
