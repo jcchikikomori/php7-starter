@@ -44,19 +44,16 @@ class Session
     /**
      * Alternate version of set() for users
      * sets a specific value to a specific key of the session
+     * WARNING: This will overwrite/add the value to the
+     * current user unless $id specified!
      * @param mixed $key
      * @param mixed $value
      * @param $id
      */
     public static function set_user($key, $value, $id=null)
     {
-        if (!empty($id)) {
-            // for existing active user
-            $_SESSION['users'][$id][$key] = $value;
-        } else {
-            // other user options
-            $_SESSION['users'][$key] = $value;
-        }
+        if (empty($id)) { $id = self::get_user('current_user'); }
+        $_SESSION['users'][$id][$key] = $value;
     }
 
     /**

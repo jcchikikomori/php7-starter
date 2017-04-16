@@ -70,13 +70,13 @@ class Auth extends App
       } elseif (empty($_POST['user_password'])) {
         $this->errors[] = "Password field was empty.";
       } elseif (!empty($_POST['user_name']) && !empty($_POST['user_password'])) {
-        // escape the POST stuff
-        $user_name = strip_tags($_POST['user_name']);
+        $user_name = strip_tags($_POST['user_name']); // escape the POST stuff (ANTI INJECTION)
         $user_password = strip_tags($_POST['user_password']);
-        // database query, getting all the info of the selected user
-        // $sql = "SELECT * FROM users
-        //         WHERE user_name = '" . $user_name . "';";
-        // $result_of_login_check = $this->db_connection->query($sql);
+        /**
+         * OLD database query, getting all the info of the selected user
+         * $sql = "SELECT * FROM users WHERE user_name = '" . $user_name . "';";
+         * $result_of_login_check = $this->db_connection->query($sql);
+         */
         $result_of_login_check = $this->db_connection->count("users", [
             "OR" => [
                 "user_name" => $user_name,
@@ -102,28 +102,32 @@ class Auth extends App
             // using PHP 5.5's password_verify() function to check if the provided password fits
             // the hash of that user's password
             if (password_verify($user_password, $result_row['user_password'])) {
-                // Check FOR WEB! To avoid performance drops
+                // Check FOR REST API to avoid performance drops
                 if ($this->isForJsonObject()==false) {
+
                     // write user data into PHP SESSION (a file on your server)
                     // $_SESSION['user_name'] = $result_row->user_name; // example
-                    // TODO: Multi-user setup like google auth system
+
+                    // Multi-user setup like google auth system
                     $user_id = $result_row['user_id'];
+                    $user_name = $result_row['user_name'];
                     Session::set_user('current_user', $user_id);
-                    Session::set_user('user_name', $result_row['user_name'], $user_id);
+                    Session::set_user('user_name', $user_name, $user_id);
                     Session::set_user('user_email', $result_row['user_email'], $user_id);
                     Session::set_user('first_name', $result_row['first_name'], $user_id);
                     Session::set_user('last_name', $result_row['last_name'], $user_id);
                     Session::set_user('user_logged_in', true, $user_id);
                     Session::set_user('user_logged_in_as', $result_row['user_account_type'], $user_id);
                     // Session::set_user('active', true, $user_id);
+
                 }
                 // response
-                $this->messages[] = "Logged In!";
-                $this->messages[] = "<pre>".print_r(Session::get('users'), true)."</pre>";
+                $this->messages[] = "Hi ".$user_name."!";
+                // $this->messages[] = "<pre>".print_r(Session::get('users'), true)."</pre>";
                 $this->status = 'success';
                 // check again if the user requested json object
                 if ($this->isForJsonObject()) {
-                    // FETCH AS JSON FOR REST
+                    // FETCH USER AS JSON
                     $user = array(
                         'user_id'=>$result_row['user_id'],
                         'user_name'=>$result_row['user_name'],

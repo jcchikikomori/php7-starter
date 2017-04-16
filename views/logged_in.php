@@ -8,11 +8,10 @@
                 <div class="panel-body">
                     <?php
                         // show potential errors / feedback (from session)
-                        // Helper::getFeedback();
+                        Helper::getFeedback();
                     ?>
                     <!-- Using Session library -->
-                    <p>Hey, <?php echo Session::get_user('user_name'); ?>. You are logged in.</p>
-                    <!-- if you need user information, just put them into the $_SESSION variable and output them here -->
+                    <!-- if you need user information, just put them in Session::set_user() output them here -->
                     <p>You are from <?php echo Session::get_user('user_logged_in_as') . ' Department'; ?></p>
                     Try to close this browser tab and open it again. Still logged in! ;)
 
