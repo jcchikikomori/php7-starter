@@ -55,6 +55,11 @@ class Auth extends App
             Session::set('add_user_requested', true);
         }
 
+        // this would log out current log session but will not delete user data
+        elseif (isset($_GET['switch_user'])) {
+            $this->switchUser();
+        }
+
         // login via get data (multi-user)
         // TODO: Merge in doLogin()
         elseif (isset($_GET["login"]) &&
@@ -79,6 +84,7 @@ class Auth extends App
         else {
             // return to default
             Session::set('add_user_requested', false);
+            Session::set('switch_user_requested', false);
         }
     }
     /**
@@ -305,6 +311,14 @@ class Auth extends App
         if (Session::multi_user_status()) {
             return Session::get('add_user_requested');
         }
+    }
+
+
+    private function switchUser()
+    {
+        // cleaning up
+        Session::set('current_user', null);
+        Session::set('user_logged_in', false);
     }
 
     /**
