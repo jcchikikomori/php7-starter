@@ -18,22 +18,22 @@ $auth = new Auth();
 /**
  * Collect responses first
  * YOU CAN DO THIS AGAIN BEFORE $this->render
- * TODO: Collecting responses using view
  */
 $app->collectResponse(array($app, $auth)); // should be a array object (never include Core class)
 
 /**
  * Now put your own logic to render the page
  * (this is a sample then you can do another on your own)
- */
-
-/**
+ *
  * The instantiated class variables are we going to use
  */
-// NORMAL VIEW
-if ($auth->isUserLoggedIn()) { // if user logged in (using Auth class)
+
+// if user logged in (using Auth class)
+if ($auth->isUserLoggedIn() && $auth->addUserRequest()==false) {
 	$app->render("logged_in.php"); // use Core class to render
-} else { // not logged in
-    // $app->layouts = false; // disable rendering with layouts
+}
+
+// not logged in or want to add existing user
+else if (!$auth->isUserLoggedIn() || $auth->addUserRequest()) {
 	$app->render("not_logged_in.php"); // do the fallback function
 }

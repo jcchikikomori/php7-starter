@@ -17,7 +17,11 @@ $registration = new Registration();
 // DEFAULT VIEW (WEB)
 // collect feedbacks first
 $app->collectResponse(array($registration)); // should be a array object (never include Core class)
+
 // set data
 $data['user_types'] = $registration->getUserTypes();
+
 // show the register view (with the registration form, and messages/errors)
-$app->render("user/register.php", $data);
+if (!$auth->isUserLoggedIn() || $auth->addUserRequest()) {
+    $app->render("user/register.php", $data);
+}

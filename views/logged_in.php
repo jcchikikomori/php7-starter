@@ -11,10 +11,12 @@
                         // Helper::getFeedback();
                     ?>
                     <!-- Using Session library -->
-                    <p>Hey, <?php echo Session::user('user_name'); ?>. You are logged in.</p>
+                    <p>Hey, <?php echo Session::get_user('user_name'); ?>. You are logged in.</p>
                     <!-- if you need user information, just put them into the $_SESSION variable and output them here -->
-                    <p>You are from <?php echo $_SESSION['users']['user_logged_in_as'] . ' Department'; ?></p>
+                    <p>You are from <?php echo Session::get_user('user_logged_in_as') . ' Department'; ?></p>
                     Try to close this browser tab and open it again. Still logged in! ;)
+
+                    <p>TEST: <a href="index.php?add_existing_user">Add another user!</a></p>
 
                     <!-- because people were asking: "index.php?logout" is just my simplified form of "index.php?logout=true" -->
                     <a href="index.php?logout">Logout</a>

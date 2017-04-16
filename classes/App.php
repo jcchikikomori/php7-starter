@@ -31,10 +31,15 @@ class App
      */
     public $messages = array();
     /**
-     * FOR CORE ONLY STARTING THIS LINE
+     * APP OPTIONS
+     * These are the sets of customizations that you can do with your project
      */
     public $for_json_object = false; // if we gonna load data to json only or not
     public $layouts = true; // Render with layouts
+    /**
+     * @var array Collection of responses
+     * TODO: Retain remaining responses until the end of file
+     */
     public $response = array(); // collecting response
 
     /**
@@ -55,16 +60,16 @@ class App
         // ======================= CONSTRUCTOR =======================
 
         /**
-         * Time Zones
+         * Time Zones - set your own (optional)
          * To see all current timezones, @see http://php.net/manual/en/timezones.php
+         * SAMPLE: date_default_timezone_set("Asia/Manila");
          */
-        date_default_timezone_set("Asia/Manila");
 
         /**
          * Environment
          * - define('ENVIRONMENT', 'development'); Enables Error Report and Debugging
          * - define('ENVIRONMENT', 'release'); Disables Error Reporting for Performance
-         * - define('ENVIRONMENT', 'web'); For Webhosting (don't use if you are about to go development/offline)
+         * - define('ENVIRONMENT', 'web'); For Web Hosting / Deployment (don't use if you are about to go development/offline)
          */
         if (!defined('ENVIRONMENT') && empty('ENVIRONMENT')) { define('ENVIRONMENT', 'release'); }
 
@@ -78,7 +83,7 @@ class App
         /**
          * Fixed Paths
          * You can change them if you wish
-         * Just don't break the right structure there
+         * Just don't break the right structure/variables there
          */
         $this->views_path = ROOT . 'views' . DIRECTORY_SEPARATOR;
         $this->assets_path = ROOT . 'assets' . DIRECTORY_SEPARATOR;
@@ -163,12 +168,10 @@ class App
             $this->messages[] = "You are browsing using mobile!";
         }
 
-        // REST API TEST.
-        // Requires POSTMAN for Chrome
+        // REST API TEST (LOGIN TEST). Requires POSTMAN
         // print_r($agent->getHttpHeaders()); // use this for browser/device check & other headers
         if ($agent->getHttpHeader('HTTP_POSTMAN_TOKEN') && $agent->browser('Chrome')) {
             Session::set('POSTMAN_REST_API', true);
-            // Session::set('JSON_REQUESTED', true);
             $this->setForJsonObject(true);
             // print_r($agent->getRules()); check all devices
         }
@@ -264,17 +267,20 @@ class App
      * Collect Response based from class you've defined.
      * UPDATE: Combined into one
      * @param array $classes Set of classes with set of feedback after execution
-     * @param bool $reset Reset response (BETA! set this as true if it's the last one)
+     * @param bool $reset Reset response (TODO: set this as true if it's the last one)
+     * @param null $tag Custom tags (e.g: [INFO])
+     * WARNING: Currently using ternary conditions inside the loop
+     * https://davidwalsh.name/php-shorthand-if-else-ternary-operators
      */
-    public function collectResponse(array $classes, $reset=true)
+    public function collectResponse(array $classes, $reset=true, $tag=null)
     {
         $response = $reset ? array() : Session::get('response');
         foreach($classes as $class) {
             foreach($class->errors as $error) {
-                $response['messages'][] = '[ERR] '.$error;
+                $response['messages'][] = '[' . (!empty($tag)?$tag:'ERR') . '] ' . $error;
             }
             foreach($class->messages as $message) {
-                $response['messages'][] = '[MSG] '.$message;
+                $response['messages'][] = '[' . (!empty($tag)?$tag:'MSG') . '] ' . $message;
             }
         }
         Session::set('response', $response); // fill me up
