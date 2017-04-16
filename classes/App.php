@@ -36,6 +36,7 @@ class App
      */
     public $for_json_object = false; // if we gonna load data to json only or not
     public $layouts = true; // Render with layouts
+    public $multi_user_status = false; // multi-user system
     /**
      * @var array Collection of responses
      * TODO: Retain remaining responses until the end of file
@@ -144,6 +145,12 @@ class App
             default:
                 exit("The application environment is not set correctly.");
         }
+
+        /**
+         * Multi-user checks
+         * TODO: Reached maximum nesting levels on xdebug, so we gonna try to flatten up soon
+         */
+        // $this->multi_user_status = Session::multi_user_status();
 
         // ======================= END OF INIT =======================
 

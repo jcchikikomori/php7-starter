@@ -126,12 +126,18 @@ class Session
      */
     public static function destroy_user($user=null, $key=null) {
 
+        // If specified user was none
         if (empty($user)) {
             $user_id = (isset($_SESSION['current_user'])) ? $_SESSION['current_user'] : null;
         } else {
             $user_id = $user;
         }
 
+        /**
+         * If specified user_id in current session still
+         * does exists, it will destroy key with
+         * corresponding user_id
+         */
         if (!empty($user_id)) {
             unset($_SESSION['users'][$user_id]);
             if (!empty($key)) {
@@ -146,17 +152,26 @@ class Session
 
     /**
      * Toggle multi-user
+     * @param bool $status - default status (multi user off)
      */
-    public static function toggle_multi_user() {
+    public static function toggle_multi_user($status=null) {
+        // with specified status
+        if (!empty($status) && is_bool($status)) {
+            $_SESSION['multi_user'] = $status;
+            return;
+        }
+        // else the toggle way
         if (self::multi_user_status()) {
             $_SESSION['multi_user'] = false;
-        } else {
+        }
+        else {
             $_SESSION['multi_user'] = true;
         }
     }
 
     /**
      * Get multi user status
+     * by counting current users in session
      * @return mixed
      */
     public static function multi_user_status() {
@@ -164,8 +179,22 @@ class Session
             return true;
         }
         else {
+            self::toggle_multi_user(false);
             false;
         }
+    }
+
+    /**
+     * Check if the user is still in session
+     * @param $id
+     * @return bool
+     */
+    public static function check_user($id) {
+        $users = self::get('users');
+        foreach ($users as $user => $value) {
+            if ($user == $id) { return true; }
+        }
+        return false;
     }
 
     /**

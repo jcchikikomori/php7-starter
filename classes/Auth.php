@@ -43,32 +43,35 @@ class Auth extends App
         // login via post data (if user just submitted a login form)
         elseif (isset($_POST["login"])) {
             $this->doLogin();
+            // Were gonna use Session library for handling $_SESSION objects
             if (Session::get('user_logged_in')) {
-                // logged in!
                 // POST ACTIONS AFTER LOGIN
             }
         }
 
         // multi-user setup!
+        // This will occur if the user clicks "add another user" button
         if (isset($_GET["add_existing_user"])) {
             Session::toggle_multi_user();
+            // triggers add user request
             Session::set('add_user_requested', true);
         }
 
-        // this would log out current log session but will not delete user data
+        // this would log out current log session
+        // but will not delete user session data
         elseif (isset($_GET['switch_user'])) {
-            $this->switchUser();
+            $this->cleanUpUserSession();
+            // triggers switch user request
+            Session::set('switch_user_requested', true);
         }
 
         // login via get data (multi-user)
-        // TODO: Merge in doLogin()
+        // TODO: Much cleaner request auth checks
         elseif (isset($_GET["login"]) &&
             (isset($_GET['u']) && !empty($_GET['u'])) && // u for user_id
             (isset($_GET['n']) && !empty($_GET['n'])) ) { // n for name/username
-            $user_id = $_GET['u'];
-            $user_name = $_GET['n'];
+            $user_id = $_GET['u']; $user_name = $_GET['n'];
             $this->doLoginMultiUser($user_id, $user_name);
-            // header("location: index.php");
         }
 
         // logout via get data (multi-user)
@@ -82,7 +85,7 @@ class Auth extends App
         }
 
         else {
-            // return to default
+            // return to default trigger values
             Session::set('add_user_requested', false);
             Session::set('switch_user_requested', false);
         }
@@ -149,8 +152,6 @@ class Auth extends App
                     // Session::set_user('last_name', $last_name);
                     Session::set('user_logged_in', true);
                     Session::set_user('user_logged_in_as', $result_row['user_account_type']);
-                    // Session::set_user('active', true, $user_id);
-
                 }
                 // response
                 $this->messages[] = "Hi ".$user_name."!";
@@ -178,15 +179,16 @@ class Auth extends App
         }
       }
     }
-
     /**
+     * Multi-user version of doLogin()
      * NOTE: Check documentations/comments from doLogin()
      * @param $user_id
      * @param $user_name
      */
     private function doLoginMultiUser($user_id, $user_name)
     {
-        if (Session::multi_user_status()) {
+        // MULTI USER CHECKS
+        if (Session::multi_user_status() && Session::check_user($user_id)) {
             $result_of_login_check = $this->db_connection->count("users", [
                 "user_id" => $user_id
             ]);
@@ -223,8 +225,6 @@ class Auth extends App
                     // Session::set_user('last_name', $last_name);
                     Session::set('user_logged_in', true);
                     Session::set_user('user_logged_in_as', $result_row['user_account_type']);
-                    // Session::set_user('active', true, $user_id);
-
                 }
                 // response
                 $this->messages[] = "Hi ".$user_name."!";
@@ -247,7 +247,10 @@ class Auth extends App
                 $this->status = 'not_exist';
             }
         } else {
-            $this->errors[] = "Multi-user error";
+            // for REST response
+            if ($this->isForJsonObject()) {
+                $this->errors[] = "Please use the login form.";
+            }
             $this->status = 'failed';
         }
     }
@@ -276,8 +279,7 @@ class Auth extends App
         // }
 
         // cleaning up
-        Session::set('current_user', null);
-        Session::set('user_logged_in', false);
+        $this->cleanUpUserSession();
 
         // JSON
         if ($this->isForJsonObject()) {
@@ -295,7 +297,6 @@ class Auth extends App
     public function isUserLoggedIn()
     {
         if (Session::user_logged_in() && !isset($_GET["logout"])) { // you can use session lib
-            // return $_SESSION['users']['id]['user_logged_in']; // native use of session sample
             return true;
         } else {
             return false;
@@ -303,7 +304,6 @@ class Auth extends App
     }
 
     /**
-     * TODO: Simple operations for a while
      * @return bool
      */
     public function addUserRequest()
@@ -314,9 +314,12 @@ class Auth extends App
     }
 
 
-    private function switchUser()
+    /**
+     * Clean up current user session statuses
+     * but it will not erase any user session data
+     */
+    public function cleanUpUserSession()
     {
-        // cleaning up
         Session::set('current_user', null);
         Session::set('user_logged_in', false);
     }
