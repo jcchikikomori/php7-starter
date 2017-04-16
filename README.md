@@ -1,5 +1,5 @@
 # MyPHP
-### A PHP Naked Micro Framework
+### A PHP Naked Mini Framework
 Currently using pure and naked PHP7 code
 
 Good for prototyping your app and can do "Hello World", of course
