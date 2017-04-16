@@ -1,6 +1,6 @@
 <?php
 
-class System extends Core
+class System extends App
 {
 	/**
      * @var object $db_connection The database connection
@@ -22,7 +22,7 @@ class System extends Core
     public function __construct()
     {
         // parent was from the extended class
-        // parent::__construct(); // already declared on Core
+        // parent::__construct(); // already declared on App
         $this->db_connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     }
 

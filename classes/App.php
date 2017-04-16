@@ -16,7 +16,7 @@ use Medoo\Medoo as DB; // Using Medoo namespace as DB
  * - Load other libraries (in /libraries dir)
  * - Do action first (if you want) everytime the user requests (e.g: init)
  */
-class Core
+class App
 {
     /**
      * @var object $db_connection The database connection

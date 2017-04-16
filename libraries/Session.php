@@ -7,8 +7,8 @@
  * gets values, and closes the session properly (=logout). Those methods
  * are STATIC, which means you can call them with Session::get(XXX);
  *
- * by jccultima123
- * (c) panique from PHP-LOGIN
+ * @author panique from PHP-LOGIN
+ * @modified by jccultima123
  * @license http://opensource.org/licenses/MIT MIT License
  */
 class Session

@@ -4,7 +4,7 @@
  * Class auth
  * handles the user's login and logout process
  */
-class Auth extends Core
+class Auth extends App
 {
     /**
      * @var object The database connection
@@ -29,9 +29,9 @@ class Auth extends Core
      */
     public function __construct()
     {
-        parent::__construct(); // Load Core constructor
+        parent::__construct(); // Load App constructor
 
-        $this->db_connection = Core::connect_database(); // if this class needed a database connection, use this line
+        $this->db_connection = App::connect_database(); // if this class needed a database connection, use this line
 
         // $this->messages[] = "Auth class is saying that your database server is working. You can remove me inside.."; // TRY THIS OUT
         // check the possible login actions:

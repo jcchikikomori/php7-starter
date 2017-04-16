@@ -8,7 +8,7 @@
                 <div class="panel-body">
                     <?php
                         // show potential errors / feedback (from session)
-                        // View::getFeedback();
+                        // Helper::getFeedback();
                     ?>
                     <!-- Using Session library -->
                     <p>Hey, <?php echo Session::user('user_name'); ?>. You are logged in.</p>

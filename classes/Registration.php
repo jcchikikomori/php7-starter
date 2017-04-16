@@ -4,7 +4,7 @@
  * Class registration
  * handles the user registration
  */
-class Registration extends Core
+class Registration extends App
 {
     /**
      * @var object $db_connection The database connection
@@ -29,9 +29,9 @@ class Registration extends Core
      */
     public function __construct()
     {
-        parent::__construct(); // Load Core constructor
+        parent::__construct(); // Load App constructor
 
-        $this->db_connection = Core::connect_database();
+        $this->db_connection = App::connect_database();
 
         // This is a example how to debug your query
         // print_r($this->db_connection->debug()->select("user_types", '*')); die();

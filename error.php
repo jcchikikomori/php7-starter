@@ -1,6 +1,6 @@
 <?php
 
-require_once("classes/Core.php");
+require_once("classes/App.php");
 $core = new Core();
 
 /**

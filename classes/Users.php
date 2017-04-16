@@ -1,6 +1,6 @@
 <?php
 
-class Users extends Core
+class Users extends App
 {
 	/**
      * @var object $db_connection The database connection
@@ -21,18 +21,13 @@ class Users extends Core
      */
     public function __construct()
     {
-        $this->db_connection = Core::connect_database();
+        $this->db_connection = App::connect_database();
     }
 
     public function getUserTypes()
     {
         // if no connection errors (= working database connection)
         if (!$this->db_connection->connect_errno) {
-
-            // crypt the user's password with PHP 5.5's password_hash() function, results in a 60 character
-            // hash string. the PASSWORD_DEFAULT constant is defined by the PHP 5.5, or if you are using
-            // PHP 5.3/5.4, by the password hashing compatibility library
-            $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT);
 
             // check if user or email address already exists
             $sql = "SELECT * FROM user_types;";

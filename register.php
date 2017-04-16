@@ -5,7 +5,7 @@
  */
 
 // checking requirements first using this class
-require_once("classes/Core.php"); $core = new Core();
+require_once("classes/App.php"); $app = new App();
 
 // load the registration class
 require_once("classes/Registration.php");
@@ -16,8 +16,8 @@ $registration = new Registration();
 
 // DEFAULT VIEW (WEB)
 // collect feedbacks first
-$core->collectResponse(array($registration)); // should be a array object (never include Core class)
+$app->collectResponse(array($registration)); // should be a array object (never include Core class)
 // set data
 $data['user_types'] = $registration->getUserTypes();
 // show the register view (with the registration form, and messages/errors)
-$core->render("user/register.php", $data);
+$app->render("user/register.php", $data);

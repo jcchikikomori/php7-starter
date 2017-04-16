@@ -8,9 +8,9 @@
  */
 
 // Core components first such as main classes then load dependencies
-require_once("classes/Core.php");
+require_once("classes/App.php");
 // then Instantiate the class to use it
-$core = new Core();
+$app = new App();
 // load the login class then instantiate again
 require_once("classes/Auth.php");
 $auth = new Auth();
@@ -20,7 +20,7 @@ $auth = new Auth();
  * YOU CAN DO THIS AGAIN BEFORE $this->render
  * TODO: Collecting responses using view
  */
-$core->collectResponse(array($core, $auth)); // should be a array object (never include Core class)
+$app->collectResponse(array($app, $auth)); // should be a array object (never include Core class)
 
 /**
  * Now put your own logic to render the page
@@ -32,8 +32,8 @@ $core->collectResponse(array($core, $auth)); // should be a array object (never 
  */
 // NORMAL VIEW
 if ($auth->isUserLoggedIn()) { // if user logged in (using Auth class)
-	$core->render("logged_in.php"); // use Core class to render
+	$app->render("logged_in.php"); // use Core class to render
 } else { // not logged in
-    // $core->layouts = false; // disable rendering with layouts
-	$core->render("not_logged_in.php"); // do the fallback function
+    // $app->layouts = false; // disable rendering with layouts
+	$app->render("not_logged_in.php"); // do the fallback function
 }
