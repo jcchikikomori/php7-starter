@@ -28,12 +28,19 @@ $app->collectResponse(array($app, $auth)); // should be a array object (never in
  * The instantiated class variables are we going to use
  */
 
+$data = array(); // for rendering with data/callback
+
+var_dump(Session::get('users'));
+
 // if user logged in (using Auth class)
-if ($auth->isUserLoggedIn() && $auth->addUserRequest()==false) {
+if ($auth->isUserLoggedIn() &&
+    (!Session::get('add_user_requested')) ) {
 	$app->render("logged_in.php"); // use Core class to render
 }
 
 // not logged in or want to add existing user
 else if (!$auth->isUserLoggedIn() || $auth->addUserRequest()) {
-	$app->render("not_logged_in.php"); // do the fallback function
+    $data['add_user_requested'] = Session::get('add_user_requested');
+    $data['logged_users'] = Session::get('users');
+    $app->render("not_logged_in.php", $data);
 }

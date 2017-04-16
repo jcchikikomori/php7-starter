@@ -7,7 +7,7 @@
  * gets values, and closes the session properly (=logout). Those methods
  * are STATIC, which means you can call them with Session::get(XXX);
  *
- * New tests: Multi-user setups like the Google Auth System
+ * New tests (as of 04-16-2017): Multi-user setups like the Google Auth System
  *
  * @author panique from PHP-LOGIN
  * @modified by jccultima123
@@ -44,6 +44,8 @@ class Session
     /**
      * Alternate version of set() for users
      * sets a specific value to a specific key of the session
+     * NOTES:
+     * - "self" is a static version of $this
      * WARNING: This will overwrite/add the value to the
      * current user unless $id specified!
      * @param mixed $key
@@ -52,7 +54,7 @@ class Session
      */
     public static function set_user($key, $value, $id=null)
     {
-        if (empty($id)) { $id = self::get_user('current_user'); }
+        if (empty($id)) { $id = self::get('current_user'); }
         $_SESSION['users'][$id][$key] = $value;
     }
 
@@ -75,9 +77,24 @@ class Session
      */
     public static function get_user($key)
     {
-        if (isset($_SESSION['users'])) {
-            $current_id = $_SESSION['users']['current_user'];
-            $id = (isset($current_id) ? $current_id : null);
+        if (isset($_SESSION['users']) && self::user_logged_in()) {
+            $id = $_SESSION['current_user'];
+            if (isset($_SESSION['users'][$id][$key])) {
+                return $_SESSION['users'][$id][$key];
+            }
+        }
+    }
+
+    /**
+     * gets/returns the value of a specific user currently log in
+     * @param $key - User Details
+     * @param null $uid
+     * @return mixed
+     */
+    public static function get_other_user($key, $uid)
+    {
+        if (isset($_SESSION['users'][$uid])) {
+            $id = $uid;
             if (isset($_SESSION['users'][$id][$key])) {
                 return $_SESSION['users'][$id][$key];
             }
@@ -89,7 +106,7 @@ class Session
      * @return bool
      */
     public static function user_logged_in() {
-        if (isset($_SESSION['users']['current_user'])) {
+        if (isset($_SESSION['current_user']) && !empty($_SESSION['current_user'])) {
             return true;
         }
     }
@@ -103,10 +120,52 @@ class Session
 
     /**
      * logging out specific user
-     * @param $key - user id or any key
+     * @param null $user user id
+     * @param $key - specified key
+     * @return bool
      */
-    public static function destroy_user($key) {
-        unset($_SESSION['users'][$key]);
+    public static function destroy_user($user=null, $key=null) {
+
+        if (empty($user)) {
+            $user_id = (isset($_SESSION['current_user'])) ? $_SESSION['current_user'] : null;
+        } else {
+            $user_id = $user;
+        }
+
+        if (!empty($user_id)) {
+            unset($_SESSION['users'][$user_id]);
+            if (!empty($key)) {
+                unset($_SESSION['users'][$user_id][$key]);
+            }
+            $_SESSION['current_user'] = null;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Toggle multi-user
+     */
+    public static function toggle_multi_user() {
+        if (self::multi_user_status()) {
+            $_SESSION['multi_user'] = false;
+        } else {
+            $_SESSION['multi_user'] = true;
+        }
+    }
+
+    /**
+     * Get multi user status
+     * @return mixed
+     */
+    public static function multi_user_status() {
+        if (count(self::get('users')) >= 1) {
+            return true;
+        }
+        else {
+            false;
+        }
     }
 
     /**

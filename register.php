@@ -7,6 +7,10 @@
 // checking requirements first using this class
 require_once("classes/App.php"); $app = new App();
 
+// load the auth class for multi-user
+require_once("classes/Auth.php");
+$auth = new Auth();
+
 // load the registration class
 require_once("classes/Registration.php");
 
@@ -22,6 +26,7 @@ $app->collectResponse(array($registration)); // should be a array object (never 
 $data['user_types'] = $registration->getUserTypes();
 
 // show the register view (with the registration form, and messages/errors)
-if (!$auth->isUserLoggedIn() || $auth->addUserRequest()) {
+if (!$auth->isUserLoggedIn() ||
+    ($auth->addUserRequest() || !Session::get('add_user_requested')) ) {
     $app->render("user/register.php", $data);
 }

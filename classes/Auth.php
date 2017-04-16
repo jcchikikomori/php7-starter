@@ -24,11 +24,6 @@ class Auth extends App
      */
     public $status;
     /**
-     * For multi-user setup
-     * @var bool
-     */
-    public $add_user_requested = false;
-    /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
      * you know, when you do "$login = new Login();"
      */
@@ -50,13 +45,40 @@ class Auth extends App
             $this->doLogin();
             if (Session::get('user_logged_in')) {
                 // logged in!
+                // POST ACTIONS AFTER LOGIN
             }
         }
 
         // multi-user setup!
-        elseif (isset($_GET["add_existing_user"])) {
+        if (isset($_GET["add_existing_user"])) {
+            Session::toggle_multi_user();
             Session::set('add_user_requested', true);
-            $this->add_user_requested = true;
+        }
+
+        // login via get data (multi-user)
+        // TODO: Merge in doLogin()
+        elseif (isset($_GET["login"]) &&
+            (isset($_GET['u']) && !empty($_GET['u'])) && // u for user_id
+            (isset($_GET['n']) && !empty($_GET['n'])) ) { // n for name/username
+            $user_id = $_GET['u'];
+            $user_name = $_GET['n'];
+            $this->doLoginMultiUser($user_id, $user_name);
+            // header("location: index.php");
+        }
+
+        // logout via get data (multi-user)
+        elseif (isset($_GET["logout"]) &&
+            (isset($_GET['u']) && !empty($_GET['u'])) && // u for user_id
+            (isset($_GET['n']) && !empty($_GET['n'])) ) { // n for name/username
+            $user_id = $_GET['u'];
+            $user_name = $_GET['n'];
+            $this->doLogout($user_id, $user_name);
+            // header("location: index.php");
+        }
+
+        else {
+            // return to default
+            Session::set('add_user_requested', false);
         }
     }
     /**
@@ -111,19 +133,21 @@ class Auth extends App
                     // Multi-user setup like google auth system
                     $user_id = $result_row['user_id'];
                     $user_name = $result_row['user_name'];
-                    Session::set_user('current_user', $user_id);
-                    Session::set_user('user_name', $user_name, $user_id);
-                    Session::set_user('user_email', $result_row['user_email'], $user_id);
-                    Session::set_user('first_name', $result_row['first_name'], $user_id);
-                    Session::set_user('last_name', $result_row['last_name'], $user_id);
-                    Session::set_user('user_logged_in', true, $user_id);
-                    Session::set_user('user_logged_in_as', $result_row['user_account_type'], $user_id);
+                    $first_name = $result_row['first_name'];
+                    $last_name = $result_row['last_name'];
+                    Session::set('current_user', $user_id);
+                    Session::set_user('user_name', $user_name);
+                    Session::set_user('user_email', $result_row['user_email']);
+                    Session::set_user('full_name', $first_name . " " . $last_name);
+                    // Session::set_user('first_name', $first_name);
+                    // Session::set_user('last_name', $last_name);
+                    Session::set('user_logged_in', true);
+                    Session::set_user('user_logged_in_as', $result_row['user_account_type']);
                     // Session::set_user('active', true, $user_id);
 
                 }
                 // response
                 $this->messages[] = "Hi ".$user_name."!";
-                // $this->messages[] = "<pre>".print_r(Session::get('users'), true)."</pre>";
                 $this->status = 'success';
                 // check again if the user requested json object
                 if ($this->isForJsonObject()) {
@@ -148,29 +172,122 @@ class Auth extends App
         }
       }
     }
+
+    /**
+     * NOTE: Check documentations/comments from doLogin()
+     * @param $user_id
+     * @param $user_name
+     */
+    private function doLoginMultiUser($user_id, $user_name)
+    {
+        if (Session::multi_user_status()) {
+            $result_of_login_check = $this->db_connection->count("users", [
+                "user_id" => $user_id
+            ]);
+            // if this user exists
+            if ($result_of_login_check == 1) {
+                $result_row = $this->db_connection->get("users", [
+                    //COLUMNS
+                    'user_id', 'user_name', 'user_email', 'user_password',
+                    'first_name', 'last_name', 'user_account_type',
+                    'created', 'modified'
+                ], [
+                    // CONDITIONS
+                    "OR" => [
+                        "user_id" => $user_id,
+                        "user_email" => $user_name // username or email
+                    ]
+                ]);
+                // Check FOR REST API to avoid performance drops
+                if ($this->isForJsonObject()==false) {
+
+                    // write user data into PHP SESSION (a file on your server)
+                    // $_SESSION['user_name'] = $result_row->user_name; // example
+
+                    // Multi-user setup like google auth system
+                    $user_id = $result_row['user_id'];
+                    $user_name = $result_row['user_name'];
+                    $first_name = $result_row['first_name'];
+                    $last_name = $result_row['last_name'];
+                    Session::set('current_user', $user_id);
+                    Session::set_user('user_name', $user_name);
+                    Session::set_user('user_email', $result_row['user_email']);
+                    Session::set_user('full_name', $first_name . " " . $last_name);
+                    // Session::set_user('first_name', $first_name);
+                    // Session::set_user('last_name', $last_name);
+                    Session::set('user_logged_in', true);
+                    Session::set_user('user_logged_in_as', $result_row['user_account_type']);
+                    // Session::set_user('active', true, $user_id);
+
+                }
+                // response
+                $this->messages[] = "Hi ".$user_name."!";
+                $this->status = 'success';
+                // check again if the user requested json object
+                if ($this->isForJsonObject()) {
+                    // FETCH USER AS JSON
+                    $user = array(
+                        'user_id'=>$result_row['user_id'],
+                        'user_name'=>$result_row['user_name'],
+                        'name'=>$result_row['first_name'].' '.$result_row['last_name'],
+                        'user_email'=>$result_row['user_email'],
+                        'created'=>$result_row['created'],
+                        'modified'=>$result_row['modified']
+                    );
+                    $this->getUserJSON($user);
+                }
+            } else {
+                $this->errors[] = "This user does not exist.";
+                $this->status = 'not_exist';
+            }
+        } else {
+            $this->errors[] = "Multi-user error";
+            $this->status = 'failed';
+        }
+    }
+
     /**
      * perform the logout
+     * @param $user_id
+     * @param $user_name
      */
-    public function doLogout()
+    public function doLogout($user_id=null, $user_name=null)
     {
-        Session::destroy(); // or session_destroy();
-        $this->messages[] = "You have been logged out.";
-        $this->status = 'success';
+        $set_user_name = Session::get_other_user('user_name',$user_id); // validation
+
+        if (Session::destroy_user($user_id)) {
+            if (empty($user_name)) {
+                $this->messages[] = "You have been logged out";
+            }
+            elseif ($set_user_name == $user_name) { // validate
+                $this->messages[] = $user_name." has been logged out";
+            }
+            $this->status = 'success';
+        }
+        // else {
+        //     $this->messages[] = "You haven't logged it yet";
+        //     $this->status = 'success';
+        // }
+
+        // cleaning up
+        Session::set('current_user', null);
+        Session::set('user_logged_in', false);
+
         // JSON
         if ($this->isForJsonObject()) {
             echo Helper::json_encode([
-                'status'=>$this->status,
-                'messages'=>$this->messages
+                'status' => $this->status,
+                'messages' => $this->messages
             ]);
         }
     }
+
     /**
      * simply return the current state of the user's login
      * @return boolean user's login status
      */
     public function isUserLoggedIn()
     {
-        // if (Session::get_user('user_logged_in') && !isset($_GET["logout"])) { // you can use session lib
         if (Session::user_logged_in() && !isset($_GET["logout"])) { // you can use session lib
             // return $_SESSION['users']['id]['user_logged_in']; // native use of session sample
             return true;
@@ -185,7 +302,9 @@ class Auth extends App
      */
     public function addUserRequest()
     {
-        return $this->add_user_requested;
+        if (Session::multi_user_status()) {
+            return Session::get('add_user_requested');
+        }
     }
 
     /**
