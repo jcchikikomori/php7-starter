@@ -10,3 +10,7 @@
  * Environment. Details is on classes/Init.php
  */
 define('ENVIRONMENT', 'development');
+/**
+ * Multi-user system
+ */
+define('MULTI_USER', false);

@@ -46,7 +46,7 @@ Create your own. You may use my sample code available [here](https://gist.github
 ## Known Issues
 * Error Handling for JSON rendering
 
-## Updates (for 2017)
+## Work to do..
 - [x] SQLite Support
 - [ ] Email Service
 - [ ] Forgot Password System
@@ -59,16 +59,13 @@ Create your own. You may use my sample code available [here](https://gist.github
 - [ ] Multiple URL/URI parameters
 - [ ] Routing (Optional)
 
-## Contribute Us
-Contribute here, fork and submit your pull requests to us!
-
-## Credits
-* Some codes are done and credited to [panique](https://github.com/panique)-sensei! Arigatou!!
-
 ## Notice
 * Don't confuse with PHP frameworks like CodeIgniter & CakePHP. It's still different though.
 * This script comes with a handy .htaccess in the views folder that denies direct access to the files within the folder (so that people cannot render the views directly). However, these .htaccess files only work if you have set
 `AllowOverride` to `All` in your apache vhost configs. There are lots of tutorials on the web on how to do this.
+
+## Credits
+* [panique](https://github.com/panique)
 
 ## License
 Licensed under [MIT](http://www.opensource.org/licenses/mit-license.php). You can use this script for free for any

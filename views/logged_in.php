@@ -13,13 +13,15 @@
                     <!-- Using Session library -->
                     <!-- if you need user information, just put them in Session::set_user() output them here -->
                     <?php
-                        echo "<p>You are ".Session::get_user('full_name')." from ".Session::get_user('user_logged_in_as')." Department</p>"
+                        echo "<p>You are ".Session::get_user_details('full_name')." from ".Session::get_user_details('user_logged_in_as')." Department</p>"
                     ?>
                     Try to close this browser tab and open it again. Still logged in! ;)
                     <hr />
-                    <!-- Add another user -->
-                    <a href="index.php?add_existing_user" class="btn btn btn-primary btn-block">Add another user</a>
-                    <a href="index.php?switch_user" class="btn btn btn-primary btn-block">Switch user</a>
+                    <?php if(isset($multi_user) && $multi_user) { ?>
+                        <!-- Add another user -->
+                        <a href="index.php?add_existing_user" class="btn btn btn-primary btn-block">Add another user</a>
+                        <a href="index.php?switch_user" class="btn btn btn-primary btn-block">Switch user</a>
+                    <?php } ?>
 
                     <!-- because people were asking: "index.php?logout" is just my simplified form of "index.php?logout=true" -->
                     <a href="index.php?logout" class="btn btn btn-danger btn-block">Logout</a>

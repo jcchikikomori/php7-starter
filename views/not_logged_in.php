@@ -13,8 +13,7 @@
                     <form method="post" action="index.php" name="loginform">
                         <fieldset>
                             <?php
-                                if (isset($data) &&
-                                    ($data['add_user_requested'] && Session::multi_user_status()) ) {
+                                if (!empty($multi_user) && $multi_user) {
                                     echo "<p>Add another user!</p>";
                                 }
                             ?>
@@ -27,10 +26,10 @@
                             <!-- Change this to a button or input when using this as a form -->
                             <input type="submit" class="btn btn-lg btn-success btn-block" name="login" value="Login" />
                             <?php
-                                if (isset($data) && !empty($data['logged_users']) && !Session::user_logged_in()) {
+                                if (!empty($logged_users) && !Session::user_logged_in()) {
                                     echo "<hr /><p>Other active users..</p>";
                                     echo "<ul>";
-                                    foreach($data['logged_users'] as $user => $value) {
+                                    foreach($logged_users as $user => $value) {
                                         echo "<li>".
                                                 "<a href='index.php?login&u=".$user."&n=".$value['user_name']."'>".$value['full_name']."</a>".
                                                 "<a href='index.php?logout&u=".$user."&n=".$value['user_name']."' class='pull-right'>logout</a>".

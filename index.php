@@ -19,7 +19,7 @@ $auth = new Auth();
  * Collect responses first
  * YOU CAN DO THIS AGAIN BEFORE $this->render
  */
-$app->collectResponse(array($app, $auth)); // should be a array object (never include Core class)
+// $app->collectResponse(array($app, $auth)); // should be a array object (never include Core class)
 
 /**
  * Now put your own logic to render the page
@@ -30,17 +30,20 @@ $app->collectResponse(array($app, $auth)); // should be a array object (never in
 
 $data = array(); // for rendering with data/callback
 
+$data['multi_user'] = $auth->multiUserStatus();
+$data['logged_users'] = Session::get('users');
+
+/**
+ * One of the ways to debug your PHP application
+ */
 var_dump(Session::get('users'));
 
 // if user logged in (using Auth class)
-if ($auth->isUserLoggedIn() &&
-    (!Session::get('add_user_requested')) ) {
-	$app->render("logged_in.php"); // use Core class to render
+if ($auth->isUserLoggedIn() && $app->multi_user_status) {
+    $app->render("logged_in.php", $data); // use Core class to render
 }
 
 // not logged in or want to add existing user
-else if (!$auth->isUserLoggedIn() || $auth->addUserRequest()) {
-    $data['add_user_requested'] = Session::get('add_user_requested');
-    $data['logged_users'] = Session::get('users');
+else if (!$auth->isUserLoggedIn()) {
     $app->render("not_logged_in.php", $data);
 }

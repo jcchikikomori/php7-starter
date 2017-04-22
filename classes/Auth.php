@@ -24,6 +24,11 @@ class Auth extends App
      */
     public $status;
     /**
+     * Misc. setups
+     */
+    public $multi_user_requested = false;
+    public $switch_user_requested = false;
+    /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
      * you know, when you do "$login = new Login();"
      */
@@ -49,24 +54,18 @@ class Auth extends App
             }
         }
 
-        // multi-user setup!
-        // This will occur if the user clicks "add another user" button
-        if (isset($_GET["add_existing_user"])) {
-            Session::toggle_multi_user();
-            // triggers add user request
-            Session::set('add_user_requested', true);
+        elseif (isset($_GET['add_existing_user'])) {
+            $this->multi_user_requested = true; // triggers multi user request
         }
 
         // this would log out current log session
         // but will not delete user session data
         elseif (isset($_GET['switch_user'])) {
             $this->cleanUpUserSession();
-            // triggers switch user request
-            Session::set('switch_user_requested', true);
+            $this->switch_user_requested = true; // triggers switch user request
         }
 
         // login via get data (multi-user)
-        // TODO: Much cleaner request auth checks
         elseif (isset($_GET["login"]) &&
             (isset($_GET['u']) && !empty($_GET['u'])) && // u for user_id
             (isset($_GET['n']) && !empty($_GET['n'])) ) { // n for name/username
@@ -86,8 +85,8 @@ class Auth extends App
 
         else {
             // return to default trigger values
-            Session::set('add_user_requested', false);
-            Session::set('switch_user_requested', false);
+            $this->multi_user_requested = false;
+            $this->switch_user_requested = false;
         }
     }
     /**
@@ -188,7 +187,7 @@ class Auth extends App
     private function doLoginMultiUser($user_id, $user_name)
     {
         // MULTI USER CHECKS
-        if (Session::multi_user_status() && Session::check_user($user_id)) {
+        if ($this->multiUserStatus() && Session::check_user($user_id)) {
             $result_of_login_check = $this->db_connection->count("users", [
                 "user_id" => $user_id
             ]);
@@ -262,7 +261,7 @@ class Auth extends App
      */
     public function doLogout($user_id=null, $user_name=null)
     {
-        $set_user_name = Session::get_other_user('user_name',$user_id); // validation
+        $set_user_name = Session::get_user('user_name',$user_id); // validation
 
         if (Session::destroy_user($user_id)) {
             if (empty($user_name)) {
@@ -273,10 +272,6 @@ class Auth extends App
             }
             $this->status = 'success';
         }
-        // else {
-        //     $this->messages[] = "You haven't logged it yet";
-        //     $this->status = 'success';
-        // }
 
         // cleaning up
         $this->cleanUpUserSession();
@@ -304,13 +299,12 @@ class Auth extends App
     }
 
     /**
+     * Requires MULTI_USER constant in configs
      * @return bool
      */
-    public function addUserRequest()
+    public function multiUserStatus()
     {
-        if (Session::multi_user_status()) {
-            return Session::get('add_user_requested');
-        }
+        return MULTI_USER;
     }
 
 

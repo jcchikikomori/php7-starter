@@ -7,7 +7,7 @@
 // checking requirements first using this class
 require_once("classes/App.php"); $app = new App();
 
-// load the auth class for multi-user
+// load the auth class
 require_once("classes/Auth.php");
 $auth = new Auth();
 
@@ -18,7 +18,6 @@ require_once("classes/Registration.php");
 // so this single line handles the entire registration process.
 $registration = new Registration();
 
-// DEFAULT VIEW (WEB)
 // collect feedbacks first
 $app->collectResponse(array($registration)); // should be a array object (never include Core class)
 
@@ -26,7 +25,6 @@ $app->collectResponse(array($registration)); // should be a array object (never 
 $data['user_types'] = $registration->getUserTypes();
 
 // show the register view (with the registration form, and messages/errors)
-if (!$auth->isUserLoggedIn() ||
-    ($auth->addUserRequest() || !Session::get('add_user_requested')) ) {
+if (!$auth->isUserLoggedIn() || ($auth->multiUserStatus())) {
     $app->render("user/register.php", $data);
 }

@@ -147,10 +147,9 @@ class App
         }
 
         /**
-         * Multi-user checks
-         * TODO: Reached maximum nesting levels on xdebug, so we gonna try to flatten up soon
+         * Multi-user
          */
-        // $this->multi_user_status = Session::multi_user_status();
+        $this->multi_user_status = MULTI_USER;
 
         // ======================= END OF INIT =======================
 
@@ -203,6 +202,7 @@ class App
     {
         // Check if its not for JSON response
         if (!$this->isForJsonObject()) {
+            extract($data); // extract array keys into variables
             if ($this->isLayouts()) {
                 include($this->header_path);
                 include($this->views_path . $part);
@@ -252,6 +252,7 @@ class App
       $database->errors = (null!==$database->error() || !empty($database->error())) ? $database->error() : array();
       return $database;
     }
+
 
     /**
      * Using Whoops error reporting

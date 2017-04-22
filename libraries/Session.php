@@ -75,7 +75,7 @@ class Session
      * @param $key - User Details
      * @return mixed
      */
-    public static function get_user($key)
+    public static function get_user_details($key)
     {
         if (isset($_SESSION['users']) && self::user_logged_in()) {
             $id = $_SESSION['current_user'];
@@ -91,7 +91,7 @@ class Session
      * @param null $uid
      * @return mixed
      */
-    public static function get_other_user($key, $uid)
+    public static function get_user($key, $uid)
     {
         if (isset($_SESSION['users'][$uid])) {
             $id = $uid;
@@ -112,10 +112,11 @@ class Session
     }
 
     /**
-     * deletes all sessions
+     * deletes each sessions
+     * @param $key
      */
-    public static function destroy() {
-        session_destroy();
+    public static function destroy($key) {
+        unset($key);
     }
 
     /**
@@ -151,36 +152,22 @@ class Session
     }
 
     /**
-     * Toggle multi-user
-     * @param bool $status - default status (multi user off)
+     * deletes each sessions
      */
-    public static function toggle_multi_user($status=null) {
-        // with specified status
-        if (!empty($status) && is_bool($status)) {
-            $_SESSION['multi_user'] = $status;
-            return;
-        }
-        // else the toggle way
-        if (self::multi_user_status()) {
-            $_SESSION['multi_user'] = false;
-        }
-        else {
-            $_SESSION['multi_user'] = true;
-        }
+    public static function destroy_all() {
+        session_destroy();
     }
 
     /**
-     * Get multi user status
+     * Get multi user status by session
      * by counting current users in session
      * @return mixed
      */
     public static function multi_user_status() {
         if (count(self::get('users')) >= 1) {
             return true;
-        }
-        else {
-            self::toggle_multi_user(false);
-            false;
+        } else {
+            return false;
         }
     }
 
@@ -191,18 +178,8 @@ class Session
      */
     public static function check_user($id) {
         $users = self::get('users');
-        foreach ($users as $user => $value) {
-            if ($user == $id) { return true; }
-        }
+        foreach ($users as $user => $value) { if ($user == $id) { return true; } }
         return false;
-    }
-
-    /**
-     * REST API TESTS
-     * @return mixed
-     */
-    public static function REST_ACTIVE_TEST() {
-        return self::get('REST_API'); // or $_SESSION['REST_API']
     }
 
 }
