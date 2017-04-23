@@ -19,23 +19,25 @@
                                 <input class="form-control" placeholder="Password" name="user_password" type="password" required>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
-                            <input type="submit" class="btn btn-lg btn-success btn-block" name="login" value="Login Another" />
+                            <input type="submit" class="btn btn-lg btn-success btn-block" name="login" value="Login" />
                             <?php
                                 if (($this->multi_user_status) && !Session::user_logged_in()) {
                                     $logged_users = Session::get('users');
-                                    echo "<hr /><p>Other active users..</p>";
-                                    echo "<ul>";
-                                    foreach($logged_users as $user => $value) {
-                                        echo "<li>".
+                                    if (!empty($logged_users)) {
+                                        echo "<hr /><p>Other active users..</p>";
+                                        echo "<ul>";
+                                        foreach($logged_users as $user => $value) {
+                                            echo "<li>".
                                                 "<a href='index.php?login&u=".$user."&n=".$value['user_name']."'>".$value['full_name']."</a>".
                                                 "<a href='index.php?logout&u=".$user."&n=".$value['user_name']."' class='pull-right'>logout</a>".
-                                             "</li>";
+                                                "</li>";
+                                        }
+                                        echo "</ul>";
+                                        echo "<hr />";
                                     }
-                                    echo "</ul>";
-                                    echo "<hr />";
                                 }
                             ?>
-                            <a href="register.php" class="btn btn btn-primary btn-block">.. or register another</a>
+                            <a href="register.php" class="btn btn btn-primary btn-block">Register</a>
                         </fieldset>
                     </form>
                 </div>
@@ -43,3 +45,4 @@
         </div>
     </div>
 </div>
+<?php var_dump($this); ?>

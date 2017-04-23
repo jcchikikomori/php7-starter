@@ -265,7 +265,7 @@ class Auth extends App
                 $this->messages[] = $user_name." has been logged out";
             }
             $this->status = 'success';
-        } else {
+        } else if (!$this->multi_user_status) {
             Session::destroy('users');
             $this->messages[] = "You have been logged out";
         }
