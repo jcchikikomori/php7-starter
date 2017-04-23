@@ -169,8 +169,7 @@ class App
         // =============== THE REST ARE TESTS ================
 
         // detect if using mobile
-        if(!isset($_SESSION['isMobile'])){ $_SESSION['isMobile'] = $agent->isMobile(); }
-        if($_SESSION['isMobile']) { // you can use the better `Session::get('isMobile')`
+        if($agent->isMobile()) {
             $this->messages[] = "You are browsing using mobile!";
         }
 
