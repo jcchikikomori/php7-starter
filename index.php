@@ -8,18 +8,17 @@
  */
 
 // Core components first such as main classes then load dependencies
-require_once("classes/App.php");
 // then Instantiate the class to use it
-$app = new App();
+require_once("classes/App.php"); $app = new App();
+
 // load the login class then instantiate again
-require_once("classes/Auth.php");
-$auth = new Auth();
+require_once("classes/Auth.php"); $auth = new Auth();
 
 /**
  * Collect responses first
  * YOU CAN DO THIS AGAIN BEFORE $this->render
  */
-// $app->collectResponse(array($app, $auth)); // should be a array object (never include Core class)
+$app->collectResponse(array($app, $auth)); // should be a array object (never include Core class)
 
 /**
  * Now put your own logic to render the page
@@ -36,7 +35,7 @@ $data['logged_users'] = Session::get('users');
 /**
  * One of the ways to debug your PHP application
  */
-var_dump(Session::get('users'));
+// var_dump(Session::get('users'));
 
 // if user logged in (using Auth class)
 if ($auth->isUserLoggedIn() && $app->multi_user_status) {
