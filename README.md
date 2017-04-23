@@ -1,8 +1,8 @@
 # MyPHP
-### A PHP Naked Mini Framework
-Currently using pure and naked PHP7 code
+### A naked PHP micro framework
+Currently using PHP 7
 
-Good for prototyping your app and can do "Hello World", of course
+Good for prototyping your app also for "Hello World"
 
 This is also my prototype template to easily test my projects before moving onto the real setup
 
@@ -14,8 +14,8 @@ This is also my prototype template to easily test my projects before moving onto
 * Using Medoo for more easier database handling (called DB in Core)
 
 ## Additonal Features
-* Multi-user setup like the Google Auth System (Experimental)
-* You can build a function for email using Composer or load your PHP-compatible Mail library in libraries/ dir
+* Multi-user (not level) setup like the Google Auth System
+* You can build a function for email using Composer or load your own library in libraries/ dir
 * Uses Composer to load external dependencies by loading Composer dependencies in Core (PHPMailer, Captcha-Generator, etc.) for sure
 * NodeJS ready. You can use Bower for load public dependencies such as Bootstrap, JQuery or maybe Foundation too! (You can ignore this if you prefer CDNs)
 * Currently using [SB-Admin 2](http://startbootstrap.com/template-overviews/sb-admin-2/) front-end template. You can replace them easily with bower! (Don't forget to check Headers & Footers!)
@@ -52,7 +52,7 @@ Create your own. You may use my sample code available [here](https://gist.github
 - [x] Error Handling with .htaccess
 - [x] Using REST/JSON formats for new API class (for OAuth, Android, etc.)
 - [ ] App Deployment like Heroku
-- [x] Multi-user (Currently Experimental)
+- [x] Multi-user
 - [ ] Plain UI version
 - [ ] Pagination (Not available yet for REST but it will come shortly)
 - [ ] Multiple URL/URI parameters

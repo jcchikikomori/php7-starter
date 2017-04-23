@@ -19,7 +19,7 @@
                                 <input class="form-control" placeholder="Password" name="user_password" type="password" required>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
-                            <input type="submit" class="btn btn-lg btn-success btn-block" name="login" value="Login" />
+                            <input type="submit" class="btn btn-lg btn-success btn-block" name="login" value="Login Another" />
                             <?php
                                 if (($this->multi_user_status) && !Session::user_logged_in()) {
                                     $logged_users = Session::get('users');
@@ -35,7 +35,7 @@
                                     echo "<hr />";
                                 }
                             ?>
-                            <a href="register.php" class="btn btn btn-primary btn-block">I would like to Register</a>
+                            <a href="register.php" class="btn btn btn-primary btn-block">.. or register another</a>
                         </fieldset>
                     </form>
                 </div>

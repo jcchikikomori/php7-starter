@@ -14,10 +14,6 @@ require_once("classes/App.php"); $app = new App();
 // load the login class then instantiate again
 require_once("classes/Auth.php"); $auth = new Auth();
 
-/**
- * If you are in multi-user mode, just simply add new view file with _multi_user naming
- */
-
 // if user logged in (using Auth class)
 if ($auth->isUserLoggedIn()) {
     // put data here using App's render()
