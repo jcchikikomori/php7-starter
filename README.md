@@ -12,7 +12,6 @@ This is also my prototype template to easily test my projects before moving onto
 * Quite Documented and plenty of comments inside
 * Render whether a JSON object or a web page
 * Using Medoo for more easier database handling (called DB in Core)
-* Using Whoops for more sassy error reporting (using ErrorHandler and PrettyErrorHandler in Core)
 
 ## Additonal Features
 * Multi-user setup like the Google Auth System (Experimental)

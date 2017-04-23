@@ -15,12 +15,6 @@ require_once("classes/App.php"); $app = new App();
 require_once("classes/Auth.php"); $auth = new Auth();
 
 /**
- * Collect responses first
- * YOU CAN DO THIS AGAIN BEFORE $this->render
- */
-$app->collectResponse(array($app, $auth)); // should be a array object (never include Core class)
-
-/**
  * Now put your own logic to render the page
  * (this is a sample then you can do another on your own)
  *
@@ -29,13 +23,14 @@ $app->collectResponse(array($app, $auth)); // should be a array object (never in
 
 $data = array(); // for rendering with data/callback
 
-$data['multi_user'] = $auth->multiUserStatus();
+$data['multi_user'] = $app->multi_user_status;
 $data['logged_users'] = Session::get('users');
 
 /**
  * One of the ways to debug your PHP application
  */
 // var_dump(Session::get('users'));
+var_dump(Session::get('response'));
 
 // if user logged in (using Auth class)
 if ($auth->isUserLoggedIn() && $app->multi_user_status) {

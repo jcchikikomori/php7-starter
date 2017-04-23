@@ -11,23 +11,10 @@ class Auth extends App
      */
     public $db_connection = null;
     /**
-     * @var array Collection of error messages
-     */
-    public $errors = array();
-    /**
-     * @var array Collection of success / neutral messages
-     */
-    public $messages = array();
-    /**
      * For JSON
      * @var string $status
      */
     public $status;
-    /**
-     * Misc. setups
-     */
-    public $multi_user_requested = false;
-    public $switch_user_requested = false;
     /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
      * you know, when you do "$login = new Login();"
@@ -36,9 +23,10 @@ class Auth extends App
     {
         parent::__construct(); // Load App constructor
 
-        $this->db_connection = App::connect_database(); // if this class needed a database connection, use this line
+        $this->db_connection = $this->connect_database(); // if this class needed a database connection, use this line
 
-        // $this->messages[] = "Auth class is saying that your database server is working. You can remove me inside.."; // TRY THIS OUT
+        $this->messages[] = "Auth is working..";
+
         // check the possible login actions:
         // if user tried to log out (happen when user clicks logout button)
         if (isset($_GET["logout"])) {
@@ -88,6 +76,7 @@ class Auth extends App
             $this->multi_user_requested = false;
             $this->switch_user_requested = false;
         }
+
     }
     /**
      * log in with post data
@@ -187,7 +176,7 @@ class Auth extends App
     private function doLoginMultiUser($user_id, $user_name)
     {
         // MULTI USER CHECKS
-        if ($this->multiUserStatus() && Session::check_user($user_id)) {
+        if ($this->multi_user_status && Session::check_user($user_id)) {
             $result_of_login_check = $this->db_connection->count("users", [
                 "user_id" => $user_id
             ]);
@@ -297,16 +286,6 @@ class Auth extends App
             return false;
         }
     }
-
-    /**
-     * Requires MULTI_USER constant in configs
-     * @return bool
-     */
-    public function multiUserStatus()
-    {
-        return MULTI_USER;
-    }
-
 
     /**
      * Clean up current user session statuses

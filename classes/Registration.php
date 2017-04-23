@@ -31,7 +31,7 @@ class Registration extends App
     {
         parent::__construct(); // Load App constructor
 
-        $this->db_connection = App::connect_database();
+        $this->db_connection = $this->connect_database();
 
         // This is a example how to debug your query
         // print_r($this->db_connection->debug()->select("user_types", '*')); die();

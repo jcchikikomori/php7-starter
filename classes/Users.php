@@ -21,7 +21,7 @@ class Users extends App
      */
     public function __construct()
     {
-        $this->db_connection = App::connect_database();
+        $this->db_connection = $this->connect_database();
     }
 
     public function getUserTypes()

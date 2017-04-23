@@ -1,11 +1,8 @@
 <?php
 
 // Required to do
-use Jenssegers\Agent\Agent as UserAgent;
-use Whoops\Handler\JsonResponseHandler as JSONErrorHandler; // TODO: Error response to JSON
-use Whoops\Handler\PrettyPageHandler as PrettyErrorHandler;
-use Whoops\Run as ErrorHandler;
-use Medoo\Medoo as DB; // Using Medoo namespace as DB
+use Jenssegers\Agent\Agent as UserAgent; // UserAgent plugin
+use Medoo\Medoo as DB; // Using Medoo as DB
 
 /**
  * Firing up MyPHP!
@@ -42,6 +39,11 @@ class App
      * TODO: Retain remaining responses until the end of file
      */
     public $response = array(); // collecting response
+    /**
+     * Misc. setups
+     */
+    public $multi_user_requested = false;
+    public $switch_user_requested = false;
 
     /**
      * FIXED PATHS
@@ -107,7 +109,7 @@ class App
              * LOAD ALL CONFIGS ON configs directory
              */
             if (!file_exists($config)) {
-                exit("File " . $config . " might be corrupted or missing.<br />Please type <code>composer dump-autoload</code> in terminal inside this project.");
+                die("File " . $config . " might be corrupted or missing.<br />Please type <code>composer dump-autoload</code> in terminal inside this project.");
             } else {
                 foreach (glob($configs.'*.php') as $configs) { include_once($configs); }
             }
@@ -154,14 +156,16 @@ class App
         // ======================= END OF INIT =======================
 
         // ERROR HANDLING USING WHOOPS
-        // TODO: Custom error pages/callbacks for deployed app
-        if (ENVIRONMENT == 'development') {
-            $errorReporting = new ErrorHandler();
-            $errorHandler = new PrettyErrorHandler();
-            $this->errorReporting($errorReporting, $errorHandler);
-        }
         // create/read session, absolutely necessary
         Session::init(); // or session_start();
+
+        if (isset($_GET['reset_session'])) {
+            $this->resetResponse();
+            exit("SESSION RESET!!");
+        }
+
+        // reset response
+        //$this->resetResponse();
 
         // initialize user agent
         $agent = new UserAgent();
@@ -189,7 +193,7 @@ class App
      */
     public function __destruct()
     {
-        // none for a while
+        $this->collectResponse(array($this));
     }
 
     /**
@@ -218,7 +222,7 @@ class App
      * @param string $charset Database Charset. utf8 is default and most compatible
      * @return DB
      */
-    public static function connect_database($driver=DB_TYPE,$charset='utf8')
+    public function connect_database($driver=DB_TYPE,$charset='utf8')
     {
       $database_properties = [
         'database_type' => $driver,
@@ -249,39 +253,23 @@ class App
       $database = new DB($database_properties); // DB START!
       // DB Errors within connection
       $database->errors = (null!==$database->error() || !empty($database->error())) ? $database->error() : array();
+      if (!empty($database->errors)) {
+          $this->messages[] = "Database is working...";
+      }
       return $database;
-    }
-
-
-    /**
-     * Using Whoops error reporting
-     * @param $instance
-     * @param $handler
-     */
-    public function errorReporting($instance, $handler) {
-        if (\Whoops\Util\Misc::isAjaxRequest()) {
-            $jsonHandler = new JsonResponseHandler();
-            $jsonHandler->addTraceToOutput(true);
-            $jsonHandler->setJsonApi(true);
-            $instance->pushHandler($jsonHandler); // and push it to the stack
-        } else { // normal
-            $instance->pushHandler($handler);
-        }
-        $instance->register(); //push to current stack
     }
 
     /**
      * Collect Response based from class you've defined.
      * UPDATE: Combined into one
      * @param array $classes Set of classes with set of feedback after execution
-     * @param bool $reset Reset response (TODO: set this as true if it's the last one)
      * @param null $tag Custom tags (e.g: [INFO])
      * WARNING: Currently using ternary conditions inside the loop
      * https://davidwalsh.name/php-shorthand-if-else-ternary-operators
      */
-    public function collectResponse(array $classes, $reset=true, $tag=null)
+    public function collectResponse(array $classes, $tag=null)
     {
-        $response = $reset ? array() : Session::get('response');
+        $response = Session::get('response');
         foreach($classes as $class) {
             foreach($class->errors as $error) {
                 $response['messages'][] = '[' . (!empty($tag)?$tag:'ERR') . '] ' . $error;
@@ -291,6 +279,10 @@ class App
             }
         }
         Session::set('response', $response); // fill me up
+    }
+
+    public function resetResponse() {
+        Session::set('response', array());
     }
 
     /**
