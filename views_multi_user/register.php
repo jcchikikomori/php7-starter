@@ -21,5 +21,5 @@ $data = array(
  * if you want a single-user mode
  */
 if (!$auth->isUserLoggedIn()) {
-    $app->render("user/register", $data);
+    $app->render("user/register.php", $data);
 }

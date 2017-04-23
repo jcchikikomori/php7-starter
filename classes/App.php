@@ -49,7 +49,7 @@ class App
      */
     protected $views_path; // default views path
     protected $assets_path; // For files under root/public
-    // public $templates_path; // templates like default header
+    protected $templates_path; // templates like default header
     protected $header_path; // layout header path
     protected $footer_path; // layout footer path
 
@@ -81,16 +81,6 @@ class App
          * and PHP will find a right slashes for you
          */
         if (!defined('ROOT')) { define('ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR); }
-
-        /**
-         * Fixed Paths
-         * You can change them if you wish
-         * Just don't break the right structure/variables there
-         */
-        $this->views_path = ROOT . 'views' . DIRECTORY_SEPARATOR;
-        $this->assets_path = ROOT . 'assets' . DIRECTORY_SEPARATOR;
-        $this->header_path = $this->views_path . '_templates' . DIRECTORY_SEPARATOR . 'header.php';
-        $this->footer_path = $this->views_path . '_templates' . DIRECTORY_SEPARATOR . 'footer.php';
 
         // PHP version check
         if (version_compare(PHP_VERSION, '5.4.0', '<') AND version_compare(PHP_VERSION, '7', '>')) {
@@ -149,8 +139,22 @@ class App
 
         /**
          * Multi-user
+         * Default is false
          */
-        $this->multi_user_status = MULTI_USER;
+        if (defined('MULTI_USER')) {
+            $this->multi_user_status = MULTI_USER;
+        }
+
+        /**
+         * Fixed Paths
+         * You can change them if you wish
+         * Just don't break the right structure/variables there
+         */
+        $this->templates_path = ROOT . 'view_templates' . DIRECTORY_SEPARATOR;
+        $this->views_path = ROOT . ($this->multi_user_status ? 'views_multi_user' : 'views')  . DIRECTORY_SEPARATOR;
+        $this->assets_path = ROOT . 'assets' . DIRECTORY_SEPARATOR;
+        $this->header_path = $this->templates_path . 'header.php';
+        $this->footer_path = $this->templates_path . 'footer.php';
 
         // ======================= END OF INIT =======================
 
@@ -185,10 +189,6 @@ class App
      */
     public function render($part, $data = array(), $class = array())
     {
-        // multi-user checks
-        if ($this->multi_user_status) {
-            $part = 'multi_user'. DIRECTORY_SEPARATOR . $part;
-        }
         // Check if its not for JSON response
         if (!$this->isForJsonObject()) {
             extract($data); // extract array keys into variables
