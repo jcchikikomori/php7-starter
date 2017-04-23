@@ -19,12 +19,12 @@
                     <hr />
                     <?php if($this->multi_user_status) { ?>
                         <!-- Add another user -->
-                        <a href="index.php?add_existing_user" class="btn btn btn-primary btn-block">Add another user</a>
-                        <a href="index.php?switch_user" class="btn btn btn-primary btn-block">Switch user</a>
+                        <a href="multi_user.php?add_existing_user" class="btn btn btn-primary btn-block">Add another user</a>
+                        <a href="multi_user.php?switch_user" class="btn btn btn-primary btn-block">Switch user</a>
                     <?php } ?>
 
                     <!-- because people were asking: "index.php?logout" is just my simplified form of "index.php?logout=true" -->
-                    <a href="index.php?logout" class="btn btn btn-danger btn-block">Logout</a>
+                    <a href="multi_user.php?logout" class="btn btn btn-danger btn-block">Logout</a>
 
                 </div>
             </div>

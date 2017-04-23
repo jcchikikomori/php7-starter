@@ -1,25 +1,58 @@
-<?php
-
-// checking requirements first using this class
-require_once("classes/App.php"); $app = new App();
-
-// load the auth class
-require_once("classes/Auth.php"); $auth = new Auth();
-
-// load the registration class for user's registration stuffs
-require_once("classes/Registration.php"); $registration = new Registration();
-
-/**
- * Now put your data here and include in render()
- */
-$data = array(
-    'user_types' => $registration->getUserTypes()
-);
-
-/**
- * You can add $app->multi_user_status condition
- * if you want a single-user mode
- */
-if (!$auth->isUserLoggedIn()) {
-    $app->render("user/register.php", $data);
-}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Registration</h3>
+                </div>
+                <div class="panel-body">
+                    <?php
+                        // show potential errors / feedback
+                        Helper::getFeedback();
+                    ?>
+                    <form method="post" action="register.php" name="registerform">
+                        <fieldset>
+                            <div class="form-group">
+                                <select class="form-control" name="user_type" title="User Type" autofocus required>
+                                    <option selected disabled>Please Select User Type</option>
+                                    <?php foreach($data['user_types'] as $type) {
+                                        echo '<option value="' . $type['user_type'] . '">' . $type['type_desc'] . '</option>';
+                                    } ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Username (only letters and numbers)" name="user_name" type="text" pattern="[a-zA-Z0-9]{2,64}" autofocus required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="First Name" name="first_name" type="text" pattern="{3,64}" autofocus required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Middle Name" name="middle_name" type="text" pattern="{3,64}" autofocus required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Last Name" name="last_name" type="text" pattern="{3,64}" autofocus required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="E-mail" name="user_email" type="email" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Password (min. 6 characters)" name="user_password_new" type="password" pattern=".{6,}" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Repeat Password" name="user_password_repeat" type="password" pattern=".{6,}" required>
+                            </div>
+                            <!-- <div class="checkbox">
+                                <label>
+                                    <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                </label>
+                            </div> -->
+                            <!-- Change this to a button or input when using this as a form -->
+                            <input type="submit" class="btn btn-lg btn-success btn-block" name="register" value="Register" />
+                            <a href="index.php" class="btn btn btn-primary btn-block">Go back to Login page</a>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

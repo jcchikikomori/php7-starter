@@ -14,7 +14,7 @@
                         <fieldset>
                             <?php
                                 // got variables from App class
-                                if ($this->multi_user_status && $this->multi_user_requested) {
+                                if ($this->multi_user_requested) {
                                     echo "<p>Add another user!</p>";
                                 }
                             ?>
@@ -27,7 +27,7 @@
                             <!-- Change this to a button or input when using this as a form -->
                             <input type="submit" class="btn btn-lg btn-success btn-block" name="login" value="Login" />
                             <?php
-                                if ((!$this->multi_user_status) && !Session::user_logged_in()) {
+                                if (($this->multi_user_status) && !Session::user_logged_in()) {
                                     $logged_users = Session::get('users');
                                     echo "<hr /><p>Other active users..</p>";
                                     echo "<ul>";

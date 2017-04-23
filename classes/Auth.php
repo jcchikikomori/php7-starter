@@ -45,8 +45,8 @@ class Auth extends App
         // this would log out current log session
         // but will not delete user session data
         elseif (isset($_GET['switch_user'])) {
-            $this->cleanUpUserSession();
             $this->switch_user_requested = true; // triggers switch user request
+            $this->cleanUpUserSession();
         }
 
         // login via get data (multi-user)
@@ -281,7 +281,8 @@ class Auth extends App
     {
         if (Session::user_logged_in() && !isset($_GET["logout"])) { // you can use session lib
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }

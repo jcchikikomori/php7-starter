@@ -82,6 +82,11 @@ class App
          */
         if (!defined('ROOT')) { define('ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR); }
 
+        /**
+         * Application folder (ALPHA STAGE)
+         */
+        if (!defined('APP_DIR')) { define('APP_DIR', ROOT . 'application'); }
+
         // PHP version check
         if (version_compare(PHP_VERSION, '5.4.0', '<') AND version_compare(PHP_VERSION, '7', '>')) {
             exit("Sorry, This system does not run on a PHP version smaller than 5.3.7 and still unstable in ".PHP_VERSION);
@@ -138,12 +143,15 @@ class App
         }
 
         /**
+         * Multi-user default value
+         */
+        if (!defined('MULTI_USER')) { define('MULTI_USER', false); }
+
+        /**
          * Multi-user
          * Default is false
          */
-        if (defined('MULTI_USER')) {
-            $this->multi_user_status = MULTI_USER;
-        }
+        $this->multi_user_status = MULTI_USER;
 
         /**
          * Fixed Paths

@@ -27,5 +27,5 @@ if ($auth->isUserLoggedIn()) {
 
 // not logged in
 else if (!$auth->isUserLoggedIn()) {
-    $app->render("not_logged_in");
+    $app->render("login_form");
 }
