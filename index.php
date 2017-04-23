@@ -15,29 +15,17 @@ require_once("classes/App.php"); $app = new App();
 require_once("classes/Auth.php"); $auth = new Auth();
 
 /**
- * Now put your own logic to render the page
- * (this is a sample then you can do another on your own)
- *
- * The instantiated class variables are we going to use
+ * If you are in multi-user mode, just simply add new view file with _multi_user naming
  */
-
-$data = array(); // for rendering with data/callback
-
-$data['multi_user'] = $app->multi_user_status;
-$data['logged_users'] = Session::get('users');
-
-/**
- * One of the ways to debug your PHP application
- */
-// var_dump(Session::get('users'));
-var_dump(Session::get('response'));
 
 // if user logged in (using Auth class)
-if ($auth->isUserLoggedIn() && $app->multi_user_status) {
-    $app->render("logged_in.php", $data); // use Core class to render
+if ($auth->isUserLoggedIn()) {
+    // put data here using App's render()
+    $app->render("logged_in");
+    // NOTE: you can use $app->render("logged_in.php") without $data if you don't want to
 }
 
-// not logged in or want to add existing user
+// not logged in
 else if (!$auth->isUserLoggedIn()) {
-    $app->render("not_logged_in.php", $data);
+    $app->render("not_logged_in");
 }

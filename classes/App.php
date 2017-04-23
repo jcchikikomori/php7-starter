@@ -36,7 +36,6 @@ class App
     public $multi_user_status = false; // multi-user system
     /**
      * @var array Collection of responses
-     * TODO: Retain remaining responses until the end of file
      */
     public $response = array(); // collecting response
     /**
@@ -155,17 +154,8 @@ class App
 
         // ======================= END OF INIT =======================
 
-        // ERROR HANDLING USING WHOOPS
         // create/read session, absolutely necessary
         Session::init(); // or session_start();
-
-        if (isset($_GET['reset_session'])) {
-            $this->resetResponse();
-            exit("SESSION RESET!!");
-        }
-
-        // reset response
-        //$this->resetResponse();
 
         // initialize user agent
         $agent = new UserAgent();
@@ -177,41 +167,37 @@ class App
             $this->messages[] = "You are browsing using mobile!";
         }
 
-        // REST API TEST (LOGIN TEST). Requires POSTMAN
-        // print_r($agent->getHttpHeaders()); // use this for browser/device check & other headers
-        if ($agent->getHttpHeader('HTTP_POSTMAN_TOKEN') && $agent->browser('Chrome')) {
-            Session::set('POSTMAN_REST_API', true);
+        // REST API TEST (LOGIN TEST). Requires REST_POSTMAN var on POSTMAN or DHC
+        if ($agent->getHttpHeader('REST_TOKEN')) {
             $this->setForJsonObject(true);
-            // print_r($agent->getRules()); check all devices
         }
+        // var_dump($agent->getHttpHeaders()); // use this for browser/device check & other headers
+        // var_dump($agent->getRules()); //check all devices
 
         // ======================= END OF CONSTRUCTOR =======================
-    }
-
-    /**
-     * Add some process after the end of processes inside this class
-     */
-    public function __destruct()
-    {
-        $this->collectResponse(array($this));
     }
 
     /**
      * Rendering views
      * @param string $part = Partial view
      * @param array $data = Sets of data to be also rendered/returned
+     * @param array $class
      */
-    public function render($part, $data = array())
+    public function render($part, $data = array(), $class = array())
     {
+        // multi-user checks
+        if ($this->multi_user_status) {
+            $part = 'multi_user'. DIRECTORY_SEPARATOR . $part;
+        }
         // Check if its not for JSON response
         if (!$this->isForJsonObject()) {
             extract($data); // extract array keys into variables
             if ($this->isLayouts()) {
                 include($this->header_path);
-                include($this->views_path . $part);
+                include($this->views_path . $part . '.php');
                 include($this->footer_path);
             } else {
-                include($this->views_path . $part);
+                include($this->views_path . $part . '.php');
             }
         }
     }
@@ -253,15 +239,11 @@ class App
       $database = new DB($database_properties); // DB START!
       // DB Errors within connection
       $database->errors = (null!==$database->error() || !empty($database->error())) ? $database->error() : array();
-      if (!empty($database->errors)) {
-          $this->messages[] = "Database is working...";
-      }
       return $database;
     }
 
     /**
      * Collect Response based from class you've defined.
-     * UPDATE: Combined into one
      * @param array $classes Set of classes with set of feedback after execution
      * @param null $tag Custom tags (e.g: [INFO])
      * WARNING: Currently using ternary conditions inside the loop
@@ -277,12 +259,11 @@ class App
             foreach($class->messages as $message) {
                 $response['messages'][] = '[' . (!empty($tag)?$tag:'MSG') . '] ' . $message;
             }
+            // reset class ent
+            $class->errors = array();
+            $class->messages = array();
         }
         Session::set('response', $response); // fill me up
-    }
-
-    public function resetResponse() {
-        Session::set('response', array());
     }
 
     /**

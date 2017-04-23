@@ -21,11 +21,7 @@ class Auth extends App
      */
     public function __construct()
     {
-        parent::__construct(); // Load App constructor
-
         $this->db_connection = $this->connect_database(); // if this class needed a database connection, use this line
-
-        $this->messages[] = "Auth is working..";
 
         // check the possible login actions:
         // if user tried to log out (happen when user clicks logout button)
@@ -68,7 +64,6 @@ class Auth extends App
             $user_id = $_GET['u'];
             $user_name = $_GET['n'];
             $this->doLogout($user_id, $user_name);
-            // header("location: index.php");
         }
 
         else {
@@ -166,6 +161,7 @@ class Auth extends App
             $this->status = 'not_exist';
         }
       }
+      $this->collectResponse(array($this));
     }
     /**
      * Multi-user version of doLogin()
@@ -241,6 +237,7 @@ class Auth extends App
             }
             $this->status = 'failed';
         }
+        $this->collectResponse(array($this));
     }
 
     /**
@@ -272,6 +269,8 @@ class Auth extends App
                 'messages' => $this->messages
             ]);
         }
+
+        $this->collectResponse(array($this));
     }
 
     /**
@@ -309,17 +308,5 @@ class Auth extends App
             'messages'=>$this->messages,
             'user'=>$user
         ]);
-    }
-
-    /**
-     * Add some process after the end of processes inside this class
-     * You can put your json response here
-     */
-    public function __destruct()
-    {
-        // JSON TEST
-        if ($this->isForJsonObject()) {
-            $this->setLayouts(false);
-        }
     }
 }

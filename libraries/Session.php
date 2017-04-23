@@ -116,7 +116,7 @@ class Session
      * @param $key
      */
     public static function destroy($key) {
-        unset($key);
+        unset($_SESSION[$key]);
     }
 
     /**

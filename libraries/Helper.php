@@ -11,7 +11,7 @@ class Helper
      * @param array $data - any of data or arrays you wish
      * @return string - JSON
      */
-    public static function json_encode($data=[]) {
+    public static function json_encode(array $data=[]) {
         $array = [];
         if (!empty($data)) {
             // you can change this based on MyPHP class
@@ -34,7 +34,6 @@ class Helper
      * Display Messages
      */
     public static function getFeedback() {
-        // show potential errors / feedback (from login object)
         $obj = Session::get('response');
         if (isset($obj)) {
             if (!empty($obj['messages'])) {
@@ -44,6 +43,8 @@ class Helper
                 echo '</ul>';
                 echo '</div>';
             }
-        } else {echo 'Session error';}
+        }
+        // else {echo 'Session error';}
+        Session::destroy('response');
     }
 }

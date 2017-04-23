@@ -1,30 +1,25 @@
 <?php
 
-/*
- * register.php
- */
-
 // checking requirements first using this class
 require_once("classes/App.php"); $app = new App();
 
 // load the auth class
-require_once("classes/Auth.php");
-$auth = new Auth();
+require_once("classes/Auth.php"); $auth = new Auth();
 
-// load the registration class
-require_once("classes/Registration.php");
+// load the registration class for user's registration stuffs
+require_once("classes/Registration.php"); $registration = new Registration();
 
-// create the registration object. when this object is created, it will do all registration stuff automatically
-// so this single line handles the entire registration process.
-$registration = new Registration();
+/**
+ * Now put your data here and include in render()
+ */
+$data = array(
+    'user_types' => $registration->getUserTypes()
+);
 
-// collect feedbacks first
-$app->collectResponse(array($registration)); // should be a array object (never include Core class)
-
-// set data
-$data['user_types'] = $registration->getUserTypes();
-
-// show the register view (with the registration form, and messages/errors)
-if (!$auth->isUserLoggedIn() || ($auth->multiUserStatus())) {
+/**
+ * You can add $app->multi_user_status condition
+ * if you want a single-user mode
+ */
+if (!$auth->isUserLoggedIn()) {
     $app->render("user/register.php", $data);
 }
