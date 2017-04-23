@@ -38,11 +38,6 @@ class App
      * @var array Collection of responses
      */
     public $response = array(); // collecting response
-    /**
-     * Misc. setups
-     */
-    public $multi_user_requested = false;
-    public $switch_user_requested = false;
 
     /**
      * FIXED PATHS

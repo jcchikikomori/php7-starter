@@ -12,12 +12,6 @@
                     ?>
                     <form method="post" action="index.php" name="loginform">
                         <fieldset>
-                            <?php
-                                // got variables from App class
-                                if ($this->multi_user_requested) {
-                                    echo "<p>Add another user!</p>";
-                                }
-                            ?>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Username" name="user_name" type="text" autofocus required>
                             </div>

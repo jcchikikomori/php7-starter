@@ -24,7 +24,7 @@
                     <?php } ?>
 
                     <!-- because people were asking: "index.php?logout" is just my simplified form of "index.php?logout=true" -->
-                    <a href="multi_user.php?logout" class="btn btn btn-danger btn-block">Logout</a>
+                    <a href="index.php?logout" class="btn btn btn-danger btn-block">Logout</a>
 
                 </div>
             </div>

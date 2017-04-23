@@ -16,6 +16,4 @@ if (($auth->isUserLoggedIn() && $auth->multi_user_requested) ||
     (!$auth->isUserLoggedIn() && $auth->switch_user_requested)) {
     // then render
     $app->render("login_form");
-} else {
-    echo "ERROR";
 }

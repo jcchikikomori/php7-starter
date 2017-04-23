@@ -16,11 +16,19 @@ class Auth extends App
      */
     public $status;
     /**
+     * Multi-user checks
+     * @var bool
+     */
+    public $multi_user_requested = false;
+    public $switch_user_requested = false;
+    /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
      * you know, when you do "$login = new Login();"
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->db_connection = $this->connect_database(); // if this class needed a database connection, use this line
 
         // check the possible login actions:
@@ -249,7 +257,7 @@ class Auth extends App
     {
         $set_user_name = Session::get_user('user_name',$user_id); // validation
 
-        if (Session::destroy_user($user_id)) {
+        if ($this->multi_user_status && Session::destroy_user($user_id)) {
             if (empty($user_name)) {
                 $this->messages[] = "You have been logged out";
             }
@@ -257,6 +265,9 @@ class Auth extends App
                 $this->messages[] = $user_name." has been logged out";
             }
             $this->status = 'success';
+        } else {
+            Session::destroy('users');
+            $this->messages[] = "You have been logged out";
         }
 
         // cleaning up
