@@ -38,6 +38,7 @@
                                 }
                             ?>
                             <a href="register.php" class="btn btn btn-primary btn-block">Register</a>
+                            <a href="forgotpassword.php" class="btn btn btn-primary btn-block">Forgot Password?</a>
                         </fieldset>
                     </form>
                 </div>
