@@ -127,6 +127,7 @@ class Registration extends App
                 }
             }
         }
+        $this->collectResponse(array($this));
     }
 
     /**
