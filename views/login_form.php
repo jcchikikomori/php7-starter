@@ -42,12 +42,12 @@
                                         echo "<hr />";
                                     }
                                     echo '<a href="register.php" class="btn btn btn-primary btn-block">Register</a>';
+                                    echo '<a href="forgotpassword.php" class="btn btn btn-primary btn-block">Forgot Password?</a>';
                                 }
                                 if (isset($multi_user_requested) || isset($switch_user_requested)) {
                                     echo '<a href="/" class="btn btn btn-primary btn-block">Go back to home</a>';
                                 }
                             ?>
-                            <a href="forgotpassword.php" class="btn btn btn-primary btn-block">Forgot Password?</a>
                         </fieldset>
                     </form>
                 </div>

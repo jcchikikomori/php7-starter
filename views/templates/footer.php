@@ -1,5 +1,5 @@
     <p class="text-center">
-        Powered by <a href="https://github.com/jccultima123/MyPHP" target="_blank">MyPHP</a>, powerful PHP-5 starter template
+        Powered by <a href="https://github.com/jccultima123/MyPHP" target="_blank">MyPHP</a>
     </p>
 
     <!-- JS -->

@@ -26,4 +26,7 @@ $data = array(
 if (!$auth->isUserLoggedIn()) {
     // echo "<h2>".$auth->generateRandomCode(5)."</h2>"; // TRY THIS ONE (CODE GENERATOR). SAVES TO DATABASE
     $app->render("forgot_password", $data);
+} else {
+    // error reporting
+    $app->error("Must be logged out first.");
 }
