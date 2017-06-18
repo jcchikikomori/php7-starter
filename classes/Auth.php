@@ -299,6 +299,53 @@ class Auth extends App
     }
 
     /**
+     * Generate code then save to database
+     */
+    public function generateRandomCode() {
+        $code = Helper::generateRandomCode(5); // 5 characters
+        $query = $this->db_connection->insert("reset_codes", [ "code" => $code ]);
+        if (!$query) { // IF NOT SUCCESSFUL
+            $this->errors[] = "Unable to save random code!";
+            $this->status = "failed";
+
+            if ($this->isForJsonObject()) {
+                return Helper::json_encode([
+                    'status' => $this->status,
+                    'errors' => $this->errors
+                ]);
+            }
+
+            $this->collectResponse(array($this)); // COLLECT RESPONSE
+            return false;
+        }
+        return $code;
+    }
+
+    /**
+     * Verifies reset code for password change
+     * @return bool
+     */
+    public function verifyResetCode($id, $reset_code) {
+				// SOON
+        if (isset($user_id) && isset($reset_code)) {
+            $result = $this->db_connection->get("reset_codes",
+                ['code', 'UNIX_TIMESTAMP(created)'], ["code" => $reset_code, "LIMIT" => 1] // [fields], [conditions]
+            );
+            if (($result['code'] == $reset_code) && ($result['created'] > 3600)) { // 3600 seconds
+                $this->messages[] = "Verified. Please reset your password now.";
+                $this->status = "success";
+            } else {
+                $this->errors[] = "Sorry, Reset code was already expired.";
+                $this->status = "failed";
+            }
+        } else {
+            $this->errors[] = "Sorry, Unable to verify your account. Please check your code from e-mail.";
+            $this->status = "failed";
+        }
+        $this->collectResponse(array($this));
+		}
+
+    /**
      * Clean up current user session statuses
      * but it will not erase any user session data
      */

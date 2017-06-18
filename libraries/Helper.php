@@ -47,4 +47,22 @@ class Helper
         // else {echo 'Session error';}
         Session::destroy('response');
     }
+
+    /**
+     * Generate a random string
+     * jccultima123 MOD: Must be All Caps
+     *
+     * Concept: https://3v4l.org/KKlc3
+     * @source: https://stackoverflow.com/questions/48124/generating-pseudorandom-alpha-numeric-strings
+     * @param int $length      How many characters do we want?
+     * @return string
+     */
+    public static function generateRandomCode($length) {
+      $key = "";
+      $pool = array_merge(range(0,9), range('a', 'z'),range('A', 'Z'));
+        for($i=0; $i < $length; $i++) {
+            $key .= $pool[mt_rand(0, count($pool) - 1)];
+        }
+        return strtoupper($key);
+    }
 }
