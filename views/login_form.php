@@ -34,9 +34,11 @@
                                         echo "<ul>";
                                         foreach($logged_users as $user => $value) {
                                             echo "<li>".
-                                                "<a href='index.php?login&u=".$user."&n=".$value['user_name']."'>".$value['full_name']."</a>".
-                                                "<a href='index.php?logout&u=".$user."&n=".$value['user_name']."' class='pull-right'>logout</a>".
-                                                "</li>";
+                                                "<a href='index.php?login&u=".$user."&n=".$value['user_name']."'>".$value['full_name']."</a>";
+                                                if (!isset($switch_user_requested)) {
+                                                    echo "<a href='index.php?logout&u=".$user."&n=".$value['user_name']."' class='pull-right'>logout</a>";
+                                                }
+                                            echo "</li>";
                                         }
                                         echo "</ul>";
                                         echo "<hr />";

@@ -210,9 +210,9 @@ class Auth extends App
                     $first_name = $result_row['first_name'];
                     $last_name = $result_row['last_name'];
                     Session::set('current_user', $user_id);
-                    Session::set_user('user_name', $user_name);
-                    Session::set_user('user_email', $result_row['user_email']);
-                    Session::set_user('full_name', $first_name . " " . $last_name);
+                    Session::set_user('user_name', $user_name, $user_id);
+                    Session::set_user('user_email', $result_row['user_email'], $user_id);
+                    Session::set_user('full_name', $first_name . " " . $last_name, $user_id);
                     // Session::set_user('first_name', $first_name);
                     // Session::set_user('last_name', $last_name);
                     Session::set('user_logged_in', true);
@@ -256,7 +256,14 @@ class Auth extends App
     public function doLogout($user_id=null, $user_name=null)
     {
         $set_user_name = Session::get_user('user_name',$user_id); // validation
+        $users_count = count(Session::get('users'));
 
+        if ($this->multi_user_status && $users_count == 1) { // logout all
+            Session::destroy('users');
+            $this->messages[] = "You have been logged out";
+            $this->status = 'success';
+            return false;
+        }
         if ($this->multi_user_status && Session::destroy_user($user_id)) {
             if (empty($user_name)) {
                 $this->messages[] = "You have been logged out";
@@ -264,7 +271,6 @@ class Auth extends App
             elseif ($set_user_name == $user_name) { // validate
                 $this->messages[] = $user_name." has been logged out";
             }
-            $this->status = 'success';
         } else if (!$this->multi_user_status) {
             Session::destroy('users');
             $this->messages[] = "You have been logged out";
