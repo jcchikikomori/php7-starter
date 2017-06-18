@@ -154,7 +154,8 @@ class App
          * Just don't break the right structure/variables there
          */
         $this->templates_path = ROOT . 'views' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
-        $this->views_path = ROOT . ($this->multi_user_status ? 'views' . DIRECTORY_SEPARATOR . 'multi_user' : 'views')  . DIRECTORY_SEPARATOR;
+        // $this->views_path = ROOT . ($this->multi_user_status ? 'views' . DIRECTORY_SEPARATOR . 'multi_user' : 'views')  . DIRECTORY_SEPARATOR;
+        $this->views_path = ROOT . 'views' . DIRECTORY_SEPARATOR;
         $this->assets_path = ROOT . 'assets' . DIRECTORY_SEPARATOR;
         $this->header_path = $this->templates_path . 'header.php';
         $this->footer_path = $this->templates_path . 'footer.php';
@@ -203,6 +204,17 @@ class App
                 include($this->views_path . $part . '.php');
             }
         }
+    }
+
+    /**
+     * Custom message params
+     * Title - $data['error_title'] - String
+     * Message - $data['error_message'] - REQUIRED
+     * Debugging - $data['debug'] - Array()
+     */
+    public function error($message, $data = array()) {
+        $data['error_message'] = $message;
+        $this->render('templates/error_page', $data);
     }
 
     /**

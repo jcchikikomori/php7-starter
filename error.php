@@ -1,7 +1,7 @@
 <?php
 
 require_once("classes/App.php");
-$core = new Core();
+$app = new App();
 
 /**
  * @author Chris Coyier
@@ -17,10 +17,8 @@ $codes = array(
     502 => array('502 Bad Gateway', 'The server received an invalid response from the upstream server while trying to fulfill the request.'),
     504 => array('504 Gateway Timeout', 'The upstream server failed to send a request in the time allowed by the server.'),
 );
-$data['title'] = $codes[$status][0];
-$data['message'] = $codes[$status][1];
-//if ($data['title'] == false || strlen($status) != 3) {
-//    $data['message'] = 'Please supply a valid status code.';
-//}
+$data['error_title'] = $codes[$status][0];
+$data['error_message'] = $codes[$status][1];
 
-$core->render("error.php", NULL, $data); // unified error page
+// $core->render("error.php", NULL, $data); // unified error page
+$app->error($data['error_message'], $data);

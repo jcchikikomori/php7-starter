@@ -15,5 +15,7 @@ if (($auth->isUserLoggedIn() && $auth->multi_user_requested) ||
     // either multi-user login or switch user (requires multi-user too)
     (!$auth->isUserLoggedIn() && $auth->switch_user_requested)) {
     // then render
-    $app->render("login_form");
+    $data['multi_user_requested'] = $auth->multi_user_requested;
+    $data['switch_user_requested'] = $auth->switch_user_requested;
+    $app->render("login_form", $data);
 }

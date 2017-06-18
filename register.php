@@ -22,4 +22,7 @@ $data = array(
  */
 if (!$auth->isUserLoggedIn()) {
     $app->render("register", $data);
+} else {
+    // error reporting
+    $app->error("Must be logged out first.");
 }

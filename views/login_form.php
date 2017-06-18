@@ -3,7 +3,13 @@
         <div class="col-md-4 col-md-offset-4">
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">MyPHP Login</h3>
+                <?php
+                    if (($this->multi_user_status) && Session::user_logged_in()) {
+                        echo '<h3 class="panel-title">Add existing user to login</h3>';
+                    } else {
+                        echo '<h3 class="panel-title">MyPHP Login</h3>';
+                    }
+                ?>
                 </div>
                 <div class="panel-body">
                     <?php
@@ -20,7 +26,28 @@
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
                             <input type="submit" class="btn btn-lg btn-success btn-block" name="login" value="Login" />
-                            <a href="register.php" class="btn btn btn-primary btn-block">I would like to Register</a>
+                            <?php
+                                if (($this->multi_user_status) && !Session::user_logged_in()) {
+                                    $logged_users = Session::get('users');
+                                    if (!empty($logged_users)) {
+                                        echo "<hr /><p>Other active users..</p>";
+                                        echo "<ul>";
+                                        foreach($logged_users as $user => $value) {
+                                            echo "<li>".
+                                                "<a href='index.php?login&u=".$user."&n=".$value['user_name']."'>".$value['full_name']."</a>".
+                                                "<a href='index.php?logout&u=".$user."&n=".$value['user_name']."' class='pull-right'>logout</a>".
+                                                "</li>";
+                                        }
+                                        echo "</ul>";
+                                        echo "<hr />";
+                                    }
+                                    echo '<a href="register.php" class="btn btn btn-primary btn-block">Register</a>';
+                                }
+                                if (isset($multi_user_requested) || isset($switch_user_requested)) {
+                                    echo '<a href="/" class="btn btn btn-primary btn-block">Go back to home</a>';
+                                }
+                            ?>
+                            <a href="forgotpassword.php" class="btn btn btn-primary btn-block">Forgot Password?</a>
                         </fieldset>
                     </form>
                 </div>
@@ -28,4 +55,4 @@
         </div>
     </div>
 </div>
-<?php var_dump($this); ?>
+<?php // var_dump($this); ?>
