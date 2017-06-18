@@ -80,6 +80,13 @@ class Auth extends App
             $this->switch_user_requested = false;
         }
 
+        // NON LOGIN FUNCTIONS
+
+        if (isset($_POST['reset_password'])) {
+            $email = $_POST['email'];
+            $this->forgotPassword($email);
+        }
+
     }
     /**
      * log in with post data
@@ -304,12 +311,36 @@ class Auth extends App
         }
     }
 
+    public function forgotPassword($email) {
+        if ($this->checkEmail($email)) {
+            // TODO: send to email
+            $code = $this->generateRandomCode($email);
+            $this->messages[] = "Email sent. " . "DEBUG: ".$code; // DEBUGGING MODE
+            $this->status = "success";
+        } else {
+            $this->errors[] = "Email doesn't exists on database";
+            $this->status = "failed";
+        }
+        $this->collectResponse(array($this));
+        return ($this->status == "success"); // return true if status was success
+    }
+
+    private function checkEmail($email) {
+        // [fields], [conditions]
+        $result = $this->db_connection->get("users", ['user_email'], ["user_email" => $email]);
+        if ($result['user_email'] == $email) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Generate code then save to database
      */
-    public function generateRandomCode() {
+    public function generateRandomCode($email) {
         $code = Helper::generateRandomCode(5); // 5 characters
-        $query = $this->db_connection->insert("reset_codes", [ "code" => $code ]);
+        $query = $this->db_connection->insert("reset_codes", [ "code" => $code, "email" => $email ]);
         if (!$query) { // IF NOT SUCCESSFUL
             $this->errors[] = "Unable to save random code!";
             $this->status = "failed";
@@ -331,13 +362,19 @@ class Auth extends App
      * Verifies reset code for password change
      * @return bool
      */
-    public function verifyResetCode($id, $reset_code) {
-				// SOON
-        if (isset($user_id) && isset($reset_code)) {
-            $result = $this->db_connection->get("reset_codes",
-                ['code', 'UNIX_TIMESTAMP(created)'], ["code" => $reset_code, "LIMIT" => 1] // [fields], [conditions]
-            );
-            if (($result['code'] == $reset_code) && ($result['created'] > 3600)) { // 3600 seconds
+    public function verifyResetCode($email, $reset_code) {
+        // binded params in query (ANTI SQL INJECTION)
+        $pdo = $this->db_connection->pdo;
+        $sql = "SELECT code, UNIX_TIMESTAMP(created) AS created FROM reset_codes WHERE code = :code AND email = :email LIMIT 1";
+        $query = $pdo->prepare($sql);
+        $query->bindParam(":code", $reset_code);
+        $query->bindParam(":email", $email);
+        $result = $query->execute();
+        $timestamp_one_hour_ago = time() - 3600; // 3600 seconds = 1 hour
+
+        if ($result) {
+            $result = $query->fetch(); // overwrite for now
+            if (($result['code'] == $reset_code) && ($result['created'] > $timestamp_one_hour_ago)) {
                 $this->messages[] = "Verified. Please reset your password now.";
                 $this->status = "success";
             } else {
@@ -348,7 +385,10 @@ class Auth extends App
             $this->errors[] = "Sorry, Unable to verify your account. Please check your code from e-mail.";
             $this->status = "failed";
         }
+        
         $this->collectResponse(array($this));
+        // TODO: Delete reset code when successfully verified
+        return ($this->status == "success"); // return true if status was success
 		}
 
     /**
