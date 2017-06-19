@@ -48,14 +48,14 @@ Create your own. You may use my sample code available [here](https://gist.github
 ## Work to do..
 - [x] SQLite Support
 - [ ] Email Service
-- [ ] Forgot Password System
+- [x] Forgot Password System
 - [x] Error Handling with .htaccess
 - [x] Using REST/JSON formats for new API class (for OAuth, Android, etc.)
 - [ ] App Deployment like Heroku
 - [x] Multi-user
 - [ ] Plain UI version
 - [ ] Pagination (Not available yet for REST but it will come shortly)
-- [ ] Multiple URL/URI parameters
+- [ ] Multiple URL/URI parameters (optional)
 - [ ] Routing (Optional)
 
 ## Notice
