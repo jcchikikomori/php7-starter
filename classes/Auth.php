@@ -365,7 +365,7 @@ class Auth extends App
     public function verifyResetCode($email, $reset_code) {
         // binded params in query (ANTI SQL INJECTION)
         $pdo = $this->db_connection->pdo;
-        $sql = "SELECT code, UNIX_TIMESTAMP(created) AS created FROM reset_codes WHERE code = :code AND email = :email LIMIT 1";
+        $sql = "SELECT code, created FROM reset_codes WHERE code = :code AND email = :email LIMIT 1";
         $query = $pdo->prepare($sql);
         $query->bindParam(":code", $reset_code);
         $query->bindParam(":email", $email);
@@ -374,7 +374,10 @@ class Auth extends App
 
         if ($result) {
             $result = $query->fetch(); // overwrite for now
-            if (($result['code'] == $reset_code) && ($result['created'] > $timestamp_one_hour_ago)) {
+            $datetime = new DateTime($result['created']);
+            $timestamp_from_query = $datetime->format("U");
+            var_dump($timestamp_from_query);
+            if (($result['code'] == $reset_code) && ($timestamp_from_query > $timestamp_one_hour_ago)) {
                 $this->messages[] = "Verified. Please reset your password now.";
                 $this->status = "success";
             } else {
@@ -385,7 +388,7 @@ class Auth extends App
             $this->errors[] = "Sorry, Unable to verify your account. Please check your code from e-mail.";
             $this->status = "failed";
         }
-        
+
         $this->collectResponse(array($this));
         // TODO: Delete reset code when successfully verified
         return ($this->status == "success"); // return true if status was success
