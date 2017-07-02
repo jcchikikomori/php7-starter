@@ -2,6 +2,7 @@
 
 /**
  * Multi-user index
+ * This is only works with multi-user switch on
  */
 
 // Core components first such as main classes then load dependencies

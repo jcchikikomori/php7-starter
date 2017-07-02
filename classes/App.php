@@ -31,7 +31,6 @@ class App
      * APP OPTIONS
      * These are the sets of customizations that you can do with your project
      */
-    public $for_json_object = false; // if we gonna load data to json only or not
     public $layouts = true; // Render with layouts
     public $multi_user_status = false; // multi-user system
     /**
@@ -168,17 +167,12 @@ class App
         // initialize user agent
         $agent = new UserAgent();
 
-        // =============== THE REST ARE TESTS ================
-
         // detect if using mobile
-        if($agent->isMobile()) {
-            $this->messages[] = "You are browsing using mobile!";
-        }
+        if($agent->isMobile()) { $this->messages[] = "You are browsing using mobile!"; }
 
-        // REST API TEST (LOGIN TEST). Requires REST_POSTMAN var on POSTMAN or DHC
-        if ($agent->getHttpHeader('REST_TOKEN')) {
-            $this->setForJsonObject(true);
-        }
+        // AJAX Detection
+        // $this->setForJsonObject(true);
+
         // var_dump($agent->getHttpHeaders()); // use this for browser/device check & other headers
         // var_dump($agent->getRules()); //check all devices
 
@@ -207,6 +201,15 @@ class App
     }
 
     /**
+     * Render partial file wihout checking layout switch
+     * @param string $part = Partial view
+     */
+    public function render_partial($part)
+    {
+        include($this->views_path . $part . '.php');
+    }
+
+    /**
      * Custom message params
      * Title - $data['error_title'] - String
      * Message - $data['error_message'] - REQUIRED
@@ -218,43 +221,41 @@ class App
     }
 
     /**
-     * Database Connection
+     * Database Connection - Powered by Meedoo
+     * @source https://medoo.in/api/new - Check this for more details about this function
      * @param string $driver Database Driver. mysqli is default
      * @param string $charset Database Charset. utf8 is default and most compatible
      * @return DB
      */
-    public function connect_database($driver=DB_TYPE,$charset='utf8')
+    public function connect_database($driver=DB_TYPE, $charset='utf8')
     {
-      $database_properties = [
-        'database_type' => $driver,
-        'database_name' => DB_NAME,
-        'server' => DB_HOST,
-        'username' => DB_USER,
-        'password' => DB_PASS,
-        'charset' => $charset,
-        'port' => (defined(DB_PORT) && !empty(DB_PORT) ? DB_PORT : 3306), // if defined then use, else default
-        //'prefix' => 'db_', // [optional] Table prefix
-        //'socket' => '/tmp/mysql.sock', // [optional] MySQL socket (shouldn't be used with server and port)
-        // [optional] driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php ERASE/EMPTY THIS IF YOU DON'T WANT THIS
-        'option' => [ PDO::ATTR_CASE => PDO::CASE_NATURAL ],
-        // [optional] Medoo will execute those commands after connected to the database for initialization. ERASE/EMPTY THIS IF YOU DON'T WANT THIS
-        //'command' => [ 'SET SQL_MODE=ANSI_QUOTES' ]
-      ];
-      // SQLite Support
-      if ($driver=='sqlite') {
-          $database_properties['database_file'] = DB_FILE;
-          // unset fields that don't need for sqlite
-          unset($database_properties['database_name']);
-          unset($database_properties['server']);
-          unset($database_properties['username']);
-          unset($database_properties['password']);
-          unset($database_properties['charset']);
-          unset($database_properties['port']);
-      }
-      $database = new DB($database_properties); // DB START!
-      // DB Errors within connection
-      $database->errors = (null!==$database->error() || !empty($database->error())) ? $database->error() : array();
-      return $database;
+        $database_properties = [
+          'database_type' => $driver,
+          'database_name' => DB_NAME,
+          'server' => DB_HOST,
+          'username' => DB_USER,
+          'password' => DB_PASS,
+          'charset' => $charset,
+          'port' => (defined(DB_PORT) && !empty(DB_PORT) ? DB_PORT : 3306), // if defined then use, else default
+          'option' => [ PDO::ATTR_CASE => PDO::CASE_NATURAL ]
+        ];
+
+        // SQLite Support
+        if ($driver=='sqlite') {
+            $database_properties['database_file'] = DB_FILE;
+            // unset fields that don't need for sqlite
+            unset($database_properties['database_name']);
+            unset($database_properties['server']);
+            unset($database_properties['username']);
+            unset($database_properties['password']);
+            unset($database_properties['charset']);
+            unset($database_properties['port']);
+        }
+        $database = new DB($database_properties); // DB START!
+
+        // DB Errors within connection
+        $database->errors = (null!==$database->error() || !empty($database->error())) ? $database->error() : array();
+        return $database;
     }
 
     /**
@@ -287,17 +288,16 @@ class App
      */
     public function isForJsonObject()
     {
-        return $this->for_json_object;
+        // traditional way
+        return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
     }
 
     /**
-     * UPDATE: Disable layouts
-     * @param bool $for_json_object
+     * Set JSON headers
      */
-    public function setForJsonObject($for_json_object)
+    public function setForJsonObject()
     {
-        $this->for_json_object = $for_json_object;
-        if ($for_json_object) {
+        if ($this->isForJsonObject()) {
             $this->layouts=false;
             header("Content-Type: application/json");
         }
@@ -306,16 +306,10 @@ class App
     /**
      * @return bool
      */
-    public function isLayouts()
-    {
-        return $this->layouts;
-    }
+    public function isLayouts() { return $this->layouts; }
 
     /**
      * @param bool $layouts
      */
-    public function setLayouts($layouts)
-    {
-        $this->layouts = $layouts;
-    }
+    public function setLayouts($layouts) { $this->layouts = $layouts; }
 }
