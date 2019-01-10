@@ -1,10 +1,9 @@
-# MyPHP
+# jcsimple-php-app
 ### A naked PHP micro framework
-Best for PHP 7!
-
-Good for prototyping your app also for "Hello World"
+<i>UPDATE: previously called "MyPHP"</i><br />
 
 ### Reminder. This is not recommended for very large & complex projects
+Building PHP made more simple over complicated frameworks on the market
 This is also my prototype template to easily test my projects before moving onto the real setup
 
 ## Features
@@ -23,8 +22,8 @@ This is also my prototype template to easily test my projects before moving onto
 * .example files might help you in your development!
 
 ## Requirements
-* Basic knowledge in PHP (Recommended: Learn PHP5)
-* Familiar in Object-Oriented Programming
+* Knowledge in PHP 5 or higher
+* Familiar in Object-Oriented Programming. This project is frequently used OOP
 * Apache-based web servers or any with .htaccess & RewriteEngine support
 * PHP 5.6 to PHP 7+
 * Supports MYSQL & SQLITE as well, if you are going to MySQL, go install and set it up.
@@ -53,14 +52,15 @@ The database query for this are provided [here](https://gist.github.com/jccultim
 - [ ] App Deployment like Heroku
 - [x] Multi-user
 - [ ] Pagination
+- [ ] JSON/REST response handling
 
 ## Notice
-* Don't confuse with PHP frameworks like CodeIgniter & CakePHP. It's still different with mine though.
+* Again. This is not recommended for thesis or large/complex projects
 * This project is provided with a handy .htaccess in the views folder that denies direct access to the files within the folder (so that people cannot render the views directly). However, these .htaccess files only work if you have set
 `AllowOverride` to `All` in your Apache Virtual Host configs. There are lots of tutorials on the web on how to do this.
 
 ## Credits
-* [panique](https://github.com/panique) for providing some codes, etc.
+* This project is from [panique's](https://github.com/panique) code base, so big thanks to him!
 
 ## License
 Licensed under [MIT](http://www.opensource.org/licenses/mit-license.php). You can use this script for free for any
