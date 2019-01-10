@@ -55,7 +55,7 @@ The database query for this are provided [here](https://gist.github.com/jccultim
 - [ ] JSON/REST response handling
 
 ## Notice
-* Again. This is not recommended for thesis or large/complex projects
+* Again, this is not recommended for large/complex projects
 * This project is provided with a handy .htaccess in the views folder that denies direct access to the files within the folder (so that people cannot render the views directly). However, these .htaccess files only work if you have set
 `AllowOverride` to `All` in your Apache Virtual Host configs. There are lots of tutorials on the web on how to do this.
 
