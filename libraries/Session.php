@@ -21,7 +21,9 @@ class Session
     public static function init()
     {
         // if no session exist, start the session
-        if (session_id() == '') { session_start(); }
+        if (session_id() == '') {
+            session_start();
+        }
     }
 
     /**
@@ -52,9 +54,11 @@ class Session
      * @param mixed $value
      * @param $id
      */
-    public static function set_user($key, $value, $id=null)
+    public static function set_user($key, $value, $id = null)
     {
-        if (empty($id)) { $id = self::get('current_user'); }
+        if (empty($id)) {
+            $id = self::get('current_user');
+        }
         $_SESSION['users'][$id][$key] = $value;
     }
 
@@ -66,6 +70,7 @@ class Session
     public static function get($key)
     {
         if (isset($_SESSION[$key])) {
+            // Debugger::dump($key);
             return $_SESSION[$key];
         }
     }
@@ -105,7 +110,8 @@ class Session
      * TODO: Simple operations for a while
      * @return bool
      */
-    public static function user_logged_in() {
+    public static function user_logged_in()
+    {
         if (isset($_SESSION['current_user']) && !empty($_SESSION['current_user'])) {
             return true;
         }
@@ -115,7 +121,8 @@ class Session
      * deletes each sessions
      * @param $key
      */
-    public static function destroy($key) {
+    public static function destroy($key)
+    {
         unset($_SESSION[$key]);
     }
 
@@ -125,7 +132,8 @@ class Session
      * @param $key - specified key
      * @return bool
      */
-    public static function destroy_user($user=null, $key=null) {
+    public static function destroy_user($user = null, $key = null)
+    {
 
         // If specified user was none
         if (empty($user)) {
@@ -154,7 +162,8 @@ class Session
     /**
      * deletes each sessions
      */
-    public static function destroy_all() {
+    public static function destroy_all()
+    {
         session_destroy();
     }
 
@@ -163,7 +172,8 @@ class Session
      * by counting current users in session
      * @return mixed
      */
-    public static function multi_user_status() {
+    public static function multi_user_status()
+    {
         if (count(self::get('users')) >= 1) {
             return true;
         } else {
@@ -176,10 +186,14 @@ class Session
      * @param $id
      * @return bool
      */
-    public static function check_user($id) {
+    public static function check_user($id)
+    {
         $users = self::get('users');
-        foreach ($users as $user => $value) { if ($user == $id) { return true; } }
+        foreach ($users as $user => $value) {
+            if ($user == $id) {
+                return true;
+            }
+        }
         return false;
     }
-
 }
