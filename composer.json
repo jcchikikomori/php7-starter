@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=7.2.5",
         "phpmailer/phpmailer": ">=6.1.6",
         "gregwar/captcha": "1.*",
         "league/oauth2-client": "^2.2",
