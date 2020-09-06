@@ -1,0 +1,7 @@
+{
+  "name": "php7-starter",
+  "license": "MIT",
+  "dependencies": {
+    "startbootstrap-sb-admin-2": "^4.1.1"
+  }
+}
