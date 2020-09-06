@@ -8,8 +8,8 @@ This is not recommended for very large & complex projects.
 Building PHP made more simple over complicated frameworks on the market
 This is also my prototype template to easily test my projects before moving onto the real setup
 
-## Will deprecate PHP 5!
-The world is changing so fast that PHP 5 will be outdated very soon.
+## PHP 5 support will be dropped supported since 0.52!
+The world is changing so fast that PHP 5 is outdated on these days.
 
 ## Features
 * Uses PHP 7 features (will deprecate PHP 5 soon!)
@@ -30,7 +30,7 @@ The world is changing so fast that PHP 5 will be outdated very soon.
 ## Requirements
 * Knowledge in PHP 5 or higher
 * Familiar in Object-Oriented Programming
-* PHP 7.0 or higher installed on your machine
+* PHP 7.2.5 or higher installed on your machine
 * Apache or NGINX or any with .htaccess & RewriteEngine support
 * Supports MYSQL/MARIADB & SQLITE as well, if you are going to MYSQL, go install and set it up.
 * [Composer](https://getcomposer.org) (PHP Dependency Manager, required and it's available even for Windows with XAMPP, or WAMPS!)
