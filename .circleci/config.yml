@@ -53,7 +53,7 @@ jobs:
 
       # prepare the database
       # TODO: Database migration
-      - run: touch storage/testing.sqlite
+      - run: touch testing.sqlite
       - run: php artisan migrate --env=testing --database=sqlite_testing --force
 
       # run tests with phpunit or codecept
