@@ -5,7 +5,7 @@ use Jenssegers\Agent\Agent as UserAgent; // UserAgent plugin
 use Medoo\Medoo as DB; // Using Medoo as DB
 
 /**
- * Firing up MyPHP!
+ * Firing up!
  * Don't touch this if you don't know what you're doing!
  * Without this, the app won't run in the first place
  *

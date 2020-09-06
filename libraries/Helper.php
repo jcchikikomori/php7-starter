@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Combined needed helper functions for MyPHP
- * Created by jccultima123
+ * Combined needed helper functions
+ * Author: John Cyrill Corsanes
  */
 class Helper
 {
@@ -11,11 +11,12 @@ class Helper
      * @param array $data - any of data or arrays you wish
      * @return string - JSON
      */
-    public static function json_encode(array $data=[]) {
+    public static function json_encode(array $data = [])
+    {
         $array = [];
         if (!empty($data)) {
-            // you can change this based on MyPHP class
-            foreach($data as $dat => $key) {
+            // you can change this based on App class
+            foreach ($data as $dat => $key) {
                 $array[$dat] = $key; // much better!
             }
         }
@@ -26,21 +27,26 @@ class Helper
      * @param $json
      * @return mixed
      */
-    public static function json_decode($json) {
+    public static function json_decode($json)
+    {
         return json_decode($json);
     }
 
     /**
      * Display Messages
      */
-    public static function getFeedback() {
+    public static function getFeedback()
+    {
         $obj = Session::get('response');
         if (isset($obj)) {
             if (!empty($obj['messages'])) {
-                echo '<div class="alert bg-success alert-dismissible" role="alert"><button class="close" aria-label="close" data-dismiss="alert" type="button"><span aria-hidden="true">x</span></button>';
+                echo '<div class="alert bg-success alert-dismissible fade show" role="alert">';
                 echo '<ul class="list-unstyled"><strong>MSG FROM SERVER</strong><br /><br />';
-                foreach ($obj['messages'] as $message) {echo '<li>' . $message . '</li>';}
+                foreach ($obj['messages'] as $message) {
+                    echo '<li>' . $message . '</li>';
+                }
                 echo '</ul>';
+                echo '<button class="close" aria-label="close" data-dismiss="alert" type="button"><span aria-hidden="true">x</span></button>';
                 echo '</div>';
             }
         }
@@ -57,10 +63,11 @@ class Helper
      * @param int $length      How many characters do we want?
      * @return string
      */
-    public static function generateRandomCode($length) {
-      $key = "";
-      $pool = array_merge(range(0,9), range('a', 'z'),range('A', 'Z'));
-        for($i=0; $i < $length; $i++) {
+    public static function generateRandomCode($length)
+    {
+        $key = "";
+        $pool = array_merge(range(0, 9), range('a', 'z'), range('A', 'Z'));
+        for ($i = 0; $i < $length; $i++) {
             $key .= $pool[mt_rand(0, count($pool) - 1)];
         }
         return strtoupper($key);
