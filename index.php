@@ -1,9 +1,9 @@
 <?php
 
 /**
- * MyPHP Plus by jccultima123
+ * php7-starter by jccultima123
  *
- * @link https://github.com/jccultima123/MyPHP
+ * @link https://github.com/jcchikikomori/php7-starter
  * @license http://opensource.org/licenses/MIT MIT License
  */
 

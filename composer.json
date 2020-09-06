@@ -1,7 +1,7 @@
 {
     "name": "jcchikikomori/php7-starter",
     "type": "project",
-    "description": "Pure PHP 7 Starter Pack for prototyping/testing ",
+    "description": "Pure PHP 7 Starter Pack for prototyping/testing",
     "keywords": ["OOP", "PHP", "application"],
     "license": "MIT",
     "authors": [
@@ -12,10 +12,10 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "phpmailer/phpmailer": "~5.2.7",
+        "phpmailer/phpmailer": ">=6.1.6",
         "gregwar/captcha": "1.*",
         "league/oauth2-client": "^2.2",
-        "catfan/Medoo": "^1.2",
+        "catfan/medoo": ">=1.2",
         "jenssegers/agent": "^2.5"
     },
     "scripts": {
