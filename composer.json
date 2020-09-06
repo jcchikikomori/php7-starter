@@ -12,7 +12,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "phpmailer/phpmailer": "~5.2.7",
+        "phpmailer/phpmailer": ">=6.1.6",
         "gregwar/captcha": "1.*",
         "league/oauth2-client": "^2.2",
         "catfan/medoo": ">=1.2",
