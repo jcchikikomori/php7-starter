@@ -17,7 +17,8 @@
         "league/oauth2-client": "^2.2",
         "catfan/medoo": ">=1.2",
         "jenssegers/agent": "^2.5",
-        "robmorgan/phinx": "^0.12.4"
+        "robmorgan/phinx": "^0.12.4",
+        "squizlabs/php_codesniffer": "*"
     },
     "scripts": {
         "post-autoload-dump": [
