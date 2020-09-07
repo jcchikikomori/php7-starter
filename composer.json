@@ -16,11 +16,15 @@
         "gregwar/captcha": "1.*",
         "league/oauth2-client": "^2.2",
         "catfan/medoo": ">=1.2",
-        "jenssegers/agent": "^2.5"
+        "jenssegers/agent": "^2.5",
+        "robmorgan/phinx": "^0.12.4"
     },
     "scripts": {
         "post-autoload-dump": [
             "php -r \"file_exists('configs/system.php') || copy('configs/system.php.example', 'configs/system.php'); file_exists('configs/database.php') || copy('configs/database.php.example', 'configs/database.php');\""
         ]
+    },
+    "require-dev": {
+        "odan/phinx-migrations-generator": "^5.1"
     }
 }

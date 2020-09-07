@@ -14,8 +14,13 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # Using the RAM variation mitigates I/O contention
       # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
-      #
+      - image: circleci/mysql:5.7-ram
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testing_db
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
+      # Redis
       # - image: redis:2.8.19
 
     steps:
@@ -52,9 +57,7 @@ jobs:
             - node_modules
 
       # prepare the database
-      # TODO: Database migration
-      - run: touch testing.sqlite
-      - run: php artisan migrate --env=testing --database=sqlite_testing --force
+      - run: ./vendor/bin/phinx migrate -e testing
 
       # run tests with phpunit or codecept
       #- run: ./vendor/bin/phpunit
