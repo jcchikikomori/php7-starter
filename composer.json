@@ -20,6 +20,9 @@
         "robmorgan/phinx": "^0.12.4",
         "squizlabs/php_codesniffer": "*"
     },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "3.*"
+    },
     "scripts": {
         "post-autoload-dump": [
             "php -r \"file_exists('configs/system.php') || copy('configs/system.php.example', 'configs/system.php'); file_exists('configs/database.php') || copy('configs/database.php.example', 'configs/database.php');\""
