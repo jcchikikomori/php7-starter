@@ -1,14 +1,17 @@
 <?php
 
+namespace libraries;
+
 /**
  * Quick Pagination Class
  *
  * Documentation
  *
- * @author jccultima123 / johncyrillcorsanes@gmail.com
+ * @author  jccultima123 / johncyrillcorsanes@gmail.com
  * @license MIT
  */
-class Pagination {
+class Pagination
+{
 
     public $id;     //page id from GET or POST (untested)
     public $start;  //starting line (NOTE: This is different to page id)
@@ -16,11 +19,12 @@ class Pagination {
 
     /**
      * Pagination constructor.
-     * @param int $id   ID from get or POST for Paging
-     * @param $limit    Row limit
-     * @param $rows     Total rows
+     *
+     * @param int $id    ID from get or POST for Paging
+     * @param $limit Row limit
+     * @param $rows  Total rows
      */
-    function __construct($id, $limit = NULL, $rows = NULL)
+    public function __construct($id, $limit = null, $rows = null)
     {
         //init vars
         $this->id = (!isset($id)) ? $id : 1;
@@ -35,7 +39,8 @@ class Pagination {
      * @param int $start
      * @param int $limit
      */
-    public function paginate($id, $start, $limit) {
+    public function paginate($id, $start, $limit)
+    {
         if (isset($id)) {
             $this->id = $id;
             $this->start = ($id - 1) * $limit;
@@ -44,8 +49,8 @@ class Pagination {
         }
     }
 
-    public function getTotalRows($rows) {
-        return ceil($rows/$this->limit);
+    public function getTotalRows($rows)
+    {
+        return ceil($rows / $this->limit);
     }
-
 }

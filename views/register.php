@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <?php
                         // show potential errors / feedback
-                        Helper::getFeedback();
+                        libraries\Helper::getFeedback();
                         ?>
                         <form method="post" action="register.php" name="registerform">
                             <fieldset>
@@ -22,31 +22,40 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Username (only letters and numbers)" name="user_name" type="text" pattern="[a-zA-Z0-9]{2,64}" autofocus required>
+                                    <input class="form-control"
+                                        placeholder="Username (only letters and numbers)"
+                                        name="user_name" type="text" pattern="[a-zA-Z0-9]{2,64}" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="First Name" name="first_name" type="text" pattern="{3,64}" autofocus required>
+                                    <input class="form-control"
+                                        placeholder="First Name"
+                                        name="first_name" type="text" pattern="{3,64}" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Middle Name" name="middle_name" type="text" pattern="{3,64}" autofocus required>
+                                    <input class="form-control"
+                                        placeholder="Middle Name"
+                                        name="middle_name" type="text" pattern="{3,64}" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Last Name" name="last_name" type="text" pattern="{3,64}" autofocus required>
+                                    <input class="form-control"
+                                        placeholder="Last Name"
+                                        name="last_name" type="text" pattern="{3,64}" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="user_email" type="email" required>
+                                    <input class="form-control"
+                                        placeholder="E-mail"
+                                        name="user_email" type="email" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password (min. 6 characters)" name="user_password_new" type="password" pattern=".{6,}" required>
+                                    <input class="form-control"
+                                        placeholder="Password (min. 6 characters)"
+                                        name="user_password_new" type="password" pattern=".{6,}" required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Repeat Password" name="user_password_repeat" type="password" pattern=".{6,}" required>
+                                    <input class="form-control"
+                                        placeholder="Repeat Password"
+                                        name="user_password_repeat" type="password" pattern=".{6,}" required>
                                 </div>
-                                <!-- <div class="checkbox">
-                                <label>
-                                    <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                </label>
-                            </div> -->
                                 <!-- Change this to a button or input when using this as a form -->
                                 <input type="submit" class="btn btn-lg btn-success btn-block" name="register" value="Register" />
                                 <a href="index.php" class="btn btn btn-primary btn-block">Go back to Login page</a>

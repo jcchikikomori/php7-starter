@@ -1,5 +1,7 @@
 <?php
 
+namespace libraries;
+
 /**
  * Combined needed helper functions
  * Author: John Cyrill Corsanes
@@ -8,7 +10,8 @@ class Helper
 {
     /**
      * Recommended REST values. You can change this if you wish
-     * @param array $data - any of data or arrays you wish
+     *
+     * @param  array $data - any of data or arrays you wish
      * @return string - JSON
      */
     public static function json_encode(array $data = [])
@@ -24,7 +27,7 @@ class Helper
     }
 
     /**
-     * @param $json
+     * @param  $json
      * @return mixed
      */
     public static function json_decode($json)
@@ -46,7 +49,8 @@ class Helper
                     echo '<li>' . $message . '</li>';
                 }
                 echo '</ul>';
-                echo '<button class="close" aria-label="close" data-dismiss="alert" type="button"><span aria-hidden="true">x</span></button>';
+                echo '<button class="close" aria-label="close" data-dismiss="alert" type="button">';
+                echo '<span aria-hidden="true">x</span></button>';
                 echo '</div>';
             }
         }
@@ -59,9 +63,10 @@ class Helper
      * jccultima123 MOD: Must be All Caps
      *
      * Concept: https://3v4l.org/KKlc3
+     *
      * @source: https://stackoverflow.com/questions/48124/generating-pseudorandom-alpha-numeric-strings
-     * @param int $length      How many characters do we want?
-     * @return string
+     * @param   int $length How many characters do we want?
+     * @return  string
      */
     public static function generateRandomCode($length)
     {

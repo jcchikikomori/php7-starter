@@ -1,5 +1,7 @@
 <?php
 
+namespace classes;
+
 use Gregwar\Captcha\CaptchaBuilder;
 
 class Captcha extends App
@@ -13,7 +15,7 @@ class Captcha extends App
     public function generateCaptcha()
     {
         // create a captcha with the CaptchaBuilder lib
-        $builder = new CaptchaBuilder;
+        $builder = new CaptchaBuilder();
         $builder->build();
 
         // write the captcha character into session
@@ -26,15 +28,15 @@ class Captcha extends App
 
     /**
      * Checks if the entered captcha is the same like the one from the rendered image which has been saved in session
+     *
      * @return bool success of captcha check
      */
     private function checkCaptcha()
     {
-        if (isset($_POST["captcha"]) AND ($_POST["captcha"] == $_SESSION['captcha'])) {
+        if (isset($_POST["captcha"]) and ($_POST["captcha"] == $_SESSION['captcha'])) {
             return true;
         }
         // default return
         return false;
     }
-
 }

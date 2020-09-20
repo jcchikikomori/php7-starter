@@ -1,5 +1,7 @@
 <?php
 
+namespace libraries;
+
 /**
  * Session class
  *
@@ -9,9 +11,9 @@
  *
  * New tests (as of 04-16-2017): Multi-user setups like the Google Auth System
  *
- * @author panique from PHP-LOGIN
- * @modified by jccultima123
- * @license http://opensource.org/licenses/MIT MIT License
+ * @author   Chris (panique)
+ * @author   John Cyrill Corsanes <jccorsanes@protonmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
  */
 class Session
 {
@@ -28,9 +30,10 @@ class Session
 
     /**
      * sets a specific value to a specific key of the session
+     *
      * @param mixed $key
      * @param mixed $value
-     * @param bool $append - For arrays / objects
+     * @param bool  $append - For arrays / objects
      */
     public static function set($key, $value, $append = false)
     {
@@ -50,6 +53,7 @@ class Session
      * - "self" is a static version of $this
      * WARNING: This will overwrite/add the value to the
      * current user unless $id specified!
+     *
      * @param mixed $key
      * @param mixed $value
      * @param $id
@@ -64,7 +68,8 @@ class Session
 
     /**
      * gets/returns the value of a specific key of the session
-     * @param mixed $key Usually a string
+     *
+     * @param  mixed $key Usually a string
      * @return mixed
      */
     public static function get($key)
@@ -77,7 +82,8 @@ class Session
 
     /**
      * gets/returns the value of a specific user currently log in
-     * @param $key - User Details
+     *
+     * @param  $key - User Details
      * @return mixed
      */
     public static function get_user_details($key)
@@ -92,8 +98,9 @@ class Session
 
     /**
      * gets/returns the value of a specific user currently log in
-     * @param $key - User Details
-     * @param null $uid
+     *
+     * @param  $key - User Details
+     * @param  null $uid
      * @return mixed
      */
     public static function get_user($key, $uid)
@@ -108,17 +115,17 @@ class Session
 
     /**
      * TODO: Simple operations for a while
+     *
      * @return bool
      */
     public static function user_logged_in()
     {
-        if (isset($_SESSION['current_user']) && !empty($_SESSION['current_user'])) {
-            return true;
-        }
+        return isset($_SESSION['current_user']) && !empty($_SESSION['current_user']);
     }
 
     /**
      * deletes each sessions
+     *
      * @param $key
      */
     public static function destroy($key)
@@ -128,8 +135,9 @@ class Session
 
     /**
      * logging out specific user
-     * @param null $user user id
-     * @param $key - specified key
+     *
+     * @param  null $user user id
+     * @param  $key  - specified key
      * @return bool
      */
     public static function destroy_user($user = null, $key = null)
@@ -170,6 +178,7 @@ class Session
     /**
      * Get multi user status by session
      * by counting current users in session
+     *
      * @return mixed
      */
     public static function multi_user_status()
@@ -183,7 +192,8 @@ class Session
 
     /**
      * Check if the user is still in session
-     * @param $id
+     *
+     * @param  $id
      * @return bool
      */
     public static function check_user($id)

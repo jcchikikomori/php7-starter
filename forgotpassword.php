@@ -1,13 +1,25 @@
 <?php
 
-// checking requirements first using this class
-require_once("classes/App.php"); $app = new App();
+/**
+ * Forgot Password root file
+ *
+ * PHP version 7.2
+ *
+ * @category Auth
+ * @package  PHP7Starter
+ * @author   John Cyrill Corsanes <jccorsanes@protonmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
+ * @version  GIT: 0.51-alpha
+ * @link     https://github.com/jcchikikomori/php7-starter
+ */
 
-// load the auth class
-require_once("classes/Auth.php"); $auth = new Auth();
+ // checking requirements first before using
+require_once "classes/App.php";
+require_once "classes/Auth.php";
+require_once "classes/User.php";
 
-// user management class
-require_once("classes/User.php"); $user = new User();
+$auth = new classes\Auth();
+$user = new classes\User();
 
 // Immediate Password Reset Action
 if (isset($_GET['resetpasswordwithcode'])) {
@@ -20,15 +32,18 @@ if (isset($_GET['resetpasswordwithcode'])) {
                 'email_address' => $email,
                 'reset_code' => $code
             );
-            $app->render("forgot_password_success", $data); exit(); // this should be a success page
+            // this should be a success page
+            $auth->render("forgot_password_success", $data);
+            exit();
         }
     } else {
         // default page
-        $app->render("forgot_password_code"); exit(); // this should be a success page
+        // this should be a success page
+        $auth->render("forgot_password_code");
+        exit();
     }
-// RESETTING PASSWORD
-} else if (isset($_POST['reset_new_password'])) {
-
+    // RESETTING PASSWORD
+} elseif (isset($_POST['reset_new_password'])) {
     $email = $_POST['email'];
     $code = $_POST['reset_code'];
     $data = array(
@@ -38,9 +53,11 @@ if (isset($_GET['resetpasswordwithcode'])) {
 
     $result = $user->resetPassword($_POST);
     if ($result) {
-      $app->render("login_form", $data); exit();
+        $auth->render("login_form", $data);
+        exit();
     } else {
-      $app->render("forgot_password_success", $data); exit();
+        $auth->render("forgot_password_success", $data);
+        exit();
     }
 }
 
@@ -49,9 +66,10 @@ if (isset($_GET['resetpasswordwithcode'])) {
  * if you want a single-user mode
  */
 if (!$auth->isUserLoggedIn()) {
-    // echo "<h2>".$auth->generateRandomCode(5)."</h2>"; // TRY THIS ONE (CODE GENERATOR). SAVES TO DATABASE
-    $app->render("forgot_password");
+    // DEBUG: TRY THIS ONE (CODE GENERATOR). SAVES TO DATABASE
+    // echo "<h2>".$auth->generateRandomCode(5)."</h2>";
+    $auth->render("forgot_password");
 } else {
     // error reporting
-    $app->error("Must be logged out first.");
+    $auth->error("Must be logged out first.");
 }

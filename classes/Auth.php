@@ -1,5 +1,11 @@
 <?php
 
+namespace classes;
+
+use DateTime;
+use libraries\Helper as Helper;
+use libraries\Session as Session;
+
 /**
  * Class auth
  * handles the user's login and logout process
@@ -10,17 +16,22 @@ class Auth extends App
      * @var object The database connection
      */
     public $db_connection = null;
+
     /**
      * For JSON
+     *
      * @var string $status
      */
     public $status;
+
     /**
      * Multi-user checks
+     *
      * @var bool
      */
     public $multi_user_requested = false;
     public $switch_user_requested = false;
+    
     /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
      * you know, when you do "$login = new Login();"
@@ -57,9 +68,9 @@ class Auth extends App
 
         // login via get data (multi-user)
         elseif (
-            isset($_GET["login"]) &&
-            (isset($_GET['u']) && !empty($_GET['u'])) && // u for user_id
-            (isset($_GET['n']) && !empty($_GET['n']))
+            isset($_GET["login"])
+            && (isset($_GET['u']) && !empty($_GET['u']))  // u for user_id
+            && (isset($_GET['n']) && !empty($_GET['n']))
         ) { // n for name/username
             $user_id = $_GET['u'];
             $user_name = $_GET['n'];
@@ -68,24 +79,25 @@ class Auth extends App
 
         // logout via get data (multi-user)
         elseif (
-            isset($_GET["logout"]) &&
-            (isset($_GET['u']) && !empty($_GET['u'])) && // u for user_id
-            (isset($_GET['n']) && !empty($_GET['n']))
+            isset($_GET["logout"])
+            && (isset($_GET['u']) && !empty($_GET['u']))  // u for user_id
+            && (isset($_GET['n']) && !empty($_GET['n']))
         ) { // n for name/username
             $user_id = $_GET['u'];
             $user_name = $_GET['n'];
             $this->doLogout($user_id, $user_name);
-        } else {
+        }
+
+        // reset password
+        elseif (isset($_POST['reset_password'])) {
+            $email = $_POST['email'];
+            $this->forgotPassword($email);
+        }
+
+        else {
             // return to default trigger values
             $this->multi_user_requested = false;
             $this->switch_user_requested = false;
-        }
-
-        // NON LOGIN FUNCTIONS
-
-        if (isset($_POST['reset_password'])) {
-            $email = $_POST['email'];
-            $this->forgotPassword($email);
         }
     }
     /**
@@ -106,38 +118,45 @@ class Auth extends App
              * $sql = "SELECT * FROM users WHERE user_name = '" . $user_name . "';";
              * $result_of_login_check = $this->db_connection->query($sql);
              */
-            $result_of_login_check = $this->db_connection->count("users", [
+            $result_of_login_check = $this->db_connection->count(
+                "users",
+                [
                 "OR" => [
                     "user_name" => $user_name,
                     "user_email" => $user_name // username or email
                 ]
-            ]);
+                ]
+            );
             // if this user exists
             if ($result_of_login_check == 1) {
                 // get result row (as an object)
                 // NOTE: we are really gonna use arrays. In PHP 5.4+, array is like this [], others are old array()
-                $result_row = $this->db_connection->get("users", [
+                $result_row = $this->db_connection->get(
+                    "users",
+                    [
                     //COLUMNS
                     'user_id', 'user_name', 'user_email', 'user_password',
                     'first_name', 'last_name', 'user_account_type',
                     'created', 'modified'
-                ], [
+                    ],
+                    [
                     // CONDITIONS
                     "OR" => [
                         "user_name" => $user_name,
                         "user_email" => $user_name // username or email
                     ]
-                ]);
+                    ]
+                );
                 // using PHP 5.5's password_verify() function to check if the provided password fits
                 // the hash of that user's password
                 if (password_verify($user_password, $result_row['user_password'])) {
                     // Check FOR REST API to avoid performance drops
                     if ($this->isForJsonObject() == false) {
-
                         // write user data into PHP SESSION (a file on your server)
                         // $_SESSION['user_name'] = $result_row->user_name; // example
 
                         // Multi-user setup like google auth system
+                        // TODO: Consolidate into a single object
                         $user_id = $result_row['user_id'];
                         $user_name = $result_row['user_name'];
                         $first_name = $result_row['first_name'];
@@ -157,6 +176,7 @@ class Auth extends App
                     // check again if the user requested json object
                     if ($this->isForJsonObject()) {
                         // FETCH USER AS JSON
+                        // TODO: Convert to JWT
                         $user = array(
                             'user_id' => $result_row['user_id'],
                             'user_name' => $result_row['user_name'],
@@ -181,6 +201,7 @@ class Auth extends App
     /**
      * Multi-user version of doLogin()
      * NOTE: Check documentations/comments from doLogin()
+     *
      * @param $user_id
      * @param $user_name
      */
@@ -188,26 +209,32 @@ class Auth extends App
     {
         // MULTI USER CHECKS
         if ($this->multi_user_status && Session::check_user($user_id)) {
-            $result_of_login_check = $this->db_connection->count("users", [
+            $result_of_login_check = $this->db_connection->count(
+                "users",
+                [
                 "user_id" => $user_id
-            ]);
+                ]
+            );
             // if this user exists
             if ($result_of_login_check == 1) {
-                $result_row = $this->db_connection->get("users", [
+                $result_row = $this->db_connection->get(
+                    "users",
+                    [
                     //COLUMNS
                     'user_id', 'user_name', 'user_email', 'user_password',
                     'first_name', 'last_name', 'user_account_type',
                     'created', 'modified'
-                ], [
+                    ],
+                    [
                     // CONDITIONS
                     "OR" => [
                         "user_id" => $user_id,
                         "user_email" => $user_name // username or email
                     ]
-                ]);
+                    ]
+                );
                 // Check FOR REST API to avoid performance drops
                 if ($this->isForJsonObject() == false) {
-
                     // write user data into PHP SESSION (a file on your server)
                     // $_SESSION['user_name'] = $result_row->user_name; // example
 
@@ -257,45 +284,63 @@ class Auth extends App
 
     /**
      * perform the logout
+     *
      * @param $user_id
      * @param $user_name
      */
     public function doLogout($user_id = null, $user_name = null)
     {
-        $set_user_name = Session::get_user('user_name', $user_id); // validation
-        if ($this->multi_user_status && count(Session::get('users')) == 1) { // logout all
+        // set user name for validation
+        $set_user_name = Session::get_user('user_name', $user_id);
+        // get users
+        $users = Session::get('users');
+        // count users
+        $user_count = $users != null ? count($users) : 0;
+
+        // if multi user was activated and no user id specified and it has at least one user
+        if ($this->multi_user_status && $user_count == 1 && $user_id == null) { // logout all
             Session::destroy('users');
+            $this->cleanUpUserSession();
             $this->messages[] = "You have been logged out";
             $this->status = 'success';
             return false;
         }
-        if ($this->multi_user_status && Session::destroy_user($user_id)) {
+        // if multi user was activated and has user id specified
+        elseif ($this->multi_user_status && Session::destroy_user($user_id)) {
+            $this->cleanUpUserSession();
+            // if user name was not specified
             if (empty($user_name)) {
                 $this->messages[] = "You have been logged out";
-            } elseif ($set_user_name == $user_name) { // validate
+            }
+            // if user name was specified
+            elseif ($set_user_name == $user_name) { // validate
                 $this->messages[] = $user_name . " has been logged out";
             }
-        } else if (!$this->multi_user_status) {
+        }
+        // if multi user was not activated
+        elseif (!$this->multi_user_status) {
             Session::destroy('users');
+            $this->cleanUpUserSession();
             $this->messages[] = "You have been logged out";
         }
 
-        // cleaning up
-        $this->cleanUpUserSession();
-
         // JSON
         if ($this->isForJsonObject()) {
-            echo Helper::json_encode([
+            echo Helper::json_encode(
+                [
                 'status' => $this->status,
                 'messages' => $this->messages
-            ]);
+                ]
+            );
         }
 
-        $this->collectResponse(array($this));
+        // BUG!
+        // $this->collectResponse(array($this));
     }
 
     /**
      * simply return the current state of the user's login
+     *
      * @return boolean user's login status
      */
     public function isUserLoggedIn()
@@ -345,10 +390,12 @@ class Auth extends App
             $this->status = "failed";
 
             if ($this->isForJsonObject()) {
-                return Helper::json_encode([
+                return Helper::json_encode(
+                    [
                     'status' => $this->status,
                     'errors' => $this->errors
-                ]);
+                    ]
+                );
             }
 
             $this->collectResponse(array($this)); // COLLECT RESPONSE
@@ -359,6 +406,7 @@ class Auth extends App
 
     /**
      * Verifies reset code for password change
+     *
      * @return bool
      */
     public function verifyResetCode($email, $reset_code)
@@ -406,16 +454,19 @@ class Auth extends App
 
     /**
      * Get users data in JSON format
+     *
      * @param array $user
      */
     private function getUserJSON(array $user)
     {
         // gonna use the json library
-        echo Helper::json_encode([
+        echo Helper::json_encode(
+            [
             'status' => $this->status,
             'errors' => $this->errors,
             'messages' => $this->messages,
             'user' => $user
-        ]);
+            ]
+        );
     }
 }
