@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a5c848e8e2779220103d05727c2d65d",
+    "content-hash": "35cf737a98009bd411ff721aab0c98fd",
     "packages": [
         {
             "name": "cakephp/core",
@@ -269,6 +269,67 @@
                 "sqlite"
             ],
             "time": "2020-02-11T08:20:42+00:00"
+        },
+        {
+            "name": "filp/whoops",
+            "version": "2.7.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filp/whoops.git",
+                "reference": "5d5fe9bb3d656b514d455645b3addc5f7ba7714d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/5d5fe9bb3d656b514d455645b3addc5f7ba7714d",
+                "reference": "5d5fe9bb3d656b514d455645b3addc5f7ba7714d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9 || ^7.0",
+                "psr/log": "^1.0.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9 || ^1.0",
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0",
+                "symfony/var-dumper": "^2.6 || ^3.0 || ^4.0 || ^5.0"
+            },
+            "suggest": {
+                "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
+                "whoops/soap": "Formats errors as SOAP responses"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Whoops\\": "src/Whoops/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Filipe Dobreira",
+                    "homepage": "https://github.com/filp",
+                    "role": "Developer"
+                }
+            ],
+            "description": "php error handling for cool kids",
+            "homepage": "https://filp.github.io/whoops/",
+            "keywords": [
+                "error",
+                "exception",
+                "handling",
+                "library",
+                "throwable",
+                "whoops"
+            ],
+            "time": "2020-06-14T09:00:00+00:00"
         },
         {
             "name": "gregwar/captcha",
@@ -2299,16 +2360,16 @@
     "packages-dev": [
         {
             "name": "odan/phinx-migrations-generator",
-            "version": "5.1.2",
+            "version": "5.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/odan/phinx-migrations-generator.git",
-                "reference": "f3cb7cc6bc7eb22e85f34f229b6d476e96d99c73"
+                "reference": "061997739dca7993364a31c603643e4dba28a816"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/odan/phinx-migrations-generator/zipball/f3cb7cc6bc7eb22e85f34f229b6d476e96d99c73",
-                "reference": "f3cb7cc6bc7eb22e85f34f229b6d476e96d99c73",
+                "url": "https://api.github.com/repos/odan/phinx-migrations-generator/zipball/061997739dca7993364a31c603643e4dba28a816",
+                "reference": "061997739dca7993364a31c603643e4dba28a816",
                 "shasum": ""
             },
             "require": {
@@ -2317,7 +2378,8 @@
                 "php": "^7.2",
                 "riimu/kit-phpencoder": "^2.4",
                 "robmorgan/phinx": "^0.12",
-                "symfony/console": "^2.8 || ^3.0 || ^4.0 || ^5.0"
+                "symfony/console": "^2.8 || ^3.0 || ^4.0 || ^5.0",
+                "symfony/polyfill-php73": "^1.18"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
@@ -2349,7 +2411,7 @@
                 "mysql",
                 "phinx"
             ],
-            "time": "2020-06-15T19:36:35+00:00"
+            "time": "2020-09-25T22:39:04+00:00"
         },
         {
             "name": "riimu/kit-phpencoder",
@@ -2401,59 +2463,6 @@
                 "variable"
             ],
             "time": "2018-07-03T12:46:23+00:00"
-        }
-    ],
-    "packages-dev": [
-        {
-            "name": "squizlabs/php_codesniffer",
-            "version": "3.5.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "e97627871a7eab2f70e59166072a6b767d5834e0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/e97627871a7eab2f70e59166072a6b767d5834e0",
-                "reference": "e97627871a7eab2f70e59166072a6b767d5834e0",
-                "shasum": ""
-            },
-            "require": {
-                "ext-simplexml": "*",
-                "ext-tokenizer": "*",
-                "ext-xmlwriter": "*",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
-            },
-            "bin": [
-                "bin/phpcs",
-                "bin/phpcbf"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Greg Sherwood",
-                    "role": "lead"
-                }
-            ],
-            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
-            "homepage": "https://github.com/squizlabs/PHP_CodeSniffer",
-            "keywords": [
-                "phpcs",
-                "standards"
-            ],
-            "time": "2020-08-10T04:50:15+00:00"
         }
     ],
     "aliases": [],
