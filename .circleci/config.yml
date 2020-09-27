@@ -1,0 +1,68 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # Specify the version you desire here
+      - image: circleci/php:7.3-fpm-node-browsers
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # Using the RAM variation mitigates I/O contention
+      # for database intensive operations.
+      - image: circleci/mysql:5.7-ram
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testing_db
+          MYSQL_USER: user
+          MYSQL_PASSWORD: root
+      # Redis
+      # - image: redis:2.8.19
+
+    steps:
+      - checkout
+
+      - run: sudo apt update # PHP CircleCI 2.0 Configuration File
+      # https://stackoverflow.com/a/50002052/6413072
+      - run: sudo apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev 
+      - run: sudo docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+      - run: sudo docker-php-ext-install zip gd mbstring pdo pdo_mysql mysqli
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: composer install -n --prefer-dist
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package.json" }}
+            - node-v1-
+      - run: yarn install
+      - save_cache:
+          key: node-v1-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+      # prepare the database
+      - run: ./vendor/bin/phinx migrate -e testing
+
+      # run tests with phpunit or codecept
+      #- run: ./vendor/bin/phpunit
+      #- run: ./vendor/bin/codecept build
+      #- run: ./vendor/bin/codecept run
+
+      # run codesniffer
+      - run: ./vendor/bin/phpcs classes libraries error.php forgotpassword.php index.php multi_user.php register.php

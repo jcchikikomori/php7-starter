@@ -1,20 +1,24 @@
 # PHP 7 Starter
 
-## A naked PHP micro framework
-<i>previously called "MyPHP" because i am cringing so much on that name</i><br />
+## A bare naked PHP sample!
+With some plugins to make this project work!
+
+## Why bother using this since we have Laravel, CakePHP, etc.?
+That is not the real purpose of this project. You can use them, sure!
+I made this because i wanted to show how amazing and straightforward PHP is.
 
 ## Disclaimer
 This is not recommended for very large & complex projects.
-Building PHP made more simple over complicated frameworks on the market
-This is also my prototype template to easily test my projects before moving onto the real setup
+Building PHP made more simple over complicated frameworks on the market.
+This is also one of my prototype templates.
 
-## Will deprecate PHP 5!
-The world is changing so fast that PHP 5 will be outdated very soon.
+## PHP 5 support is dropped!
+I would not recommend to newbies to use PHP 5 because it's so old and vulnerable to today's security standards.
 
 ## Features
-* Uses PHP 7 features (will deprecate PHP 5 soon!)
-* Quite & less modular but still easy to learn for newbies, baby!
-* OOP Structured & can do CRUD, Login/Register, Pagination (SOON), & REST
+* Uses compatible PHP 7 features
+* Modular but still easy to learn for newbies, baby!
+* OOP Structured & can do CRUD, Login/Register, Pagination, & REST
 * Quite Documented and plenty of comments inside
 * Render whether a JSON object or a web page
 * Using Medoo for more easier database handling (called DB in Core)
@@ -30,8 +34,8 @@ The world is changing so fast that PHP 5 will be outdated very soon.
 ## Requirements
 * Knowledge in PHP 5 or higher
 * Familiar in Object-Oriented Programming
-* PHP 7.0 or higher installed on your machine
-* Apache or NGINX or any with .htaccess & RewriteEngine support
+* PHP 7.2.5 or higher installed on your machine
+* Apache or NGINX or any with rewrite support
 * Supports MYSQL/MARIADB & SQLITE as well, if you are going to MYSQL, go install and set it up.
 * [Composer](https://getcomposer.org) (PHP Dependency Manager, required and it's available even for Windows with XAMPP, or WAMPS!)
 
@@ -44,10 +48,6 @@ NOTE: You can add more dependency by using this command
 `$ composer require author/dependency_name`
 
 ### Yarn to install front-end dependencies
-
-`$ yarn i`
-
-or
 
 `$ yarn install`
 
@@ -62,16 +62,15 @@ The database query for this are provided [here](https://gist.github.com/jccultim
 - [ ] Email Service
 - [x] Forgot Password System
 - [x] Error Handling with .htaccess
-- [ ] Error Codes
-- [x] Using REST/JSON formats for new API class (for OAuth, Android, etc.)
-- [ ] App Deployment like Heroku, AWS, VPS, etc.
-- [x] Multi-user
+- [ ] Error Codes (might using `Oops!`)
+- [x] Render/Respond in JSON format
+- [ ] Capistrano & Deployer support
+- [x] Multi-user like Google's Auth system
 - [ ] Pagination
-- [ ] JSON/REST response handling
 
 ## Notice
 * Again, this is not recommended for large/complex projects
-* This project is provided with a handy .htaccess in the views folder that denies direct access to the files within the folder (so that people cannot render the views directly). However, these .htaccess files only work if you have set
+* **For Apache:** This project is provided with a handy .htaccess in the views folder that denies direct access to the files within the folder (so that people cannot render the views directly). However, these .htaccess files only work if you have set
 `AllowOverride` to `All` in your Apache Virtual Host configs. There are lots of tutorials on the web on how to do this.
 
 ## Credits
