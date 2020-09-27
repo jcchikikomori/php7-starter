@@ -4,6 +4,21 @@ namespace classes;
 
 use Gregwar\Captcha\CaptchaBuilder;
 
+/**
+ * Captcha class
+ * Utility class for everything but Captcha
+ *
+ * TODO: Using Google's reCAPTCHA feature
+ *
+ * PHP version 7.2
+ *
+ * @category Captcha
+ * @package  PHP7Starter
+ * @author   John Cyrill Corsanes <jccorsanes@protonmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
+ * @version  Release: 0.51-alpha
+ * @link     https://github.com/jcchikikomori/php7-starter
+ */
 class Captcha extends App
 {
     /**

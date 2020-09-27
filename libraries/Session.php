@@ -8,12 +8,17 @@ namespace libraries;
  * handles the session stuff. creates session when no one exists, sets and
  * gets values, and closes the session properly (=logout). Those methods
  * are STATIC, which means you can call them with Session::get(XXX);
- *
  * New tests (as of 04-16-2017): Multi-user setups like the Google Auth System
  *
- * @author   Chris (panique)
+ * PHP version 7.2
+ *
+ * @category Session
+ * @package  PHP7Starter
+ * @author   Chris (panique) <panique@noemail.com>
  * @author   John Cyrill Corsanes <jccorsanes@protonmail.com>
  * @license  http://opensource.org/licenses/MIT MIT License
+ * @version  Release: 0.51-alpha
+ * @link     https://github.com/jcchikikomori/php7-starter
  */
 class Session
 {

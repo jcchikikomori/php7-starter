@@ -3,8 +3,6 @@
 namespace libraries;
 
 /**
- * UUID class
- *
  * The following class generates VALID RFC 4122 COMPLIANT
  * Universally Unique IDentifiers (UUID) version 3, 4 and 5.
  *
@@ -12,8 +10,16 @@ namespace libraries;
  * for named-based UUIDs are exactly the same. This is a pure
  * PHP implementation.
  *
- * @author Andrew Moore
- * @link   http://www.php.net/manual/en/function.uniqid.php#94959
+ * PHP version 7.2
+ *
+ * @category UUID
+ * @package  PHP7Starter
+ * @author   Andrew Moore <andrewmoore@noemail.com>
+ * @author   John Cyrill Corsanes <jccorsanes@protonmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
+ * @version  Release: 0.51-alpha
+ * @link     https://github.com/jcchikikomori/php7-starter
+ * @link     http://www.php.net/manual/en/function.uniqid.php#94959
  */
 
 class UUID

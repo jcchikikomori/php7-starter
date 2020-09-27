@@ -1,8 +1,9 @@
 <?php
 
+namespace classes;
+
 /**
  * Registration class
- *
  * Handles the user registration
  *
  * PHP version 7.2
@@ -14,9 +15,6 @@
  * @version  Release: 0.51-alpha
  * @link     https://github.com/jcchikikomori/php7-starter
  */
-
-namespace classes;
-
 class Registration extends Auth
 {
     /**

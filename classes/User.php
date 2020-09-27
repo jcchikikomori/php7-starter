@@ -2,6 +2,19 @@
 
 namespace classes;
 
+/**
+ * User class
+ * User management
+ *
+ * PHP version 7.2
+ *
+ * @category User
+ * @package  PHP7Starter
+ * @author   John Cyrill Corsanes <jccorsanes@protonmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
+ * @version  Release: 0.51-alpha
+ * @link     https://github.com/jcchikikomori/php7-starter
+ */
 class User extends App
 {
     /**

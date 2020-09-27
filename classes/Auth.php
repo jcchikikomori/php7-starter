@@ -7,8 +7,17 @@ use libraries\Helper as Helper;
 use libraries\Session as Session;
 
 /**
- * Class auth
- * handles the user's login and logout process
+ * Authentication class
+ * Handles the user's login and logout process
+ *
+ * PHP version 7.2
+ *
+ * @category Auth
+ * @package  PHP7Starter
+ * @author   John Cyrill Corsanes <jccorsanes@protonmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
+ * @version  Release: 0.51-alpha
+ * @link     https://github.com/jcchikikomori/php7-starter
  */
 class Auth extends App
 {
@@ -149,6 +158,7 @@ class Auth extends App
                 );
                 // using PHP 5.5's password_verify() function to check if the provided password fits
                 // the hash of that user's password
+                // https://www.php.net/manual/en/function.password-verify.php
                 if (password_verify($user_password, $result_row['user_password'])) {
                     // Check FOR REST API to avoid performance drops
                     if ($this->isForJsonObject() == false) {
