@@ -85,7 +85,7 @@ class App
 
         /**
          * Reinitialize root directory first
-         * 
+         *
          * NOTE: Use DIRECTORY_SEPARATOR instead of slashes to avoid server confusions in paths
          * and PHP will find a right slashes for you
          */
