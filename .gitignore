@@ -188,6 +188,9 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/yarn,windows,composer,sublimetext,jetbrains
 
+# dotenv
+.env
+
 # php7-starter configs
 configs/*.php
 
