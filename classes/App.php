@@ -217,9 +217,10 @@ class App
             $this->messages[] = "You are browsing using mobile!";
         }
 
-        // Test env (either using $_ENV or straight constant)
-        $this->messages[] = $_ENV['WOWOWIN'];
-        $this->messages[] = ENVIRONMENT;
+        // You can test dotenv by uncommenting these lines below
+        // (by either using $_ENV or straight constant)
+        // $this->messages[] = $_ENV['WOWOWIN'];
+        // $this->messages[] = ENVIRONMENT;
 
         // AJAX Detection
         // $this->setForJsonObject(true);
