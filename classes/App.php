@@ -181,7 +181,7 @@ class App
             $whoops->removeLastHandler();
             $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler());
         }
-        
+
         /**
          * Finally register Whoops handler
          */
