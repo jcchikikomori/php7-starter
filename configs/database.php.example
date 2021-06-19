@@ -24,4 +24,4 @@ define("DB_PASS", "root");
 define("DB_PORT", 3306);
 define("DB_TYPE", 'sqlite');
 // FOR SQLITE!!
-define("DB_FILE", 'test.db');
+define("DB_FILE", 'myphp_db.db');

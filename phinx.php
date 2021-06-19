@@ -21,7 +21,7 @@ return
             'charset' => 'utf8',
         ],
         'development' => [
-            'adapter' => 'mysql',
+            'adapter' => DB_TYPE,
             'host' => DB_HOST,
             'name' => DB_NAME,
             'user' => DB_USER,

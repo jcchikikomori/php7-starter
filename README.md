@@ -59,7 +59,12 @@ NOTE: You can add more dependency by using this command
 
 This project uses `phinx` as database migration tool.
 
-Just execute `php ./vendor/bin/phinx migrate`, and that's it!
+Just execute the following, and that's it!
+
+```
+$ php ./vendor/bin/phinx migrate
+$ php ./vendor/bin/phinx seed:run
+```
 
 ### Database Installation (Manual)
 
