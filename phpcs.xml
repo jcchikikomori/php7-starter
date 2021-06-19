@@ -7,4 +7,7 @@
         <exactly name="PSR12.Files.ImportStatement.LeadingSlash"/>
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
     </rule>
+    <rule ref="Generic.Files.LineEndings">
+        <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
+    </rule>
 </ruleset>

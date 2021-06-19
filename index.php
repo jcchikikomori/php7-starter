@@ -1,16 +1,10 @@
 <?php
 
 /**
- * PHP7Starter init file
+ * hello-php by jcchikikomori
  *
- * PHP version 7.2
- *
- * @category App
- * @package  PHP7Starter
- * @author   John Cyrill Corsanes <jccorsanes@protonmail.com>
- * @license  http://opensource.org/licenses/MIT MIT License
- * @version  GIT: 0.51-alpha
- * @link     https://github.com/jcchikikomori/php7-starter
+ * @link https://github.com/jcchikikomori/hello-php
+ * @license http://opensource.org/licenses/MIT MIT License
  */
 
 // load required files

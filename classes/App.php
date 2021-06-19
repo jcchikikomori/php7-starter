@@ -4,10 +4,8 @@
 // Read more: https://www.php.net/manual/en/language.namespaces.basics.php
 namespace classes;
 
-// require libraries
-use PDO; // from PHP
-use libraries\Session as Session;
-use libraries\Helper as Helper;
+// Dotenv
+use Dotenv\Dotenv as Env;
 
 // UserAgent plugin
 use Jenssegers\Agent\Agent as UserAgent;
@@ -15,6 +13,11 @@ use Jenssegers\Agent\Agent as UserAgent;
 // Meedoo plugin
 // Using Medoo as DB
 use Medoo\Medoo as DB;
+
+// require libraries
+use PDO; // from PHP
+use libraries\Session as Session;
+use libraries\Helper as Helper;
 
 /**
  * Firing up!
@@ -36,6 +39,10 @@ use Medoo\Medoo as DB;
  */
 class App
 {
+    /**
+     * @var Dotenv object
+     */
+    public $dotenv = null;
     /**
      * @var object $db_connection The database connection
      */
@@ -81,24 +88,8 @@ class App
         // ======================= CONSTRUCTOR =======================
 
         /**
-         * Time Zones - set your own (optional)
-         * To see all current timezones, @see http://php.net/manual/en/timezones.php
-         * SAMPLE: date_default_timezone_set("Asia/Manila");
-         */
-
-        /**
-         * Environment
-         * - define('ENVIRONMENT', 'development'); Enables Error Report and Debugging
-         * - define('ENVIRONMENT', 'release'); Disables Error Reporting for Performance
-         * - define('ENVIRONMENT', 'web'); For Web Hosting / Deployment
-         * (don't use if you are about to go development/offline)
-         */
-        if (!defined('ENVIRONMENT') && empty('ENVIRONMENT')) {
-            define('ENVIRONMENT', 'release');
-        }
-
-        /**
-         * Reinitialize root directory
+         * Reinitialize root directory first
+         *
          * NOTE: Use DIRECTORY_SEPARATOR instead of slashes to avoid server confusions in paths
          * and PHP will find a right slashes for you
          */
@@ -107,14 +98,9 @@ class App
         }
 
         /**
-         * Application folder (ALPHA STAGE)
+         * Autoload Composer
+         * - First, PHP version check (If current PHP version was less than 7)
          */
-        if (!defined('APP_DIR')) {
-            define('APP_DIR', ROOT . 'application');
-        }
-
-        // PHP version check
-        // If current PHP version was less than 7
         if (version_compare(PHP_VERSION, '7', '<')) {
             exit("Sorry, your PHP Version " . PHP_VERSION . " is not compatible anymore for this system.");
         } else {
@@ -137,6 +123,37 @@ class App
                     include_once $configs;
                 }
             }
+        }
+
+        /**
+         * Load .env straightforward
+         */
+        $dotenv = Env::createImmutable(ROOT);
+        $dotenv->load();
+
+        /**
+         * Time Zones - set your own (optional)
+         * To see all current timezones, @see http://php.net/manual/en/timezones.php
+         * SAMPLE: date_default_timezone_set("Asia/Manila");
+         */
+
+        /**
+         * Environment
+         * - define('ENVIRONMENT', 'development'); Enables Error Report and Debugging
+         * - define('ENVIRONMENT', 'release'); Disables Error Reporting for Performance
+         * - define('ENVIRONMENT', 'web'); For Web Hosting / Deployment
+         * (don't use if you are about to go development/offline)
+         */
+        if (!defined($_ENV['ENVIRONMENT']) && empty($_ENV['ENVIRONMENT'])) {
+            define('ENVIRONMENT', 'release');
+        }
+
+        /**
+         * Application folder
+         * TODO: Restructure first
+         */
+        if (!defined('APP_DIR')) {
+            define('APP_DIR', ROOT . 'application');
         }
 
         /**
@@ -226,6 +243,11 @@ class App
         if ($agent->isMobile()) {
             $this->messages[] = "You are browsing using mobile!";
         }
+
+        // You can test dotenv by uncommenting these lines below
+        // (by either using $_ENV or straight constant)
+        // $this->messages[] = $_ENV['WOWOWIN'];
+        // $this->messages[] = ENVIRONMENT;
 
         // AJAX Detection
         // $this->setForJsonObject(true);

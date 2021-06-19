@@ -1,12 +1,13 @@
 {
-    "name": "jcchikikomori/php7-starter",
+    "name": "jcchikikomori/hello-php",
     "type": "project",
-    "description": "Pure PHP 7 Starter Pack for prototyping/testing",
+    "description": "Pure PHP Starter Pack for prototyping/testing",
     "keywords": ["OOP", "PHP", "application"],
     "license": "MIT",
     "authors": [
         {
             "name": "John Cyrill Corsanes",
+            "email": "jccorsanes@protonmail.com",
             "role": "Developer"
         }
     ],
@@ -19,17 +20,18 @@
         "jenssegers/agent": "^2.5",
         "robmorgan/phinx": "^0.12.4",
         "squizlabs/php_codesniffer": "*",
-        "filp/whoops": "^2.7"
+        "filp/whoops": "^2.7",
+        "vlucas/phpdotenv": "^5.2"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "3.*"
+        "squizlabs/php_codesniffer": "3.*",
+        "odan/phinx-migrations-generator": "^5.1"
     },
     "scripts": {
         "post-autoload-dump": [
-            "php -r \"file_exists('configs/system.php') || copy('configs/system.php.example', 'configs/system.php'); file_exists('configs/database.php') || copy('configs/database.php.example', 'configs/database.php');\""
+            "php -r \"file_exists('configs/system.php') || copy('configs/system.php.example', 'configs/system.php');\"",
+            "php -r \"file_exists('configs/database.php') || copy('configs/database.php.example', 'configs/database.php');\"",
+            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ]
-    },
-    "require-dev": {
-        "odan/phinx-migrations-generator": "^5.1"
     }
 }

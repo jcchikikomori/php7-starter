@@ -68,7 +68,7 @@ class Helper
 
     /**
      * Generate a random string
-     * jccultima123 MOD: Must be All Caps
+     * jcchikikomori MOD: Must be All Caps
      *
      * Concept: https://3v4l.org/KKlc3
      *
