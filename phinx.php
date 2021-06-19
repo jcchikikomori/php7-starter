@@ -33,8 +33,7 @@ return
         'testing' => [
             'adapter' => 'sqlite',
             'name' => 'test',
-            'suffix' => '.db',
-            'memory' => true
+            'suffix' => '.db'
         ]
     ],
     'version_order' => 'creation'

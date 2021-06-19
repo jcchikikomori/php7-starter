@@ -33,6 +33,7 @@ jobs:
     - name: Run Migration
       run: |
         export PHINX_ENVIRONMENT=testing
+        cp -f configs/database.php.test configs/database.php
         php ./vendor/bin/phinx migrate
     - name: Run PHP CodeSniffer
       run: php ./vendor/bin/phpcs classes libraries error.php forgotpassword.php index.php multi_user.php register.php
@@ -60,6 +61,8 @@ jobs:
     - name: Run Migration
       run: |
         $Env:PHINX_ENVIRONMENT = "testing"
+        Remove-Item configs/database.php
+        Copy-Item configs/database.php.test configs/database.php
         php ./vendor/bin/phinx migrate
     - name: Run PHP CodeSniffer
       run: php ./vendor/bin/phpcs classes libraries error.php forgotpassword.php index.php multi_user.php register.php

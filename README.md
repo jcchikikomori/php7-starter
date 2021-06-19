@@ -55,7 +55,13 @@ NOTE: You can add more dependency by using this command
 
 `$ yarn install`
 
-### Database Installation
+### Database Installation (Automated)
+
+This project uses `phinx` as database migration tool.
+
+Just execute `php ./vendor/bin/phinx migrate`, and that's it!
+
+### Database Installation (Manual)
 
 The database query for this are provided [here](https://gist.github.com/jcchikikomori/5e10a6d9e549778eff40adb5a3556e4a)
 

@@ -299,7 +299,7 @@ class App
 
         // SQLite Support
         if ($driver == 'sqlite') {
-            $database_properties['database_file'] = DB_FILE;
+            $database_properties['database'] = DB_FILE;
             // unset fields that don't need for sqlite
             unset($database_properties['database_name']);
             unset($database_properties['server']);
