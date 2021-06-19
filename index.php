@@ -1,9 +1,9 @@
 <?php
 
 /**
- * php7-starter by jccultima123
+ * hello-php by jccultima123
  *
- * @link https://github.com/jcchikikomori/php7-starter
+ * @link https://github.com/jcchikikomori/hello-php
  * @license http://opensource.org/licenses/MIT MIT License
  */
 
