@@ -1,7 +1,7 @@
 <?php
 
 /**
- * hello-php by jccultima123
+ * hello-php by jcchikikomori
  *
  * @link https://github.com/jcchikikomori/hello-php
  * @license http://opensource.org/licenses/MIT MIT License

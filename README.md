@@ -57,7 +57,7 @@ NOTE: You can add more dependency by using this command
 
 ### Database Installation
 
-The database query for this are provided [here](https://gist.github.com/jccultima123/5e10a6d9e549778eff40adb5a3556e4a)
+The database query for this are provided [here](https://gist.github.com/jcchikikomori/5e10a6d9e549778eff40adb5a3556e4a)
 
 ## Known Issues
 
