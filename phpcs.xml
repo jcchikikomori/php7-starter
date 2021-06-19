@@ -6,4 +6,7 @@
         <exclude name="PSR12.Files.FileHeader.SpacingInsideBlock"/>
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
     </rule>
+    <rule ref="Generic.Files.LineEndings">
+        <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
+    </rule>
 </ruleset>
