@@ -40,7 +40,7 @@ class Auth extends App
      */
     public $multi_user_requested = false;
     public $switch_user_requested = false;
-    
+
     /**
      * the function "__construct()" automatically starts whenever an object of this class is created,
      * you know, when you do "$login = new Login();"

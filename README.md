@@ -1,29 +1,30 @@
-# PHP 7 Starter
+# hello-php
 
-## A bare naked PHP sample!
-With some plugins to make this project work!
+## A naked PHP micro framework
 
-## Why bother using this since we have Laravel, CakePHP, etc.?
-That is not the real purpose of this project. You can use them, sure!
-I made this because i wanted to show how amazing and straightforward PHP is.
+<i>previously called "MyPHP" because i am cringing so much on that name</i><br />
 
 ## Disclaimer
+
 This is not recommended for very large & complex projects.
 Building PHP made more simple over complicated frameworks on the market.
 This is also one of my prototype templates.
 
-## PHP 5 support is dropped!
-I would not recommend to newbies to use PHP 5 because it's so old and vulnerable to today's security standards.
+## Will deprecate older PHP versions!
+
+The world is changing so fast that PHP 5 & 7 will be outdated very soon.
 
 ## Features
-* Uses compatible PHP 7 features
-* Modular but still easy to learn for newbies, baby!
-* OOP Structured & can do CRUD, Login/Register, Pagination, & REST
+
+* Uses PHP 7 features
+* Quite & less modular but still easy to learn for newbies, baby!
+* OOP Structured & can do CRUD, Login/Register, Pagination (SOON), & REST
 * Quite Documented and plenty of comments inside
 * Render whether a JSON object or a web page
 * Using Medoo for more easier database handling (called DB in Core)
 
 ## Additonal Features
+
 * Multi-user login setup like the Google Auth System (disabled by default)
 * You can build a function for email using Composer or load your own library in libraries/ dir
 * Uses Composer to load external dependencies by loading Composer dependencies (PHPMailer, PHPUnit, etc.) for sure
@@ -32,7 +33,8 @@ I would not recommend to newbies to use PHP 5 because it's so old and vulnerable
 * .example files might help you in your development!
 
 ## Requirements
-* Knowledge in PHP 5 or higher
+
+* Knowledge in PHP 7 or higher
 * Familiar in Object-Oriented Programming
 * PHP 7.2.5 or higher installed on your machine
 * Apache or NGINX or any with rewrite support
@@ -40,7 +42,9 @@ I would not recommend to newbies to use PHP 5 because it's so old and vulnerable
 * [Composer](https://getcomposer.org) (PHP Dependency Manager, required and it's available even for Windows with XAMPP, or WAMPS!)
 
 ## Installation
+
 ### Composer to install PHP dependencies
+
 `$ composer install`
 
 NOTE: You can add more dependency by using this command
@@ -52,30 +56,38 @@ NOTE: You can add more dependency by using this command
 `$ yarn install`
 
 ### Database Installation
-The database query for this are provided [here](https://gist.github.com/jccultima123/5e10a6d9e549778eff40adb5a3556e4a)
+
+The database query for this are provided [here](https://gist.github.com/jcchikikomori/5e10a6d9e549778eff40adb5a3556e4a)
 
 ## Known Issues
+
 * Error Handling for REST/JSON (it's up to you to catch it since it's already parsed on JSON format)
 
-## Work to do..
-- [x] SQLite Support
-- [ ] Email Service
-- [x] Forgot Password System
-- [x] Error Handling with .htaccess
-- [ ] Error Codes (might using `Oops!`)
-- [x] Render/Respond in JSON format
-- [ ] Capistrano & Deployer support
-- [x] Multi-user like Google's Auth system
-- [ ] Pagination
+## Work to do
+
+[x] SQLite Support
+[ ] Email Service
+[x] Forgot Password System
+[x] Error Handling with .htaccess
+[ ] Error Codes
+[x] Using REST/JSON formats for new API class (for OAuth, Android, etc.)
+[ ] App Deployment like Heroku, AWS, VPS, etc.
+[x] Multi-user
+[ ] Pagination
+[ ] JSON/REST response handling
 
 ## Notice
+
 * Again, this is not recommended for large/complex projects
 * **For Apache:** This project is provided with a handy .htaccess in the views folder that denies direct access to the files within the folder (so that people cannot render the views directly). However, these .htaccess files only work if you have set
 `AllowOverride` to `All` in your Apache Virtual Host configs. There are lots of tutorials on the web on how to do this.
+* Laravel's Linux is the easiest way to test your project locally!
 
 ## Credits
+
 * This project is technically a fork from [panique's](https://github.com/panique) code base, so big thanks to him!
 
 ## License
+
 Licensed under [MIT](http://www.opensource.org/licenses/mit-license.php). You can use this script for free for any
 private or commercial projects.

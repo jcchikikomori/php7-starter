@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/yarn,windows,composer,sublimetext,jetbrains
 # Edit at https://www.toptal.com/developers/gitignore?templates=yarn,windows,composer,sublimetext,jetbrains
 
@@ -188,10 +187,7 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/yarn,windows,composer,sublimetext,jetbrains
 
-# dotenv
-.env
-
-# php7-starter configs
+# hello-php configs
 configs/*.php
 
 # nodejs modules

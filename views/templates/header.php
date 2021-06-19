@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="description" content="">
-    <title>PHP 7 Starter</title>
+    <title>hello-php</title>
 
     <!-- Favicon -->
     <!-- Source: https://www.php.net/download-logos.php -->
