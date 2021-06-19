@@ -7,11 +7,11 @@ on:
     branches: [ develop, feature/*, bugfix/* ]
 
 jobs:
-  build:
+  unix-build:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        operating-system: ['ubuntu-latest', 'macos-latest']
         php-versions: ['8.0']
         phpunit-versions: ['latest']
     steps:
@@ -21,7 +21,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
-        extensions: mbstring, intl, gd
+        extensions: mbstring, intl, gd, pdo_sqlite
         ini-values: post_max_size=256M, max_execution_time=180
         coverage: xdebug        
         tools: php-cs-fixer, phpunit:${{ matrix.phpunit-versions }}
@@ -31,7 +31,36 @@ jobs:
     # - name: PHPUnit
     #   run: php ./vendor/bin/phpunit
     - name: Run Migration
-      run: php ./vendor/bin/phinx migrate
+      run: |
+        export PHINX_ENVIRONMENT=testing
+        php ./vendor/bin/phinx migrate
+    - name: Run PHP CodeSniffer
+      run: php ./vendor/bin/phpcs classes libraries error.php forgotpassword.php index.php multi_user.php register.php
+  win-build:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: ['windows-latest']
+        php-versions: ['8.0']
+        phpunit-versions: ['latest']
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        extensions: mbstring, intl, gd, pdo_sqlite
+        ini-values: post_max_size=256M, max_execution_time=180
+        coverage: xdebug        
+        tools: php-cs-fixer, phpunit:${{ matrix.phpunit-versions }}
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install --no-progress --no-suggest
+    - name: Run Migration
+      run: |
+        $Env:PHINX_ENVIRONMENT = "testing"
+        php ./vendor/bin/phinx migrate
     - name: Run PHP CodeSniffer
       run: php ./vendor/bin/phpcs classes libraries error.php forgotpassword.php index.php multi_user.php register.php
 

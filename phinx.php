@@ -5,8 +5,8 @@ require 'configs/database.php';
 return
 [
     'paths' => [
-        'migrations' => '%%PHINX_CONFIG_DIR%%/db/migrations',
-        'seeds' => '%%PHINX_CONFIG_DIR%%/db/seeds'
+        'migrations' => '%%PHINX_CONFIG_DIR%%/db/migrations/%%PHINX_ENVIRONMENT%%',
+        'seeds' => '%%PHINX_CONFIG_DIR%%/db/seeds/%%PHINX_ENVIRONMENT%%'
     ],
     'environments' => [
         'default_migration_table' => 'phinxlog',
@@ -28,16 +28,12 @@ return
             'pass' => DB_PASS,
             'port' => DB_PORT,
             'charset' => 'utf8',
-            'suffix' => ".db"
+            'suffix' => '.db'
         ],
         'testing' => [
-            'adapter' => 'mysql',
-            'host' => DB_HOST,
-            'name' => 'testing_db',
-            'user' => DB_USER,
-            'pass' => DB_PASS,
-            'port' => DB_PORT,
-            'charset' => 'utf8',
+            'adapter' => 'sqlite',
+            'name' => 'test',
+            'suffix' => '.db',
             'memory' => true
         ]
     ],
