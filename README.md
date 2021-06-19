@@ -7,8 +7,8 @@
 ## Disclaimer
 
 This is not recommended for very large & complex projects.
-Building PHP made more simple over complicated frameworks on the market
-This is also my prototype template to easily test my projects before moving onto the real setup
+Building PHP made more simple over complicated frameworks on the market.
+This is also one of my prototype templates.
 
 ## Will deprecate older PHP versions!
 
@@ -36,8 +36,8 @@ The world is changing so fast that PHP 5 & 7 will be outdated very soon.
 
 * Knowledge in PHP 7 or higher
 * Familiar in Object-Oriented Programming
-* PHP 7.0 or higher installed on your machine
-* Apache or NGINX or any with .htaccess & RewriteEngine support
+* PHP 7.2.5 or higher installed on your machine
+* Apache or NGINX or any with rewrite support
 * Supports MYSQL/MARIADB & SQLITE as well, if you are going to MYSQL, go install and set it up.
 * [Composer](https://getcomposer.org) (PHP Dependency Manager, required and it's available even for Windows with XAMPP, or WAMPS!)
 
@@ -52,10 +52,6 @@ NOTE: You can add more dependency by using this command
 `$ composer require author/dependency_name`
 
 ### Yarn to install front-end dependencies
-
-`$ yarn i`
-
-or
 
 `$ yarn install`
 
@@ -83,7 +79,7 @@ The database query for this are provided [here](https://gist.github.com/jccultim
 ## Notice
 
 * Again, this is not recommended for large/complex projects
-* This project is provided with a handy .htaccess in the views folder that denies direct access to the files within the folder (so that people cannot render the views directly). However, these .htaccess files only work if you have set
+* **For Apache:** This project is provided with a handy .htaccess in the views folder that denies direct access to the files within the folder (so that people cannot render the views directly). However, these .htaccess files only work if you have set
 `AllowOverride` to `All` in your Apache Virtual Host configs. There are lots of tutorials on the web on how to do this.
 * Laravel's Linux is the easiest way to test your project locally!
 

@@ -1,8 +1,23 @@
 <?php
 
-// Required to do
-use Jenssegers\Agent\Agent as UserAgent; // UserAgent plugin
-use Medoo\Medoo as DB; // Using Medoo as DB
+// To identify that this is under [namespace] directory.
+// Read more: https://www.php.net/manual/en/language.namespaces.basics.php
+namespace classes;
+
+// Dotenv
+use Dotenv\Dotenv as Env;
+
+// UserAgent plugin
+use Jenssegers\Agent\Agent as UserAgent;
+
+// Meedoo plugin
+// Using Medoo as DB
+use Medoo\Medoo as DB;
+
+// require libraries
+use PDO; // from PHP
+use libraries\Session as Session;
+use libraries\Helper as Helper;
 
 /**
  * Firing up!
@@ -12,9 +27,22 @@ use Medoo\Medoo as DB; // Using Medoo as DB
  * This class should only in the following:
  * - Load other libraries (in /libraries dir)
  * - Do action first (if you want) everytime the user requests (e.g: init)
+ *
+ * PHP version 7.2
+ *
+ * @category App
+ * @package  PHP7Starter
+ * @author   John Cyrill Corsanes <jccorsanes@protonmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
+ * @version  Release: 0.51-alpha
+ * @link     https://github.com/jcchikikomori/php7-starter
  */
 class App
 {
+    /**
+     * @var Dotenv object
+     */
+    public $dotenv = null;
     /**
      * @var object $db_connection The database connection
      */
@@ -56,6 +84,50 @@ class App
         // ======================= CONSTRUCTOR =======================
 
         /**
+         * Reinitialize root directory first
+         *
+         * NOTE: Use DIRECTORY_SEPARATOR instead of slashes to avoid server confusions in paths
+         * and PHP will find a right slashes for you
+         */
+        if (!defined('ROOT')) {
+            define('ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR);
+        }
+
+        /**
+         * Autoload Composer
+         * - First, PHP version check (If current PHP version was less than 7)
+         */
+        if (version_compare(PHP_VERSION, '7', '<')) {
+            exit("Sorry, your PHP Version " . PHP_VERSION . " is not compatible anymore for this system.");
+        } else {
+            $composer = ROOT . 'vendor/autoload.php';
+            $configs = ROOT . 'configs' . DIRECTORY_SEPARATOR;
+            $config = $configs . 'system.php'; // check default config
+            /**
+             * The Composer auto-loader (official way to load Composer contents)
+             * to load external stuff automatically
+             */
+            (@include_once $composer) or die("The COMPOSER file " . $composer . " might be corrupted or missing.");
+            /**
+             * LOAD ALL CONFIGS ON configs directory
+             */
+            if (!file_exists($config)) {
+                die("File " . $config .
+                    " might be corrupted or missing.<br />Please do <code>composer dump-autoload</code>");
+            } else {
+                foreach (glob($configs . '*.php') as $configs) {
+                    include_once $configs;
+                }
+            }
+        }
+
+        /**
+         * Load .env straightforward
+         */
+        $dotenv = Env::createImmutable(ROOT);
+        $dotenv->load();
+
+        /**
          * Time Zones - set your own (optional)
          * To see all current timezones, @see http://php.net/manual/en/timezones.php
          * SAMPLE: date_default_timezone_set("Asia/Manila");
@@ -65,55 +137,27 @@ class App
          * Environment
          * - define('ENVIRONMENT', 'development'); Enables Error Report and Debugging
          * - define('ENVIRONMENT', 'release'); Disables Error Reporting for Performance
-         * - define('ENVIRONMENT', 'web'); For Web Hosting / Deployment (don't use if you are about to go development/offline)
+         * - define('ENVIRONMENT', 'web'); For Web Hosting / Deployment
+         * (don't use if you are about to go development/offline)
          */
-        if (!defined('ENVIRONMENT') && empty('ENVIRONMENT')) { define('ENVIRONMENT', 'release'); }
+        if (!defined($_ENV['ENVIRONMENT']) && empty($_ENV['ENVIRONMENT'])) {
+            define('ENVIRONMENT', 'release');
+        }
 
         /**
-         * Reinitialize root directory
-         * NOTE: Use DIRECTORY_SEPARATOR instead of slashes to avoid server confusions in paths
-         * and PHP will find a right slashes for you
+         * Application folder
+         * TODO: Restructure first
          */
-        if (!defined('ROOT')) { define('ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR); }
-
-        /**
-         * Application folder (ALPHA STAGE)
-         */
-        if (!defined('APP_DIR')) { define('APP_DIR', ROOT . 'application'); }
-
-        // PHP version check
-        if (version_compare(PHP_VERSION, '5.4.0', '<') AND version_compare(PHP_VERSION, '7', '>')) {
-            exit("Sorry, This system does not run on a PHP version smaller than 5.3.7 and still unstable in ".PHP_VERSION);
-        } else {
-            $composer = ROOT.'vendor/autoload.php';
-            $configs = ROOT . 'configs' . DIRECTORY_SEPARATOR;
-            $config = $configs.'system.php'; // check default config
-            /**
-             * The Composer auto-loader (official way to load Composer contents)
-             * to load external stuff automatically
-             */
-            (@require_once $composer) OR die("The COMPOSER file " . $composer . " might be corrupted or missing.");
-            /**
-             * LOAD ALL CONFIGS ON configs directory
-             */
-            if (!file_exists($config)) {
-                die("File " . $config . " might be corrupted or missing.<br />Please type <code>composer dump-autoload</code> in terminal inside this project.");
-            } else {
-                foreach (glob($configs.'*.php') as $configs) { include_once($configs); }
-            }
+        if (!defined('APP_DIR')) {
+            define('APP_DIR', ROOT . 'application');
         }
 
         /**
          * Load external libraries/classes by LOOP.
          * Have a look all the files in that directory for details.
          */
-        foreach (glob(ROOT . 'libraries' . DIRECTORY_SEPARATOR . '*.php') as $libraries) { include_once($libraries); }
-        /**
-         * if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
-         * (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
-         */
-        if (version_compare(PHP_VERSION, '5.5.0', '<')) {
-            require_once(ROOT . "libraries/php5/password_compatibility_library.php");
+        foreach (glob(ROOT . 'libraries' . DIRECTORY_SEPARATOR . '*.php') as $libraries) {
+            require_once $libraries;
         }
 
         /**
@@ -139,7 +183,9 @@ class App
         /**
          * Multi-user default value
          */
-        if (!defined('MULTI_USER')) { define('MULTI_USER', false); }
+        if (!defined('MULTI_USER')) {
+            define('MULTI_USER', false);
+        }
 
         /**
          * Multi-user
@@ -153,7 +199,6 @@ class App
          * Just don't break the right structure/variables there
          */
         $this->templates_path = ROOT . 'views' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
-        // $this->views_path = ROOT . ($this->multi_user_status ? 'views' . DIRECTORY_SEPARATOR . 'multi_user' : 'views')  . DIRECTORY_SEPARATOR;
         $this->views_path = ROOT . 'views' . DIRECTORY_SEPARATOR;
         $this->assets_path = ROOT . 'assets' . DIRECTORY_SEPARATOR;
         $this->header_path = $this->templates_path . 'header.php';
@@ -168,7 +213,14 @@ class App
         $agent = new UserAgent();
 
         // detect if using mobile
-        if($agent->isMobile()) { $this->messages[] = "You are browsing using mobile!"; }
+        if ($agent->isMobile()) {
+            $this->messages[] = "You are browsing using mobile!";
+        }
+
+        // You can test dotenv by uncommenting these lines below
+        // (by either using $_ENV or straight constant)
+        // $this->messages[] = $_ENV['WOWOWIN'];
+        // $this->messages[] = ENVIRONMENT;
 
         // AJAX Detection
         // $this->setForJsonObject(true);
@@ -181,32 +233,34 @@ class App
 
     /**
      * Rendering views
-     * @param string $part = Partial view
-     * @param array $data = Sets of data to be also rendered/returned
-     * @param array $class
+     *
+     * @param string $part  = Partial view
+     * @param array  $data  = Sets of data to be also rendered/returned
+     * @param object $class
      */
-    public function render($part, $data = array(), $class = array())
+    public function render($part, $data = array(), $class = null)
     {
         // Check if its not for JSON response
         if (!$this->isForJsonObject()) {
             extract($data); // extract array keys into variables
             if ($this->isLayouts()) {
-                include($this->header_path);
-                include($this->views_path . $part . '.php');
-                include($this->footer_path);
+                include $this->header_path;
+                include $this->views_path . $part . '.php';
+                include $this->footer_path;
             } else {
-                include($this->views_path . $part . '.php');
+                include $this->views_path . $part . '.php';
             }
         }
     }
 
     /**
      * Render partial file wihout checking layout switch
+     *
      * @param string $part = Partial view
      */
     public function render_partial($part)
     {
-        include($this->views_path . $part . '.php');
+        include $this->views_path . $part . '.php';
     }
 
     /**
@@ -215,19 +269,21 @@ class App
      * Message - $data['error_message'] - REQUIRED
      * Debugging - $data['debug'] - Array()
      */
-    public function error($message, $data = array()) {
+    public function error($message, $data = array())
+    {
         $data['error_message'] = $message;
         $this->render('templates/error_page', $data);
     }
 
     /**
      * Database Connection - Powered by Meedoo
+     *
      * @source https://medoo.in/api/new - Check this for more details about this function
-     * @param string $driver Database Driver. mysqli is default
-     * @param string $charset Database Charset. utf8 is default and most compatible
+     * @param  string $driver  Database Driver. mysqli is default
+     * @param  string $charset Database Charset. utf8 is default and most compatible
      * @return DB
      */
-    public function connect_database($driver=DB_TYPE, $charset='utf8')
+    public function connect_database($driver = DB_TYPE, $charset = 'utf8')
     {
         $database_properties = [
           'database_type' => $driver,
@@ -241,7 +297,7 @@ class App
         ];
 
         // SQLite Support
-        if ($driver=='sqlite') {
+        if ($driver == 'sqlite') {
             $database_properties['database_file'] = DB_FILE;
             // unset fields that don't need for sqlite
             unset($database_properties['database_name']);
@@ -254,26 +310,30 @@ class App
         $database = new DB($database_properties); // DB START!
 
         // DB Errors within connection
-        $database->errors = (null!==$database->error() || !empty($database->error())) ? $database->error() : array();
+        $database->errors = (null !== $database->error() || !empty($database->error())) ? $database->error() : array();
         return $database;
     }
 
     /**
      * Collect Response based from class you've defined.
-     * @param array $classes Set of classes with set of feedback after execution
-     * @param null $tag Custom tags (e.g: [INFO])
-     * WARNING: Currently using ternary conditions inside the loop
-     * https://davidwalsh.name/php-shorthand-if-else-ternary-operators
+     *
+     * @param  array $classes Set of classes with set of feedback after execution
+     * @param  null  $tag     Custom tags (e.g: [INFO])
+     *                       WARNING: Currently using
+     *                       ternary conditions inside
+     *                       the loop
+     *                       https://davidwalsh.name/php-shorthand-if-else-ternary-operators
+     * @return mixed
      */
-    public function collectResponse(array $classes, $tag=null)
+    public function collectResponse(array $classes, $tag = null)
     {
         $response = Session::get('response');
-        foreach($classes as $class) {
-            foreach($class->errors as $error) {
-                $response['messages'][] = '[' . (!empty($tag)?$tag:'ERR') . '] ' . $error;
+        foreach ($classes as $class) {
+            foreach ($class->errors as $error) {
+                $response['messages'][] = '[' . (!empty($tag) ? $tag : 'ERR') . '] ' . $error;
             }
-            foreach($class->messages as $message) {
-                $response['messages'][] = '[' . (!empty($tag)?$tag:'MSG') . '] ' . $message;
+            foreach ($class->messages as $message) {
+                $response['messages'][] = '[' . (!empty($tag) ? $tag : 'MSG') . '] ' . $message;
             }
             // reset class ent
             $class->errors = array();
@@ -284,12 +344,14 @@ class App
 
     /**
      * For JSON
+     *
      * @return bool
      */
     public function isForJsonObject()
     {
         // traditional way
-        return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+        return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
     }
 
     /**
@@ -298,7 +360,7 @@ class App
     public function setForJsonObject()
     {
         if ($this->isForJsonObject()) {
-            $this->layouts=false;
+            $this->layouts = false;
             header("Content-Type: application/json");
         }
     }
@@ -306,10 +368,16 @@ class App
     /**
      * @return bool
      */
-    public function isLayouts() { return $this->layouts; }
+    public function isLayouts()
+    {
+        return $this->layouts;
+    }
 
     /**
      * @param bool $layouts
      */
-    public function setLayouts($layouts) { $this->layouts = $layouts; }
+    public function setLayouts($layouts)
+    {
+        $this->layouts = $layouts;
+    }
 }

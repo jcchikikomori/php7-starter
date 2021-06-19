@@ -1,35 +1,59 @@
 <?php
 
+namespace classes;
+
 /**
- * Class registration
- * handles the user registration
+ * Registration class
+ * Handles the user registration
+ *
+ * PHP version 7.2
+ *
+ * @category Registration
+ * @package  PHP7Starter
+ * @author   John Cyrill Corsanes <jccorsanes@protonmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
+ * @version  Release: 0.51-alpha
+ * @link     https://github.com/jcchikikomori/php7-starter
  */
-class Registration extends App
+class Registration extends Auth
 {
     /**
-     * @var object $db_connection The database connection
+     * Init the database connection object
+     *
+     * @var object $db_connection Database connection object
      */
     public $db_connection = null;
+
     /**
-     * @var array Collection of error messages
+     * Init the collection of error messages
+     *
+     * @var array Error messages array
      */
     public $errors = array();
+
     /**
-     * @var array Collection of success / neutral messages
+     * Init the collection of success / neutral messages
+     *
+     * @var array Messages array
      */
     public $messages = array();
+
     /**
      * For JSON
+     *
      * @var string $status
      */
     public $status;
+
     /**
-     * the function "__construct()" automatically starts whenever an object of this class is created,
+     * The function "__construct()" automatically starts
+     * whenever an object of this class is created,
      * you know, when you do "$registration = new Registration();"
      */
     public function __construct()
     {
-        parent::__construct(); // Load App constructor
+        // Load parent constructor
+        parent::__construct();
 
         $this->db_connection = $this->connect_database();
 
@@ -41,14 +65,21 @@ class Registration extends App
         }
     }
 
+    /**
+     * Get User Types
+     *
+     * @return Array user types associative array
+     */
     public function getUserTypes()
     {
-      return $this->db_connection->select("user_types", '*');
+        return $this->db_connection->select("user_types", '*');
     }
 
     /**
-     * handles the entire registration process. checks all error possibilities
+     * Handles the entire registration process. checks all error possibilities
      * and creates a new user in the database if everything is fine
+     *
+     * @return mixed
      */
     private function registerNewUser()
     {
@@ -63,7 +94,7 @@ class Registration extends App
         } elseif (strlen($_POST['user_name']) > 64 || strlen($_POST['user_name']) < 2) {
             $this->errors[] = "Username cannot be shorter than 2 or longer than 64 characters";
         } elseif (!preg_match('/^[a-z\d]{2,64}$/i', $_POST['user_name'])) {
-            $this->errors[] = "Username does not fit the name scheme: only a-Z and numbers are allowed, 2 to 64 characters";
+            $this->errors[] = "Username is invalid: only a-Z and numbers and 2 to 64 characters are allowed";
         } elseif (empty($_POST['user_email'])) {
             $this->errors[] = "Email cannot be empty";
         } elseif (strlen($_POST['user_email']) > 64) {
@@ -86,14 +117,18 @@ class Registration extends App
             /**
              * Check if user or email address already exists
              * GONNA USE MEDOO TO MAKE THIS EASY. USING COUNT TO CHECK IF WE HAVE USER LIKE THIS
+             *
              * @link http://medoo.in/api/where, http://medoo.in/api/count
              */
-            $user_check_count = $this->db_connection->count("users", [
+            $user_check_count = $this->db_connection->count(
+                "users",
+                [
                 "OR" => [
-              		"user_name" => $user_name,
-              		"user_email" => $user_email
-              	]
-            ]);
+                      "user_name" => $user_name,
+                      "user_email" => $user_email
+                ]
+                ]
+            );
             /**
              * COMPARED TO THIS
              * "SELECT * FROM users WHERE user_name = '" . $user_name . "' OR user_email = '" . $user_email . "';";
@@ -105,25 +140,28 @@ class Registration extends App
                 // format current date
                 $current_date = date('Y-m-d H:i:s');
                 // write new user's data into database
-                $this->db_connection->insert("users", [
-                  "user_name" => $user_name,
-                  "first_name" => $first_name,
-                  "middle_name" => $middle_name,
-                  "last_name" => $last_name,
-                  "user_account_type" => $user_type,
-                  "user_password" => $user_password_hash,
-                  "user_email" => $user_email,
-                  "created" => $current_date,
-                  "modified" => $current_date
-                ]);
+                $this->db_connection->insert(
+                    "users",
+                    [
+                    "user_name" => $user_name,
+                    "first_name" => $first_name,
+                    "middle_name" => $middle_name,
+                    "last_name" => $last_name,
+                    "user_account_type" => $user_type,
+                    "user_password" => $user_password_hash,
+                    "user_email" => $user_email,
+                    "created" => $current_date,
+                    "modified" => $current_date
+                    ]
+                );
                 // The good thing in Medoo is, you can check last actions like check for errors, etc.
                 // after insertion, we're gonna verify if the new user is created in DB
                 if (!empty($this->db_connection->id())) {
-                  $this->messages[] = "Your account has been created successfully. You can now log in.";
-                  $this->status = "success";
+                    $this->messages[] = "Your account has been created successfully. You can now log in.";
+                    $this->status = "success";
                 } else {
-                  $this->errors[] = "Sorry, your registration failed. Please go back and try again.";
-                  $this->status = "failed";
+                    $this->errors[] = "Sorry, your registration failed. Please go back and try again.";
+                    $this->status = "failed";
                 }
             }
         }
@@ -140,13 +178,15 @@ class Registration extends App
         if ($this->isForJsonObject()) {
             $this->setLayouts(false);
             // EXAMPLE HERE
-            echo Helper::json_encode([
-                'status'=>$this->status,
-                'errors'=>$this->errors,
-                'messages'=>$this->messages
+            echo Helper::json_encode(
+                [
+                'status' => $this->status,
+                'errors' => $this->errors,
+                'messages' => $this->messages
                 //other_stuffs,
                 //even_callbacks,
-            ]);
+                ]
+            );
         }
     }
 }

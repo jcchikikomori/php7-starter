@@ -7,21 +7,21 @@
  * @license http://opensource.org/licenses/MIT MIT License
  */
 
-// Core components first such as main classes then load dependencies
-// then Instantiate the class to use it
-require_once("classes/App.php"); $app = new App();
+// load required files
+require_once "classes/App.php";
 
 // load the login class then instantiate again
-require_once("classes/Auth.php"); $auth = new Auth();
+require_once "classes/Auth.php";
+$auth = new classes\Auth();
 
+// collect response from Auth constructor
+$auth->collectResponse(array($auth));
 // if user logged in (using Auth class)
 if ($auth->isUserLoggedIn()) {
     // put data here using App's render()
-    $app->render("logged_in");
-    // NOTE: you can use $app->render("logged_in.php") without $data if you don't want to
+    $auth->render("logged_in");
 }
-
 // not logged in
-else if (!$auth->isUserLoggedIn()) {
-    $app->render("login_form");
+elseif (!$auth->isUserLoggedIn()) {
+    $auth->render("login_form");
 }

@@ -1,13 +1,23 @@
 <?php
 
-// checking requirements first using this class
-require_once("classes/App.php"); $app = new App();
+/**
+ * Registration init file
+ *
+ * PHP version 7.2
+ *
+ * @category Registration
+ * @package  PHP7Starter
+ * @author   John Cyrill Corsanes <jccorsanes@protonmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
+ * @version  GIT: 0.51-alpha
+ * @link     https://github.com/jcchikikomori/php7-starter
+ */
 
-// load the auth class
-require_once("classes/Auth.php"); $auth = new Auth();
+require_once "classes/App.php";
+require_once "classes/Auth.php";
+require_once "classes/Registration.php";
 
-// load the registration class for user's registration stuffs
-require_once("classes/Registration.php"); $registration = new Registration();
+$registration = new classes\Registration(); // TODO: Get from constructed App class
 
 /**
  * Now put your data here and include in render()
@@ -20,9 +30,9 @@ $data = array(
  * You can add $app->multi_user_status condition
  * if you want a single-user mode
  */
-if (!$auth->isUserLoggedIn()) {
-    $app->render("register", $data);
+if (!$registration->isUserLoggedIn()) {
+    $registration->render("register", $data);
 } else {
     // error reporting
-    $app->error("Must be logged out first.");
+    $registration->error("Must be logged out first.");
 }
