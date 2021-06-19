@@ -5,7 +5,7 @@
                 <div class="login-panel card">
                     <div class="card-header">
                         <?php
-                        if (($this->multi_user_status) && Session::user_logged_in()) {
+                        if ($this->multi_user_status && libraries\Session::user_logged_in()) {
                             echo '<h3 class="card-title">Add existing user to login</h3>';
                         } else {
                             echo '<h3 class="card-title">Login</h3>';
@@ -15,21 +15,28 @@
                     <div class="card-body">
                         <?php
                         // show potential errors / feedback (from session)
-                        Helper::getFeedback();
+                        libraries\Helper::getFeedback();
                         ?>
                         <form method="post" action="index.php" name="loginform">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Username" name="user_name" type="text" autofocus required>
+                                    <input class="form-control"
+                                        placeholder="Username" name="user_name" type="text" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="user_password" type="password" required>
+                                    <input class="form-control"
+                                        placeholder="Password" name="user_password" type="password" required>
                                 </div>
+                                <div class="form-check">
+                                    <input name="remember" type="checkbox" class="form-check-input" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Remember Me (Unstable)</label>
+                                </div><br />
                                 <!-- Change this to a button or input when using this as a form -->
-                                <input type="submit" class="btn btn-lg btn-success btn-block" name="login" value="Login" />
+                                <input type="submit"
+                                    class="btn btn-lg btn-success btn-block" name="login" value="Login" />
                                 <?php
-                                if (($this->multi_user_status) && !Session::user_logged_in()) {
-                                    $logged_users = Session::get('users');
+                                if (($this->multi_user_status) && !libraries\Session::user_logged_in()) {
+                                    $logged_users = libraries\Session::get('users');
                                     if (!empty($logged_users)) {
                                         echo "<hr /><p>Other active users..</p>";
                                         echo "<ul>";

@@ -1,14 +1,21 @@
 <?php
 
+namespace libraries;
+
 /**
  * Quick Pagination Class
  *
- * Documentation
+ * PHP version 7.2
  *
- * @author jccultima123 / johncyrillcorsanes@gmail.com
- * @license MIT
+ * @category Pagination
+ * @package  PHP7Starter
+ * @author   John Cyrill Corsanes <jccorsanes@protonmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT License
+ * @version  Release: 0.51-alpha
+ * @link     https://github.com/jcchikikomori/php7-starter
  */
-class Pagination {
+class Pagination
+{
 
     public $id;     //page id from GET or POST (untested)
     public $start;  //starting line (NOTE: This is different to page id)
@@ -16,11 +23,12 @@ class Pagination {
 
     /**
      * Pagination constructor.
-     * @param int $id   ID from get or POST for Paging
-     * @param $limit    Row limit
-     * @param $rows     Total rows
+     *
+     * @param int $id    ID from get or POST for Paging
+     * @param $limit Row limit
+     * @param $rows  Total rows
      */
-    function __construct($id, $limit = NULL, $rows = NULL)
+    public function __construct($id, $limit = null, $rows = null)
     {
         //init vars
         $this->id = (!isset($id)) ? $id : 1;
@@ -35,7 +43,8 @@ class Pagination {
      * @param int $start
      * @param int $limit
      */
-    public function paginate($id, $start, $limit) {
+    public function paginate($id, $start, $limit)
+    {
         if (isset($id)) {
             $this->id = $id;
             $this->start = ($id - 1) * $limit;
@@ -44,8 +53,8 @@ class Pagination {
         }
     }
 
-    public function getTotalRows($rows) {
-        return ceil($rows/$this->limit);
+    public function getTotalRows($rows)
+    {
+        return ceil($rows / $this->limit);
     }
-
 }

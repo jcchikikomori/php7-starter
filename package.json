@@ -1,5 +1,5 @@
 {
-  "name": "php7-starter",
+  "name": "hello-php",
   "license": "MIT",
   "dependencies": {
     "startbootstrap-sb-admin-2": "^4.1.1"

@@ -9,15 +9,19 @@
                     <div class="card-body">
                         <?php
                         // show potential errors / feedback (from session)
-                        Helper::getFeedback();
+                        libraries\Helper::getFeedback();
                         ?>
                         <form method="post" action="forgotpassword.php?resetnewpassword" name="reset_new_password_form">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="New Password" name="new_password" type="password" autofocus required>
+                                    <input class="form-control"
+                                        placeholder="New Password"
+                                        name="new_password" type="password" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Repeat Password" name="repeat_password" type="password" autofocus required>
+                                    <input class="form-control"
+                                        placeholder="Repeat Password"
+                                        name="repeat_password" type="password" autofocus required>
                                 </div>
 
                                 <!-- Hidden fields -->
@@ -25,7 +29,9 @@
                                 <input name="reset_code" type="hidden" value="<?php echo $reset_code; ?>">
 
                                 <!-- Change this to a button or input when using this as a form -->
-                                <input type="submit" class="btn btn-lg btn-success btn-block" name="reset_new_password" value="Reset My Password" />
+                                <input type="submit"
+                                    class="btn btn-lg btn-success btn-block"
+                                    name="reset_new_password" value="Reset My Password" />
                                 <a href="/" class="btn btn btn-primary btn-block">Go back to home</a>
                             </fieldset>
                         </form>
